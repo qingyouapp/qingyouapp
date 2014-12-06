@@ -1,0 +1,83 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@color/bgcolor"
+    tools:context="com.xwq.qingyouapp.LoginActivity" >
+
+    <ImageView
+        android:id="@+id/imageView1"
+        android:layout_width="150dp"
+        android:layout_height="130dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="78dp"
+        android:contentDescription="@string/desc"
+        android:src="@drawable/logo" />
+
+    <com.xwq.qingyouapp.view.EditTextWithDelete
+        android:id="@+id/editText1"
+        android:layout_width="@dimen/input_box_width"
+        android:layout_height="@dimen/input_box_height"
+        android:layout_below="@+id/imageView1"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="55dp"
+        android:background="@drawable/input_box"
+        android:ems="10"
+        android:hint="@string/login_hint"
+        android:paddingLeft="20dp"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:textSize="@dimen/edit_text_size" />
+
+    <com.xwq.qingyouapp.view.EditTextWithDelete
+        android:id="@+id/editText2"
+        android:layout_width="@dimen/input_box_width"
+        android:layout_height="@dimen/input_box_height"
+        android:layout_below="@+id/editText1"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="21dp"
+        android:background="@drawable/input_box"
+        android:ems="10"
+        android:hint="@string/pwd_hint"
+        android:inputType="textPassword"
+        android:paddingLeft="20dp"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:textSize="@dimen/edit_text_size" />
+
+    <Button
+        android:id="@+id/button1"
+        android:layout_width="@dimen/input_box_width"
+        android:layout_height="@dimen/input_box_height"
+        android:layout_below="@+id/editText2"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="21dp"
+        android:background="@drawable/login_btn_disable"
+        android:enabled="false"
+        android:text="@string/login"
+        android:textColor="@color/white"
+        android:textSize="@dimen/btn_text_size" />
+
+    <TextView
+        android:id="@+id/textView1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/button1"
+        android:layout_below="@+id/button1"
+        android:layout_marginLeft="3dp"
+        android:layout_marginTop="13dp"
+        android:text="@string/register_qingyou"
+        android:textColor="@color/white"
+        android:textSize="@dimen/edit_text_size" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignRight="@+id/button1"
+        android:layout_below="@+id/button1"
+        android:layout_marginTop="13dp"
+        android:text="@string/login_quest"
+        android:textColor="@color/white"
+        android:textSize="@dimen/edit_text_size" />
+
+</RelativeLayout>

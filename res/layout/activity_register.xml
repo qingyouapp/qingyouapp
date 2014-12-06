@@ -1,0 +1,104 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@color/bgcolor"
+    android:orientation="vertical"
+    android:paddingBottom="0dp"
+    tools:context="com.xwq.qingyouapp.MainActivity" >
+
+    <include
+        android:id="@+id/include1"
+        layout="@layout/bar_register" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="25dp"
+        android:layout_below="@+id/include1"
+        android:layout_marginLeft="45dp"
+        android:layout_marginRight="@dimen/activity_horizontal_margin"
+        android:layout_marginTop="30dp"
+        android:text="@string/alert_info_null"
+        android:textColor="@color/red"
+        android:textSize="13sp" />
+    
+    <com.xwq.qingyouapp.view.EditTextWithDelete
+        android:id="@+id/editText1"
+        android:layout_width="@dimen/input_box_width"
+        android:layout_height="@dimen/input_box_height"
+        android:layout_below="@+id/include1"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="55dp"
+        android:background="@drawable/input_box"
+        android:hint="@string/pls_phone"
+        android:paddingLeft="20dp"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:textSize="@dimen/edit_text_size" />
+
+    <com.xwq.qingyouapp.view.EditTextWithDelete
+        android:id="@+id/editText2"
+        android:layout_width="@dimen/input_box_width"
+        android:layout_height="@dimen/input_box_height"
+        android:layout_below="@+id/editText1"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="21dp"
+        android:background="@drawable/input_box"
+        android:hint="@string/pls_pwd"
+        android:inputType="textPassword"
+        android:paddingLeft="20dp"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:textSize="@dimen/edit_text_size" />
+    
+    <com.xwq.qingyouapp.view.EditTextWithDelete
+        android:id="@+id/editText3"
+        android:layout_width="@dimen/input_box_width"
+        android:layout_height="@dimen/input_box_height"
+        android:layout_below="@+id/editText2"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="21dp"
+        android:background="@drawable/input_box"
+        android:hint="@string/pls_pwd_2"
+        android:inputType="textPassword"
+        android:paddingLeft="20dp"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:textSize="@dimen/edit_text_size" />
+    
+    <Button
+        android:id="@+id/button1"
+        android:layout_width="@dimen/input_box_width"
+        android:layout_height="@dimen/input_box_height"
+        android:layout_below="@+id/editText3"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="21dp"
+        android:background="@drawable/login_btn_disable"
+        android:enabled="false"
+        android:text="@string/register"
+        android:textColor="@color/white"
+        android:textSize="@dimen/btn_text_size" />
+
+    <CheckBox
+        android:id="@+id/checkBox1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/button1"
+        android:layout_below="@+id/button1"
+        android:layout_marginTop="13dp"
+        android:text="@string/policy1"
+        android:textColor="@color/white"
+        android:textSize="13sp" 
+        android:checked="true" />
+
+    <TextView
+        android:id="@+id/textView1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/checkBox1"
+        android:layout_alignBottom="@+id/checkBox1"
+        android:layout_toRightOf="@+id/checkBox1"
+        android:text="@string/policy2"
+        android:textColor="@color/white"
+        android:textSize="13sp" />
+
+
+</RelativeLayout>
