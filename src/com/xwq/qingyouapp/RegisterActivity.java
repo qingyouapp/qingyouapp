@@ -90,7 +90,7 @@ public class RegisterActivity extends Activity {
 		@Override
 		public void onClick(View arg0) {
 			Intent intent = new Intent(RegisterActivity.this,
-					MainActivity.class);
+					BasicInfoActivity.class);
 			startActivity(intent);
 			overridePendingTransition(android.R.anim.slide_in_left,
 					android.R.anim.slide_out_right);

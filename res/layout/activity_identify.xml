@@ -1,0 +1,150 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@color/grey_bgcolor"
+    android:orientation="vertical"
+    android:paddingBottom="0dp"
+    tools:context="com.xwq.qingyouapp.MainActivity" >
+
+    <include
+        android:id="@+id/include1"
+        layout="@layout/bar_identify" />
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_below="@+id/include1"
+        android:layout_marginLeft="@dimen/margin_left"
+        android:layout_marginRight="@dimen/margin_right"
+        android:layout_marginTop="@dimen/margin_top"
+        android:orientation="vertical" >
+
+        <TextView
+            android:id="@+id/textView1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/identify_intro"
+            android:textColor="@color/font_color"
+            android:lineSpacingExtra="5dp"
+            android:textSize="@dimen/font_24" />
+
+        <RadioButton
+            android:id="@+id/email_iden"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="-5dp"
+            android:checked="true"
+            android:text="@string/email_iden"
+            android:textColor="@color/grey_font_color_1"
+            android:textSize="@dimen/font_28" />
+
+        <com.xwq.qingyouapp.view.EditTextWithDelete
+            android:id="@+id/input_email"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/input_box_height"
+            android:background="@drawable/input_box"
+            android:ems="10"
+            android:hint="@string/pls_input_email"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:textColorHint="@color/hint_color"
+            android:textSize="@dimen/font_28" />
+
+        <RadioButton
+            android:id="@+id/photo_iden"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="-5dp"
+            android:layout_marginTop="10dp"
+            android:checked="false"
+            android:text="@string/photo_iden"
+            android:textColor="@color/grey_font_color_1"
+            android:textSize="@dimen/font_28" />
+
+        <TextView
+            android:id="@+id/pls_upload_photo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/pls_upload_photo"
+            android:textColor="@color/grey_font_color_2"
+            android:textSize="@dimen/font_24" />
+
+        <TextView
+            android:id="@+id/upload_photo"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/input_box_height"
+            android:layout_marginTop="3dp"
+            android:background="@drawable/addphoto_box"
+            android:contentDescription="@string/desc"
+            android:drawableLeft="@drawable/addphoto"
+            android:drawablePadding="10dp"
+            android:gravity="center_vertical"
+            android:paddingLeft="130dp"
+            android:text="@string/upload_photo"
+            android:textColor="@color/grey_font_color_2"
+            android:textSize="@dimen/font_28" />
+
+        <RadioButton
+            android:id="@+id/friend_iden"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="-5dp"
+            android:layout_marginTop="10dp"
+            android:checked="false"
+            android:text="@string/friend_iden"
+            android:textColor="@color/grey_font_color_1"
+            android:textSize="@dimen/font_28" />
+
+        <TextView
+            android:id="@+id/TextView01"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/pls_input_friend"
+            android:textColor="@color/grey_font_color_2"
+            android:textSize="@dimen/font_24" />
+
+        <com.xwq.qingyouapp.view.EditTextWithDelete
+            android:id="@+id/friend_1"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/input_box_height"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/input_box"
+            android:ems="10"
+            android:enabled="false"
+            android:hint="@string/friend_1"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:textColorHint="@color/hint_color"
+            android:textSize="@dimen/font_28" />
+
+        <com.xwq.qingyouapp.view.EditTextWithDelete
+            android:id="@+id/friend_2"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/input_box_height"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/input_box"
+            android:ems="10"
+            android:enabled="false"
+            android:hint="@string/friend_2"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
+            android:textColorHint="@color/hint_color"
+            android:textSize="@dimen/font_28" />
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/finish_button"
+        android:layout_width="fill_parent"
+        android:layout_height="@dimen/input_box_height"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="40dp"
+        android:layout_marginLeft="@dimen/margin_left"
+        android:layout_marginRight="@dimen/margin_right"
+        android:background="@drawable/login_btn_disable"
+        android:enabled="false"
+        android:text="@string/finish"
+        android:textColor="@color/white"
+        android:textSize="@dimen/font_32" />
+
+</RelativeLayout>

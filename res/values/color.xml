@@ -2,8 +2,14 @@
 <resources>
 
     <color name="bgcolor">#00C8A1</color>
+    <color name="font_color">#00C8A0</color>
     <color name="white">#ffffff</color>
     <color name="red">#FF8C9A</color>
+    <color name="grey_bgcolor">#F0F0F0</color>
 
+    <color name="hint_color">#AAAAAA</color>
+    <color name="disabled_color">#ffffff</color>
+    <color name="grey_font_color_1">#757575</color>
+    <color name="grey_font_color_2">#aaaaaa</color>
 
 </resources>

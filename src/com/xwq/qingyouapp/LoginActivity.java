@@ -73,7 +73,7 @@ public class LoginActivity extends Activity {
 						Toast.LENGTH_SHORT).show();
 			} else {
 				Intent intent = new Intent(LoginActivity.this,
-						MainActivity.class);
+						BasicInfoActivity.class);
 				startActivity(intent);
 				overridePendingTransition(android.R.anim.slide_in_left,android.R.anim.slide_out_right);
 			}

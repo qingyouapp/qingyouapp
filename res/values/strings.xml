@@ -1,29 +1,65 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">QingyouApp</string>
-    <string name="hello_world">Hello world! This is Main Page!</string>
+    <string name="app_name">青柚</string>
+    <string name="hello_world">Hello world! </string>
     <string name="action_settings">Settings</string>
     <string name="desc">desc</string>
     <string name="login">登录</string>
     <string name="register">注册</string>
+    <string name="next_step">下一步</string>
     <string name="register_qingyou"><u>注册 青柚</u></string>
     <string name="login_hint">Email/手机号</string>
     <string name="pwd_hint">密码</string>
     <string name="login_quest">登录遇到问题？</string>
     <string name="title_activity_main">MainActivity</string>
     <string name="title_activity_register">RegisterActivity</string>
-    
     <string name="pls_phone">请输入您的手机号</string>
     <string name="pls_pwd">请输入您的密码</string>
     <string name="pls_pwd_2">请重复您的密码</string>
     <string name="policy1">我已阅读并同意</string>
     <string name="policy2"><u>使用条款和隐私政策</u></string>
-    <string name="alert_info_null"> </string>
-    
+    <string name="alert_info_null"></string>
+
     <!-- input alert info -->
     <string name="account_illegal">Email/手机号输入有误</string>
     <string name="phone_is_illegal">请输入正确的手机号</string>
     <string name="pwd_not_match">重复密码输入有误</string>
+    <string name="title_activity_basic_info">BasicInfoActivity</string>
+    <string name="name">姓名</string>
+    <string name="nickname">昵称</string>
+    <string name="gender">性别</string>
+    <string name="height">身高</string>
+    <string name="birthday">生日</string>
+    <string name="school">学校</string>
+    <string name="discipline">学科</string>
+    <string name="major">专业</string>
+    <string name="grade">年级</string>
+    <string name="name_hint">必须是真实姓名哦</string>
+    <string name="nickname_hint">填写一个好玩的昵称吧</string>
+    <string name="height_hint">单位CM</string>
+    <string name="birthday_hint">YYYY-MM-DD</string>
+    <string name="school_hint">请选择学校</string>
+    <string name="discipline_hint">请选择学科</string>
+    <string name="grade_hint">请选择年级</string>
+    <string name="man">男</string>
+    <string name="woman">女</string>
+    <string name="pls_input_info">完善资料后才能获得推荐哦</string>
+    
+    <!-- identify -->
+    <string name="title_activity_identify">IdentifyActivity</string>
+    <string name="pls_identify">身份认证</string>
+    <string name="identify_intro">为了保证交友环境，所有用户都必须通过学生身份的认证，您可以从以下三种方式中选择一种进行认证：</string>
+    <string name="email_iden">EDU邮箱认证</string>
+    <string name="photo_iden">证件照认证</string>
+    <string name="friend_iden">好友推荐认证</string>
+    <string name="pls_input_email">请输入以edu.cn结尾的邮箱</string>
+    <string name="pls_upload_photo">请上传能证明你学生身份的照片，如学生证/校园卡/学校官网截图等</string>
+    <string name="pls_input_friend">请输入两个已通过身份认证的同学的手机号，他们将帮助你通过认证</string>
+    <string name="upload_photo">上传照片</string>
+    <string name="friend_1">同学1手机号</string>
+    <string name="friend_2">同学2手机号</string>
+    <string name="finish">完成</string>
+    
 
 </resources>

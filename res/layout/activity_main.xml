@@ -9,17 +9,5 @@
         android:id="@+id/include1"
         layout="@layout/bar_register" />
 
-    <com.xwq.qingyouapp.view.EditTextWithDelete
-        android:id="@+id/editTextWithDelete1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentLeft="true"
-        android:layout_marginLeft="32dp"
-        android:ems="10"
-        android:text="EditTextWithDelete" >
-
-        <requestFocus />
-    </com.xwq.qingyouapp.view.EditTextWithDelete>
 
 </RelativeLayout>
