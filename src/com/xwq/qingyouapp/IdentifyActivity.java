@@ -40,7 +40,7 @@ public class IdentifyActivity extends Activity {
 	private boolean friend1OK = false;
 	private boolean friend2OK = false;
 
-	private IDENTITY_TYPE iden_type = IDENTITY_TYPE.Email;
+	private IDENTITY_TYPE iden_type;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -50,7 +50,7 @@ public class IdentifyActivity extends Activity {
 		setContentView(R.layout.activity_identify);
 
 		getComponents();
-		initComponents(iden_type);
+		initComponents(IDENTITY_TYPE.Email);
 
 		emailRadio.setOnClickListener(emailLis);
 		photoRadio.setOnClickListener(photoLis);
@@ -62,6 +62,7 @@ public class IdentifyActivity extends Activity {
 
 		finishBtn.setOnClickListener(finishBtnLis);
 		back.setOnClickListener(backLis);
+		photoView.setOnClickListener(uploadPhotoLis);
 	}
 
 	public void getComponents() {
@@ -103,7 +104,6 @@ public class IdentifyActivity extends Activity {
 	OnClickListener emailLis = new OnClickListener() {
 		@Override
 		public void onClick(View arg0) {
-			// Toast.makeText(getApplicationContext(), "birthday", 1000);
 			iden_type = IDENTITY_TYPE.Email;
 			initComponents(iden_type);
 		}
@@ -111,7 +111,6 @@ public class IdentifyActivity extends Activity {
 	OnClickListener photoLis = new OnClickListener() {
 		@Override
 		public void onClick(View arg0) {
-			// Toast.makeText(getApplicationContext(), "birthday", 1000);
 			iden_type = IDENTITY_TYPE.Photo;
 			initComponents(iden_type);
 		}
@@ -119,9 +118,17 @@ public class IdentifyActivity extends Activity {
 	OnClickListener friendLis = new OnClickListener() {
 		@Override
 		public void onClick(View arg0) {
-			// Toast.makeText(getApplicationContext(), "birthday", 1000);
 			iden_type = IDENTITY_TYPE.Friends;
 			initComponents(iden_type);
+		}
+	};
+
+	OnClickListener uploadPhotoLis = new OnClickListener() {
+		@Override
+		public void onClick(View arg0) {
+			Intent intent = new Intent(IdentifyActivity.this,
+					ImageUploadActivity.class);
+			startActivity(intent);
 		}
 	};
 
@@ -177,7 +184,7 @@ public class IdentifyActivity extends Activity {
 					android.R.anim.slide_out_right);
 		}
 	};
-	
+
 	OnClickListener backLis = new OnClickListener() {
 		@Override
 		public void onClick(View arg0) {
@@ -186,44 +193,37 @@ public class IdentifyActivity extends Activity {
 	};
 
 	public void setEmailStatus(boolean status) {
+		
+		emailRadio.setChecked(status);
+		emailText.setEnabled(status);
+		
 		if (status) {
-			emailRadio.setChecked(true);
-			emailText.setEnabled(true);
 			emailText.setHintTextColor(R.color.hint_color);
 			emailText.setBackgroundResource(R.drawable.input_box);
 		} else {
-			emailRadio.setChecked(false);
-			emailText.setEnabled(false);
 			emailText.setHintTextColor(R.color.disabled_color);
 			emailText.setBackgroundResource(R.drawable.addphoto_box);
 		}
 	}
 
 	public void setPhotoStatus(boolean status) {
-		if (status) {
-			photoRadio.setChecked(true);
-			photoView.setClickable(true);
-		} else {
-			photoRadio.setChecked(false);
-			photoView.setClickable(false);
-		}
+		photoRadio.setChecked(status);
+		photoView.setClickable(status);
 	}
 
 	public void setFriendStatus(boolean status) {
+		friendRadio.setChecked(status);
+		friend1Text.setEnabled(status);
+		friend2Text.setEnabled(status);
+		
 		if (status) {
-			friendRadio.setChecked(true);
-			friend1Text.setEnabled(true);
 			friend1Text.setHintTextColor(R.color.hint_color);
 			friend1Text.setBackgroundResource(R.drawable.input_box);
-			friend2Text.setEnabled(true);
 			friend2Text.setHintTextColor(R.color.hint_color);
 			friend2Text.setBackgroundResource(R.drawable.input_box);
 		} else {
-			friendRadio.setChecked(false);
-			friend1Text.setEnabled(false);
 			friend1Text.setHintTextColor(R.color.disabled_color);
 			friend1Text.setBackgroundResource(R.drawable.addphoto_box);
-			friend2Text.setEnabled(false);
 			friend2Text.setHintTextColor(R.color.disabled_color);
 			friend2Text.setBackgroundResource(R.drawable.addphoto_box);
 		}

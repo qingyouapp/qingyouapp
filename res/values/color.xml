@@ -6,10 +6,15 @@
     <color name="white">#ffffff</color>
     <color name="red">#FF8C9A</color>
     <color name="grey_bgcolor">#F0F0F0</color>
-
     <color name="hint_color">#AAAAAA</color>
     <color name="disabled_color">#ffffff</color>
     <color name="grey_font_color_1">#757575</color>
     <color name="grey_font_color_2">#aaaaaa</color>
+    <color name="pic_border">#BFBFBF</color>
+    <color name="color_000000">#000000</color>
+    <color name="hot_blue">#33aee5</color>
+    <color name="hot_red">#e56daa</color>
+    <color name="down_color">#00aa88</color>
+    <color name="normal_color">#7b7b7b</color>
 
 </resources>

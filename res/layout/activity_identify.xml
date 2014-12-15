@@ -24,9 +24,9 @@
             android:id="@+id/textView1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:lineSpacingExtra="5dp"
             android:text="@string/identify_intro"
             android:textColor="@color/font_color"
-            android:lineSpacingExtra="5dp"
             android:textSize="@dimen/font_24" />
 
         <RadioButton
@@ -76,6 +76,7 @@
             android:layout_height="@dimen/input_box_height"
             android:layout_marginTop="3dp"
             android:background="@drawable/addphoto_box"
+            android:clickable="false"
             android:contentDescription="@string/desc"
             android:drawableLeft="@drawable/addphoto"
             android:drawablePadding="10dp"
