@@ -6,7 +6,7 @@
     tools:context="com.xwq.qingyouapp.LoginActivity" >
 
     <ImageView
-        android:id="@+id/imageView1"
+        android:id="@+id/photo1"
         android:layout_width="150dp"
         android:layout_height="130dp"
         android:layout_alignParentTop="true"
@@ -19,7 +19,7 @@
         android:id="@+id/editText1"
         android:layout_width="wrap_content"
         android:layout_height="@dimen/input_box_height"
-        android:layout_below="@+id/imageView1"
+        android:layout_below="@+id/photo1"
         android:layout_centerHorizontal="true"
         android:layout_marginLeft="@dimen/margin_left"
         android:layout_marginRight="@dimen/margin_right"

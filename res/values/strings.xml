@@ -66,8 +66,9 @@
 
     <!-- recommand today -->
     <string name="recommand_today">今日推荐</string>
-    <string name="recommand_history">推荐历史</string>
-    <string name="self_page">我的主页</string>
+    <string name="recommand_history">推荐</string>
+    <string name="self_page">主页</string>
+    <string name="chat_history">聊天</string>
     <string name="nickname_value">企鹅</string>
     <string name="star">星座</string>
     <string name="star_value">摩羯座</string>
@@ -83,14 +84,39 @@
     <string name="title_activity_reco_today_frag">RecoTodayFrag</string>
     <string name="title_activity_reco_history_frag">RecoHistoryFrag</string>
     <string name="title_activity_self_page_frag">SelfPageFrag</string>
-    
-    
+
     <!-- recommand history -->
     <string name="today_noon">今天中午</string>
     <string name="today_night">今天晚上</string>
     <string name="yester_noon">昨天中午</string>
     <string name="yester_night">昨天晚上</string>
     <string name="match_num">91</string>
-    
+    <string name="title_activity_homepage">HomepageActivity</string>
 
+    <!-- homepage -->
+    <string name="basic_info">基本信息</string>
+    <string name="shuoshuo">交友宣言</string>
+    <string name="education">学校专业</string>
+    <string name="hometown">故乡地区</string>
+    <string name="hobby_tag">兴趣爱好</string>
+    <string name="personal_tag">自我评价</string>
+    <string name="shuoshuo_value">今天终于彻底毕业了,论文答辩结束,下天终于彻底毕业了,论文答辩结束,mark一下~~~</string>
+    <string name="education_value">中国科学技术大学-管理学硕士</string>
+    <string name="hometown_value">河南信阳</string>
+    <string name="info1_value">女24</string>
+	<string name="info2_value">155cm</string>
+	<string name="hobby_tag1">美食</string>
+	<string name="hobby_tag2">旅行</string>
+	<string name="hobby_tag3">摄影</string>
+	<string name="hobby_tag4">运动</string>
+	<string name="hobby_tag5">读书</string>
+	<string name="personal_tag1">超级帅</string>
+	<string name="personal_tag2">身材好</string>
+	<string name="personal_tag3">爱干净</string>
+	<string name="personal_tag4">很可爱</string>
+	<string name="personal_tag5">活泼</string>
+	<string name="latest_shuoshuo_1">恩恩，好吧，明天再陪你玩哈~</string>
+	<string name="latest_shuoshuo_2">有信念礼物啊，我要的不多，求一对YY熊</string>
+	<string name="datetime">中午12:26</string>
+	
 </resources>

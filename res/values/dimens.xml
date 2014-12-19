@@ -9,20 +9,24 @@
     <dimen name="margin_left">14dp</dimen>
     <dimen name="margin_right">14dp</dimen>
     <dimen name="margin_top">16dp</dimen>
-    
     <dimen name="basic_name_width">40dp</dimen>
     <dimen name="basic_name_height">45dp</dimen>
     <dimen name="basic_name_margin">20dp</dimen>
-    <dimen name="basic_hint_width">230dp</dimen>
+    <dimen name="basic_hint_width">210dp</dimen>
     <dimen name="basic_hint_height">43dp</dimen>
     <dimen name="basic_hint_margin">20dp</dimen>
     <dimen name="spinner_margin">13dp</dimen>
+    <dimen name="photo_width">120dp</dimen>
+    <dimen name="photo_padding">1dp</dimen>
     
-	<!-- font size -->
+    <dimen name="font_left_right">6dp</dimen>
+    <dimen name="font_top_buttom">2dp</dimen>
+
+    <!-- font size -->
     <dimen name="font_32">18sp</dimen>
     <dimen name="font_28">15sp</dimen>
     <dimen name="font_24">13sp</dimen>
     <dimen name="font_72">40sp</dimen>
     <dimen name="font_16">9sp</dimen>
-    
+
 </resources>

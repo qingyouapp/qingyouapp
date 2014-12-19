@@ -40,7 +40,6 @@
         <activity
             android:name=".TestActivity"
             android:label="@string/title_activity_test" >
-            
         </activity>
         <activity
             android:name=".SysMainActivity"
@@ -51,7 +50,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        
+        <activity
+            android:name=".HomepageActivity"
+            android:label="@string/title_activity_homepage" >
+        </activity>
     </application>
 
 </manifest>

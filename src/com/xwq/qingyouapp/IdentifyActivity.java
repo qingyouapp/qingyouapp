@@ -178,7 +178,7 @@ public class IdentifyActivity extends Activity {
 		@Override
 		public void onClick(View arg0) {
 			Intent intent = new Intent(IdentifyActivity.this,
-					MainActivity.class);
+					SysMainActivity.class);
 			startActivity(intent);
 			overridePendingTransition(android.R.anim.slide_in_left,
 					android.R.anim.slide_out_right);
