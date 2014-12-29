@@ -1,0 +1,259 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@color/grey_bgcolor"
+    android:orientation="vertical" >
+
+    <include
+        android:id="@+id/include2"
+        layout="@layout/bar_main" />
+
+    <com.xwq.qingyouapp.view.RoundedImageView
+        android:id="@+id/photo"
+        android:layout_width="180dp"
+        android:layout_height="180dp"
+        android:layout_below="@+id/include2"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:src="@drawable/girl2" />
+
+    <ImageView
+        android:id="@+id/left"
+        android:layout_width="25dp"
+        android:layout_height="45dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignTop="@+id/photo"
+        android:layout_marginLeft="14dp"
+        android:layout_marginTop="60dp"
+        android:contentDescription="@string/desc"
+        android:src="@drawable/left" />
+
+    <ImageView
+        android:id="@+id/right"
+        android:layout_width="25dp"
+        android:layout_height="45dp"
+        android:layout_alignParentRight="true"
+        android:layout_alignTop="@+id/left"
+        android:layout_marginRight="14dp"
+        android:contentDescription="@string/desc"
+        android:src="@drawable/right" />
+
+    <RatingBar
+        android:id="@+id/ratingBar1"
+        style="@style/myRatingBar"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:layout_below="@+id/photo"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp"
+        android:isIndicator="true"
+        android:rating="3.5" />
+
+    <TextView
+        android:id="@+id/center"
+        android:layout_width="1dp"
+        android:layout_height="1dp"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:text="@string/center"
+        android:textAppearance="?android:attr/textAppearanceSmall" />
+
+    <TableLayout
+        android:id="@+id/table01"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/center"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/write_bg" >
+
+        <TableRow
+            android:id="@+id/tableRow1"
+            android:layout_width="fill_parent"
+            android:layout_height="45dp" >
+
+            <TextView
+                android:id="@+id/nickname"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:layout_marginLeft="@dimen/basic_name_margin"
+                android:gravity="center_vertical"
+                android:includeFontPadding="false"
+                android:text="@string/nickname"
+                android:textColor="@color/grey_font_color_1"
+                android:textSize="@dimen/font_28" />
+
+            <TextView
+                android:id="@+id/nickname1"
+                android:layout_width="80dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/basic_name_margin"
+                android:gravity="center_vertical"
+                android:includeFontPadding="false"
+                android:text="@string/nickname_value"
+                android:textColor="@color/color_000000"
+                android:textSize="@dimen/font_28" />
+
+            <TextView
+                android:id="@+id/star"
+                android:layout_width="wrap_content"
+                android:layout_height="fill_parent"
+                android:layout_marginLeft="@dimen/basic_name_margin"
+                android:gravity="center_vertical"
+                android:includeFontPadding="false"
+                android:text="@string/star"
+                android:textColor="@color/grey_font_color_1"
+                android:textSize="@dimen/font_28" />
+
+            <TextView
+                android:id="@+id/star1"
+                android:layout_width="80dp"
+                android:layout_height="fill_parent"
+                android:layout_marginLeft="@dimen/basic_name_margin"
+                android:gravity="center_vertical"
+                android:includeFontPadding="false"
+                android:text="@string/star_value"
+                android:textColor="@color/color_000000"
+                android:textSize="@dimen/font_28" />
+        </TableRow>
+
+        <ImageView
+            android:id="@+id/line02"
+            android:layout_width="fill_parent"
+            android:layout_height="2dp"
+            android:contentDescription="@string/desc"
+            android:src="@drawable/shape_line" />
+
+        <TableRow
+            android:id="@+id/tableRow2"
+            android:layout_width="fill_parent"
+            android:layout_height="45dp" >
+
+            <TextView
+                android:id="@+id/school"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:layout_marginLeft="@dimen/basic_name_margin"
+                android:gravity="center_vertical"
+                android:includeFontPadding="false"
+                android:text="@string/school"
+                android:textColor="@color/grey_font_color_1"
+                android:textSize="@dimen/font_28" />
+
+            <TextView
+                android:id="@+id/school1"
+                android:layout_width="80dp"
+                android:layout_height="fill_parent"
+                android:layout_marginLeft="@dimen/basic_name_margin"
+                android:layout_span="3"
+                android:gravity="center_vertical"
+                android:includeFontPadding="false"
+                android:text="@string/school_value"
+                android:textColor="@color/color_000000"
+                android:textSize="@dimen/font_28" />
+        </TableRow>
+
+        <ImageView
+            android:id="@+id/line03"
+            android:layout_width="fill_parent"
+            android:layout_height="2dp"
+            android:contentDescription="@string/desc"
+            android:src="@drawable/shape_line" />
+
+        <TableRow
+            android:id="@+id/tableRow3"
+            android:layout_width="fill_parent"
+            android:layout_height="45dp" >
+
+            <TextView
+                android:id="@+id/age"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:layout_marginLeft="@dimen/basic_name_margin"
+                android:gravity="center_vertical"
+                android:includeFontPadding="false"
+                android:text="@string/age"
+                android:textColor="@color/grey_font_color_1"
+                android:textSize="@dimen/font_28" />
+
+            <TextView
+                android:id="@+id/age1"
+                android:layout_width="80dp"
+                android:layout_height="fill_parent"
+                android:layout_marginLeft="@dimen/basic_name_margin"
+                android:gravity="center_vertical"
+                android:includeFontPadding="false"
+                android:text="@string/age_value"
+                android:textColor="@color/color_000000"
+                android:textSize="@dimen/font_28" />
+
+            <TextView
+                android:id="@+id/height"
+                android:layout_width="wrap_content"
+                android:layout_height="fill_parent"
+                android:layout_marginLeft="@dimen/basic_name_margin"
+                android:gravity="center_vertical"
+                android:includeFontPadding="false"
+                android:text="@string/height"
+                android:textColor="@color/grey_font_color_1"
+                android:textSize="@dimen/font_28" />
+
+            <TextView
+                android:id="@+id/height1"
+                android:layout_width="80dp"
+                android:layout_height="fill_parent"
+                android:layout_marginLeft="@dimen/basic_name_margin"
+                android:gravity="center_vertical"
+                android:includeFontPadding="false"
+                android:text="@string/height_value"
+                android:textColor="@color/color_000000"
+                android:textSize="@dimen/font_28" />
+        </TableRow>
+    </TableLayout>
+
+    <RelativeLayout
+        android:id="@+id/layout01"
+        android:layout_width="200dp"
+        android:layout_height="60dp"
+        android:layout_below="@+id/table01"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="30dp"
+        android:background="@drawable/shape_rectangle"
+        android:orientation="vertical" >
+
+        <View
+            android:id="@+id/view1"
+            android:layout_width="1dp"
+            android:layout_height="fill_parent"
+            android:layout_centerHorizontal="true"
+            android:background="?android:attr/listDivider" />
+
+        <TextView
+            android:id="@+id/textView1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="14dp"
+            android:layout_toLeftOf="@+id/view1"
+            android:drawableLeft="@drawable/intimacy_blue"
+            android:drawablePadding="5dp"
+            android:text="@string/hot_num_1"
+            android:textColor="@color/hot_blue"
+            android:textSize="@dimen/font_72" />
+
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="14dp"
+            android:layout_toRightOf="@+id/view1"
+            android:drawableLeft="@drawable/intimacy_red"
+            android:drawablePadding="5dp"
+            android:text="@string/hot_num_2"
+            android:textColor="@color/hot_red"
+            android:textSize="@dimen/font_72" />
+    </RelativeLayout>
+
+</RelativeLayout>

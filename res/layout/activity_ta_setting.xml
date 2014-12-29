@@ -1,0 +1,114 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/grey_bgcolor"
+    android:orientation="vertical"
+    tools:context="com.xwq.qingyouapp.SysMainActivity" >
+
+    <include
+        android:id="@+id/include_bar"
+        layout="@layout/bar_ta_setting" />
+
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="@dimen/table_row_height"
+        android:layout_marginTop="@dimen/margin_top"
+        android:background="@color/white"
+        android:gravity="center_vertical" >
+
+        <TextView
+            android:id="@+id/textView1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:gravity="center_vertical"
+            android:paddingLeft="@dimen/margin_left"
+            android:text="@string/addto_black_list"
+            android:textColor="@color/color_000000"
+            android:textSize="@dimen/font_28" />
+
+        <com.xwq.qingyouapp.view.SwitchButton
+            android:id="@+id/switchButton1"
+            android:layout_width="68dp"
+            android:layout_height="27dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/margin_right" />
+    </RelativeLayout>
+
+    <ImageView
+        android:layout_width="fill_parent"
+        android:layout_height="2dp"
+        android:background="@color/white"
+        android:contentDescription="@string/desc"
+        android:src="@drawable/shape_line" />
+
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="@dimen/table_row_height"
+        android:background="@color/white"
+        android:gravity="center_vertical" >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:gravity="center_vertical"
+            android:paddingLeft="@dimen/margin_left"
+            android:text="@string/no_disturb_mode"
+            android:textColor="@color/color_000000"
+            android:textSize="@dimen/font_28" />
+
+        <com.xwq.qingyouapp.view.SwitchButton
+            android:id="@+id/switchButton2"
+            android:layout_width="68dp"
+            android:layout_height="27dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="@dimen/margin_right" />
+    </RelativeLayout>
+
+    <ImageView
+        android:layout_width="fill_parent"
+        android:layout_height="2dp"
+        android:contentDescription="@string/desc"
+        android:src="@drawable/shape_line" />
+
+    <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="@dimen/table_row_height"
+        android:layout_marginTop="@dimen/margin_top"
+        android:background="@color/white"
+        android:gravity="center_vertical"
+        android:paddingLeft="@dimen/margin_left"
+        android:text="@string/clear_chat_history"
+        android:textColor="@color/color_000000"
+        android:textSize="@dimen/font_28" />
+
+    <ImageView
+        android:layout_width="fill_parent"
+        android:layout_height="2dp"
+        android:contentDescription="@string/desc"
+        android:src="@drawable/shape_line" />
+
+    <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="@dimen/table_row_height"
+        android:layout_marginTop="@dimen/margin_top"
+        android:background="@color/white"
+        android:gravity="center_vertical"
+        android:paddingLeft="@dimen/margin_left"
+        android:text="@string/complaint"
+        android:textColor="@color/color_000000"
+        android:textSize="@dimen/font_28" />
+
+    <ImageView
+        android:layout_width="fill_parent"
+        android:layout_height="2dp"
+        android:contentDescription="@string/desc"
+        android:src="@drawable/shape_line" />
+
+</LinearLayout>

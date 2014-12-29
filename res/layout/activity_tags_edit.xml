@@ -1,0 +1,59 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@color/grey_bgcolor"
+    android:orientation="vertical"
+    tools:context="com.xwq.qingyouapp.BasicInfoActivity" >
+
+    <include
+        android:id="@+id/include1"
+        layout="@layout/bar_tags_edit" />
+
+    <EditText
+        android:id="@+id/edit_text"
+        android:layout_width="fill_parent"
+        android:layout_height="100dp"
+        android:layout_below="@+id/include1"
+        android:layout_centerHorizontal="true"
+        android:layout_marginLeft="@dimen/margin_left"
+        android:layout_marginRight="@dimen/margin_right"
+        android:layout_marginTop="@dimen/margin_top"
+        android:background="@drawable/shape_rectangle_2"
+        android:ems="10"
+        android:gravity="center_vertical|top"
+        android:inputType="textMultiLine"
+        android:lineSpacingMultiplier="1.2"
+        android:padding="12dp"
+        android:text="@string/hobby_tag1"
+        android:textColor="@color/color_000000"
+        android:textSize="@dimen/font_28" >
+    </EditText>
+
+    <GridView
+        android:id="@+id/gridview"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_below="@+id/edit_text"
+        android:layout_marginLeft="@dimen/margin_left"
+        android:layout_marginRight="@dimen/margin_right"
+        android:layout_marginTop="@dimen/margin_top"
+        android:horizontalSpacing="4dp"
+        android:numColumns="4"
+        android:stretchMode="columnWidth" >
+    </GridView>
+
+    <!--
+         <GridLayout
+        android:id="@+id/grid_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/edit_text"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/margin_top"
+        android:columnCount="4"
+        android:columnOrderPreserved="false"
+        android:orientation="horizontal" />
+    -->
+
+</RelativeLayout>

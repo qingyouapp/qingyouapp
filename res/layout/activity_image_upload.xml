@@ -1,0 +1,60 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@color/grey_bgcolor"
+    android:orientation="vertical"
+    android:paddingBottom="0dp"
+    tools:context="com.xwq.qingyouapp.MainActivity" >
+
+    <include
+        android:id="@+id/include1"
+        layout="@layout/bar_identify" />
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_below="@+id/include1"
+        android:layout_marginLeft="@dimen/margin_left"
+        android:layout_marginRight="@dimen/margin_right"
+        android:layout_marginTop="@dimen/margin_top"
+        android:gravity="center_horizontal"
+        android:orientation="vertical" >
+
+        <TextView
+            android:id="@+id/textView1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/pls_upload_photo"
+            android:textColor="@color/font_color"
+            android:lineSpacingExtra="5dp"
+            android:textSize="@dimen/font_28" />
+
+        <ImageView
+            android:id="@+id/upload_image"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            android:layout_marginTop="50dp"
+            android:src="@drawable/upload_image"
+            android:contentDescription="@string/desc"
+            android:drawableLeft="@drawable/addphoto"
+            android:drawablePadding="10dp"
+            android:gravity="center" />
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/finish_button"
+        android:layout_width="fill_parent"
+        android:layout_height="@dimen/input_box_height"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="40dp"
+        android:layout_marginLeft="@dimen/margin_left"
+        android:layout_marginRight="@dimen/margin_right"
+        android:background="@drawable/login_btn_disable"
+        android:enabled="false"
+        android:text="@string/finish"
+        android:textColor="@color/white"
+        android:textSize="@dimen/font_32" />
+
+</RelativeLayout>

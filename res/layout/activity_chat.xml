@@ -1,0 +1,17 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.xwq.qingyouapp.SysMainActivity" >
+
+    <include
+        android:id="@+id/include_bar"
+        layout="@layout/bar_ta_main" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/include_bar"
+        android:text="聊天页" />
+
+</RelativeLayout>

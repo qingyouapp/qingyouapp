@@ -1,0 +1,166 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content" >
+
+    <RelativeLayout
+        android:id="@+id/relativeLayout1"
+        android:layout_width="fill_parent"
+        android:layout_height="165dp"
+        android:layout_marginBottom="5dp"
+        android:layout_marginLeft="@dimen/margin_left"
+        android:layout_marginRight="@dimen/margin_right"
+        android:layout_marginTop="5dp"
+        android:background="@drawable/data_card_bg"
+        android:paddingBottom="10dp"
+        android:paddingTop="15dp" >
+
+        <TextView
+            android:id="@+id/nickname"
+            android:layout_width="57dp"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/photo"
+            android:layout_marginLeft="25dp"
+            android:layout_marginTop="5dp"
+            android:layout_toRightOf="@+id/photo"
+            android:text="@string/nickname_value"
+            android:textColor="@color/color_000000"
+            android:textSize="@dimen/font_28" />
+
+        <TextView
+            android:id="@+id/match_num"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/match_icon"
+            android:layout_marginLeft="3dp"
+            android:layout_toRightOf="@+id/match_icon"
+            android:text="@string/match_num"
+            android:textColor="@color/grey_font_color_1"
+            android:textSize="@dimen/font_28" />
+
+        <ImageView
+            android:id="@+id/intimacy_blue"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_alignBottom="@+id/match_icon"
+            android:layout_alignLeft="@+id/match_icon"
+            android:layout_marginLeft="50dp"
+            android:contentDescription="@string/desc"
+            android:src="@drawable/intimacy_blue" />
+
+        <TextView
+            android:id="@+id/hot_num_1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/intimacy_blue"
+            android:layout_marginLeft="3dp"
+            android:layout_toRightOf="@+id/intimacy_blue"
+            android:text="@string/hot_num_1"
+            android:textColor="@color/grey_font_color_1"
+            android:textSize="@dimen/font_28" />
+
+        <ImageView
+            android:id="@+id/intimacy_red"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_alignBottom="@+id/intimacy_blue"
+            android:layout_alignLeft="@+id/intimacy_blue"
+            android:layout_marginLeft="50dp"
+            android:contentDescription="@string/desc"
+            android:src="@drawable/intimacy_red" />
+
+        <TextView
+            android:id="@+id/hot_num_2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@+id/intimacy_red"
+            android:layout_marginLeft="3dp"
+            android:layout_toRightOf="@+id/intimacy_red"
+            android:text="@string/hot_num_2"
+            android:textColor="@color/grey_font_color_1"
+            android:textSize="@dimen/font_28" />
+
+        <TextView
+            android:id="@+id/recom_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginRight="@dimen/margin_left"
+            android:gravity="right"
+            android:text="@string/today_night"
+            android:textColor="@color/hint_color"
+            android:textSize="@dimen/font_24" />
+
+        <ImageView
+            android:id="@+id/imageView1"
+            android:layout_width="94dp"
+            android:layout_height="94dp"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginLeft="@dimen/margin_left"
+            android:contentDescription="@string/desc"
+            android:src="@drawable/avatar_circle" />
+
+        <ImageView
+            android:id="@+id/imageView2"
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:layout_below="@+id/imageView1"
+            android:layout_marginTop="7dp"
+            android:contentDescription="@string/desc"
+            android:src="@drawable/shape_line" />
+
+        <com.xwq.qingyouapp.view.RoundedImageView
+            android:id="@+id/photo"
+            android:layout_width="86dp"
+            android:layout_height="86dp"
+            android:layout_alignBottom="@+id/imageView1"
+            android:layout_alignLeft="@+id/imageView1"
+            android:layout_margin="4dp"
+            android:src="@drawable/girl1" />
+
+        <ImageView
+            android:id="@+id/match_icon"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_alignBottom="@+id/photo"
+            android:layout_alignLeft="@+id/nickname"
+            android:contentDescription="@string/desc"
+            android:src="@drawable/star_32px" />
+
+        <TextView
+            android:id="@+id/school"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/nickname"
+            android:layout_below="@+id/nickname"
+            android:layout_marginTop="10dp"
+            android:text="@string/school_value"
+            android:textColor="@color/color_000000"
+            android:textSize="@dimen/font_28" />
+
+        <ImageView
+            android:id="@+id/imageView3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/imageView1"
+            android:layout_below="@+id/imageView2"
+            android:layout_marginTop="10dp"
+            android:contentDescription="@string/desc"
+            android:src="@drawable/data_card_statement" />
+
+        <TextView
+            android:id="@+id/latest_shuoshuo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/imageView3"
+            android:layout_marginLeft="5dp"
+            android:layout_toRightOf="@+id/imageView3"
+            android:gravity="right"
+            android:text="@string/latest_shuoshuo_1"
+            android:textColor="@color/hint_color"
+            android:textSize="@dimen/font_24" />
+    </RelativeLayout>
+
+</RelativeLayout>
