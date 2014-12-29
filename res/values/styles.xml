@@ -43,5 +43,32 @@
         <item name="android:layout_weight">1</item>
         <item name="android:orientation">vertical</item>
     </style>
+    
+    <style name="hobby_tags_style">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:background">@color/hobby_tag_bg</item>
+        <item name="android:paddingBottom">@dimen/font_top_buttom</item>
+        <item name="android:paddingTop">@dimen/font_top_buttom</item>
+        <item name="android:paddingLeft">@dimen/font_left_right</item>
+        <item name="android:paddingRight">@dimen/font_left_right</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textSize">@dimen/font_28</item>
+    </style>
+    
+    <style name="personal_tags_style">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:background">@color/personal_tag_bg</item>
+        <item name="android:paddingBottom">@dimen/font_top_buttom</item>
+        <item name="android:paddingTop">@dimen/font_top_buttom</item>
+        <item name="android:paddingLeft">@dimen/font_left_right</item>
+        <item name="android:paddingRight">@dimen/font_left_right</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:textSize">@dimen/font_28</item>
+    </style>
 
+    
+    
+    
 </resources>

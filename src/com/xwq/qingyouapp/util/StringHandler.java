@@ -14,8 +14,7 @@ public class StringHandler {
 		if (Character.isUpperCase(s.charAt(0)))
 			return s;
 		else
-			return (new StringBuilder())
-					.append(Character.toUpperCase(s.charAt(0)))
+			return (new StringBuilder()).append(Character.toUpperCase(s.charAt(0)))
 					.append(s.substring(1)).toString();
 	}
 
@@ -38,6 +37,38 @@ public class StringHandler {
 			return true;
 		}
 		return false;
+	}
+
+	public static String formatString(String str) {
+		str.replace("\n", "");
+		str.replace(" ", "");
+		return str;
+	}
+
+	public static String removeTagFromString(String string, String tag) {
+		int length = tag.length();
+		int start = string.indexOf(tag);
+
+		if (start == 0)
+			string = string.substring(length + 1);
+		else if (start + length == string.length())
+			string = string.substring(0, start - 1);
+		else
+			string = string.replace("，" + tag, "");
+
+		return string;
+	}
+
+	public static boolean tagInString(String string, String tag) {
+		boolean b = false;
+		String[] strArr = formatString(string).split("，");
+		for (String str : strArr) {
+			if (str.equals(tag)) {
+				b = true;
+				break;
+			}
+		}
+		return b;
 	}
 
 }

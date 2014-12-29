@@ -113,7 +113,7 @@
             android:layout_width="@dimen/basic_hint_width"
             android:layout_height="@dimen/basic_hint_height"
             android:layout_alignParentTop="true"
-            android:layout_marginLeft="15dp"
+            android:layout_marginLeft="@dimen/basic_hint_margin"
             android:layout_toRightOf="@+id/textview03"
             android:contentDescription="@string/desc"
             android:gravity="center_vertical"
@@ -124,8 +124,9 @@
                 android:id="@+id/radioMale"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:button="@drawable/radiobutton"
                 android:checked="true"
-                android:paddingLeft="-5dp"
+                android:paddingLeft="@dimen/radio_btn_padding"
                 android:text="@string/man"
                 android:textColor="@color/hint_color" />
 
@@ -134,7 +135,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="30dp"
-                android:paddingLeft="-5dp"
+                android:button="@drawable/radiobutton"
+                android:paddingLeft="@dimen/radio_btn_padding"
                 android:text="@string/woman"
                 android:textColor="@color/hint_color" />
         </RadioGroup>
@@ -308,7 +310,6 @@
             android:gravity="center_vertical"
             android:prompt="@string/grade_hint"
             android:spinnerMode="dialog" />
-        
     </RelativeLayout>
 
     <Button

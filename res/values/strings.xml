@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-
+    
+    <!-- url -->
+    <string name="base_url">http://192.168.1.222:8080/qy/</string>
+	<string name="register_rul">usermetadata/regist</string>    
+    
+    <!-- login -->
     <string name="app_name">青柚</string>
     <string name="hello_world">Hello world! </string>
     <string name="action_settings">Settings</string>
@@ -28,8 +33,9 @@
     <string name="title_activity_basic_info">BasicInfoActivity</string>
     <string name="name">姓名</string>
     <string name="nickname">昵称</string>
+    <string name="nickname2">交友昵称</string>
     <string name="gender">性别</string>
-    <string name="height">身高</string>
+    <string name="height">身高cm</string>
     <string name="birthday">生日</string>
     <string name="school">学校</string>
     <string name="discipline">学科</string>
@@ -37,13 +43,15 @@
     <string name="grade">年级</string>
     <string name="name_hint">必须是真实姓名哦</string>
     <string name="nickname_hint">填写一个好玩的昵称吧</string>
-    <string name="height_hint">单位CM</string>
+    <string name="height_hint">单位cm</string>
+    <string name="weight_hint">单位kg</string>
     <string name="birthday_hint">YYYY-MM-DD</string>
     <string name="school_hint">请选择学校</string>
     <string name="discipline_hint">请选择学科</string>
     <string name="grade_hint">请选择年级</string>
     <string name="man">男</string>
     <string name="woman">女</string>
+    <string name="man_woman">都行</string>
     <string name="pls_input_info">完善资料后才能获得推荐哦</string>
 
     <!-- identify -->
@@ -98,25 +106,64 @@
     <string name="shuoshuo">交友宣言</string>
     <string name="education">学校专业</string>
     <string name="hometown">故乡地区</string>
+    <string name="hometown2">故乡</string>
     <string name="hobby_tag">兴趣爱好</string>
     <string name="personal_tag">自我评价</string>
     <string name="shuoshuo_value">今天终于彻底毕业了,论文答辩结束,下天终于彻底毕业了,论文答辩结束,mark一下~~~</string>
     <string name="education_value">中国科学技术大学-管理学硕士</string>
-    <string name="hometown_value">河南信阳</string>
+    <string name="hometown_value">河南-信阳</string>
     <string name="info1_value">女24</string>
-	<string name="info2_value">155cm</string>
-	<string name="hobby_tag1">美食</string>
-	<string name="hobby_tag2">旅行</string>
-	<string name="hobby_tag3">摄影</string>
-	<string name="hobby_tag4">运动</string>
-	<string name="hobby_tag5">读书</string>
-	<string name="personal_tag1">超级帅</string>
-	<string name="personal_tag2">身材好</string>
-	<string name="personal_tag3">爱干净</string>
-	<string name="personal_tag4">很可爱</string>
-	<string name="personal_tag5">活泼</string>
-	<string name="latest_shuoshuo_1">恩恩，好吧，明天再陪你玩哈~</string>
-	<string name="latest_shuoshuo_2">有信念礼物啊，我要的不多，求一对YY熊</string>
-	<string name="datetime">中午12:26</string>
-	
+    <string name="info2_value">155cm</string>
+    <string name="hobby_tag1">美食</string>
+    <string name="hobby_tag2">旅行</string>
+    <string name="hobby_tag3">摄影</string>
+    <string name="hobby_tag4">运动</string>
+    <string name="hobby_tag5">读书</string>
+    <string name="personal_tag1">超级帅</string>
+    <string name="personal_tag2">身材好</string>
+    <string name="personal_tag3">爱干净</string>
+    <string name="personal_tag4">很可爱</string>
+    <string name="personal_tag5">活泼</string>
+    <string name="latest_shuoshuo_1">恩恩，好吧，明天再陪你玩哈~</string>
+    <string name="latest_shuoshuo_2">有信念礼物啊，我要的不多，求一对YY熊</string>
+    <string name="datetime">中午12:26</string>
+    <string name="title_activity_edit_info">编辑页面</string>
+    <string name="edit_info">资料编辑</string>
+    <string name="weight">体重kg</string>
+    <string name="ideal_ta">理想的TA</string>
+    <string name="ideal_tag">TA的标签</string>
+    <string name="age_min">16</string>
+    <string name="age_max">30</string>
+    <string name="height_min">140</string>
+    <string name="height_max">230</string>
+    <string name="weight_min">30</string>
+    <string name="weight_max">100</string>
+    <string name="title_activity_ta_main">TA的主页</string>
+
+    <!-- ta_main -->
+    <string name="match">匹配</string>
+    <string name="match_degree">匹配度</string>
+    <string name="match_degree_num">80%</string>
+    <string name="recom_degree">推荐指数</string>
+    <string name="recom_reason">推荐理由</string>
+    <string name="recom_reason_value">你们有共同的兴趣爱好 看电影 爱美食\nTA身高 155cm 符合你的要求哦\nTA在 安徽大学 离你很近哦\n机会难得，赶紧和TA聊聊吧~</string>
+    <string name="hot_degree">亲密指数</string>
+    <string name="ta_for_me">TA对我</string>
+    <string name="me_for_ta">我对TA</string>
+    <string name="hot_desc">状态说明</string>
+    <string name="hot_desc_value">亲密指数过低，都达到60才能公开彼此相册等信息哦，试试和TA聊天吧，加油~</string>
+    <string name="title_activity_ta_setting">TaSettingActivity</string>
+    <string name="title_activity_chat">ChatActivity</string>
+    <string name="ta_permission_set">权限设置</string>
+    <string name="addto_black_list">加入黑名单</string>
+    <string name="no_disturb_mode">开启免打扰模式</string>
+    <string name="clear_chat_history">清空聊天记录</string>
+    <string name="complaint">投诉举报</string>
+    <string name="title_activity_tags_edit">TagsEditActivity</string>
+    <string name="tags_edit_title_1">兴趣爱好</string>
+    <string name="tags_edit_title_2">自我评价</string>
+    <string name="tags_edit_title_3">TA的标签</string>
+    <string name="hobby_tag_string">美食，旅行，摄影，电影，读书，运动，宠物，音乐，时尚，购物</string>
+    <string name="personal_tag_string">超级帅，很可爱，有素质，身材好，性感，自信，幽默风趣，活泼，爱运动，人缘好，爱干净，温柔体贴，直率，文艺，很独立，知性</string>
+
 </resources>

@@ -16,6 +16,11 @@
         <activity
             android:name=".LoginActivity"
             android:label="@string/app_name" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
         <activity
             android:name=".MainActivity"
@@ -44,15 +49,29 @@
         <activity
             android:name=".SysMainActivity"
             android:label="@string/title_activity_sys_main" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+            
         </activity>
         <activity
-            android:name=".HomepageActivity"
-            android:label="@string/title_activity_homepage" >
+            android:name=".EditInfoActivity"
+            android:label="@string/title_activity_edit_info"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden" >
+        </activity>
+        <activity
+            android:name=".TaMainActivity"
+            android:label="@string/title_activity_ta_main" >
+        </activity>
+        <activity
+            android:name=".TaSettingActivity"
+            android:label="@string/title_activity_ta_setting" >
+        </activity>
+        <activity
+            android:name=".ChatActivity"
+            android:label="@string/title_activity_chat" >
+        </activity>
+        <activity
+            android:name=".TagsEditActivity"
+            android:label="@string/title_activity_tags_edit" 
+            android:windowSoftInputMode="adjustUnspecified|stateHidden" >
         </activity>
     </application>
 

@@ -1,13 +1,20 @@
 package com.xwq.qingyouapp;
 
+import java.io.File;
+
 import com.xwq.qingyouapp.util.EditTextListener;
 import com.xwq.qingyouapp.util.StringHandler;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.DatePickerDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
+import android.provider.MediaStore;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.Menu;
@@ -238,6 +245,9 @@ public class IdentifyActivity extends Activity {
 			finishBtn.setEnabled(false);
 		}
 	}
+	
+
+
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
