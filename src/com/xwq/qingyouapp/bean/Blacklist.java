@@ -1,6 +1,10 @@
 package com.xwq.qingyouapp.bean;
 
 
+
+/**
+ * Blacklist entity. @author MyEclipse Persistence Tools
+ */
 public class Blacklist implements java.io.Serializable {
 
 	// Fields

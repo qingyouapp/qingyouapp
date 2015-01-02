@@ -1,6 +1,9 @@
 package com.xwq.qingyouapp.bean;
 
 
+/**
+ * MatchTimelyResult entity. @author MyEclipse Persistence Tools
+ */
 public class MatchTimelyResult implements java.io.Serializable {
 
 	// Fields

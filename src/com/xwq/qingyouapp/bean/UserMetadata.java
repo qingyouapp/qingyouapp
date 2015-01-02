@@ -1,17 +1,10 @@
 package com.xwq.qingyouapp.bean;
 
 import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
-
-/**
- * UserMetadata entity. @author MyEclipse Persistence Tools
- */
 
 public class UserMetadata implements java.io.Serializable {
 
-	// Fields
-
+	private static final long serialVersionUID = 1L;
 	private Integer userid;
 	private Integer hometownCity;
 	private Integer currentCity;
@@ -22,14 +15,14 @@ public class UserMetadata implements java.io.Serializable {
 	private String phonenum;
 	private String registermail;
 	private String email;
-	private String sex;
+	private Short sex;
 	private Date birthday;
 	private Short height;
 	private Short weight;
 	private String eduBackground;
-	private String grade;
+	private Short grade;
 	private String edueducation;
-	private String major;
+	private Short major;
 	private String interests;
 	private String selfValue;
 	private String signature;
@@ -41,17 +34,7 @@ public class UserMetadata implements java.io.Serializable {
 	private String photoAlbum;
 	private String qqNumber;
 	private Boolean varificationPass;
-	private Set registerFriendsesForFriend1Id = new HashSet(0);
-	private Set matchTimelyResultsForUserbId = new HashSet(0);
-	private Set registerFriendsesForFriend2Id = new HashSet(0);
-	private Set registerScreenshots = new HashSet(0);
-	private Set registerFriendsesForUserid = new HashSet(0);
-	private Set recommendedTimelyResults = new HashSet(0);
-	private Set registerEmails = new HashSet(0);
-	private Set blacklists = new HashSet(0);
-	private Set matchTimelyResultsForUseraId = new HashSet(0);
-	private Set chatuserlists = new HashSet(0);
-	private Set imageVisiables = new HashSet(0);
+	private Date registerDate;
 
 	// Constructors
 
@@ -59,35 +42,19 @@ public class UserMetadata implements java.io.Serializable {
 	public UserMetadata() {
 	}
 
-	/** minimal constructor */
-	public UserMetadata(Integer userid, Integer university, String username, String password,
-			String phonenum, String sex, String grade, String edueducation, String major,
-			Short verificationMode, Boolean varificationPass) {
-		this.userid = userid;
-		this.university = university;
-		this.username = username;
-		this.password = password;
-		this.phonenum = phonenum;
-		this.sex = sex;
-		this.grade = grade;
-		this.edueducation = edueducation;
-		this.major = major;
-		this.verificationMode = verificationMode;
-		this.varificationPass = varificationPass;
-	}
+	// Property accessors
 
-	/** full constructor */
-	public UserMetadata(Integer userid, Integer hometownCity, Integer currentCity,
-			Integer university, String username, String nickname, String password, String phonenum,
-			String registermail, String email, String sex, Date birthday, Short height,
-			Short weight, String eduBackground, String grade, String edueducation, String major,
-			String interests, String selfValue, String signature, String friendStandards,
-			Short verificationMode, String constellation, Integer age, String headPortrait,
-			String photoAlbum, String qqNumber, Boolean varificationPass,
-			Set registerFriendsesForFriend1Id, Set matchTimelyResultsForUserbId,
-			Set registerFriendsesForFriend2Id, Set registerScreenshots,
-			Set registerFriendsesForUserid, Set recommendedTimelyResults, Set registerEmails,
-			Set blacklists, Set matchTimelyResultsForUseraId, Set chatuserlists, Set imageVisiables) {
+	public UserMetadata(Integer userid, Integer hometownCity,
+			Integer currentCity, Integer university, String username,
+			String nickname, String password, String phonenum,
+			String registermail, String email, Short sex, Date birthday,
+			Short height, Short weight, String eduBackground, Short grade,
+			String edueducation, Short major, String interests,
+			String selfValue, String signature, String friendStandards,
+			Short verificationMode, String constellation, Integer age,
+			String headPortrait, String photoAlbum, String qqNumber,
+			Boolean varificationPass, Date registerDate) {
+		super();
 		this.userid = userid;
 		this.hometownCity = hometownCity;
 		this.currentCity = currentCity;
@@ -117,20 +84,10 @@ public class UserMetadata implements java.io.Serializable {
 		this.photoAlbum = photoAlbum;
 		this.qqNumber = qqNumber;
 		this.varificationPass = varificationPass;
-		this.registerFriendsesForFriend1Id = registerFriendsesForFriend1Id;
-		this.matchTimelyResultsForUserbId = matchTimelyResultsForUserbId;
-		this.registerFriendsesForFriend2Id = registerFriendsesForFriend2Id;
-		this.registerScreenshots = registerScreenshots;
-		this.registerFriendsesForUserid = registerFriendsesForUserid;
-		this.recommendedTimelyResults = recommendedTimelyResults;
-		this.registerEmails = registerEmails;
-		this.blacklists = blacklists;
-		this.matchTimelyResultsForUseraId = matchTimelyResultsForUseraId;
-		this.chatuserlists = chatuserlists;
-		this.imageVisiables = imageVisiables;
+		this.registerDate = registerDate;
 	}
 
-	// Property accessors
+
 
 	public Integer getUserid() {
 		return this.userid;
@@ -212,11 +169,11 @@ public class UserMetadata implements java.io.Serializable {
 		this.email = email;
 	}
 
-	public String getSex() {
+	public Short getSex() {
 		return this.sex;
 	}
 
-	public void setSex(String sex) {
+	public void setSex(Short sex) {
 		this.sex = sex;
 	}
 
@@ -236,6 +193,14 @@ public class UserMetadata implements java.io.Serializable {
 		this.height = height;
 	}
 
+	public Date getRegisterDate() {
+		return registerDate;
+	}
+
+	public void setRegisterDate(Date registerDate) {
+		this.registerDate = registerDate;
+	}
+	
 	public Short getWeight() {
 		return this.weight;
 	}
@@ -252,11 +217,11 @@ public class UserMetadata implements java.io.Serializable {
 		this.eduBackground = eduBackground;
 	}
 
-	public String getGrade() {
+	public Short getGrade() {
 		return this.grade;
 	}
 
-	public void setGrade(String grade) {
+	public void setGrade(Short grade) {
 		this.grade = grade;
 	}
 
@@ -268,11 +233,11 @@ public class UserMetadata implements java.io.Serializable {
 		this.edueducation = edueducation;
 	}
 
-	public String getMajor() {
+	public Short getMajor() {
 		return this.major;
 	}
 
-	public void setMajor(String major) {
+	public void setMajor(Short major) {
 		this.major = major;
 	}
 
@@ -362,94 +327,6 @@ public class UserMetadata implements java.io.Serializable {
 
 	public void setVarificationPass(Boolean varificationPass) {
 		this.varificationPass = varificationPass;
-	}
-
-	public Set getRegisterFriendsesForFriend1Id() {
-		return this.registerFriendsesForFriend1Id;
-	}
-
-	public void setRegisterFriendsesForFriend1Id(Set registerFriendsesForFriend1Id) {
-		this.registerFriendsesForFriend1Id = registerFriendsesForFriend1Id;
-	}
-
-	public Set getMatchTimelyResultsForUserbId() {
-		return this.matchTimelyResultsForUserbId;
-	}
-
-	public void setMatchTimelyResultsForUserbId(Set matchTimelyResultsForUserbId) {
-		this.matchTimelyResultsForUserbId = matchTimelyResultsForUserbId;
-	}
-
-	public Set getRegisterFriendsesForFriend2Id() {
-		return this.registerFriendsesForFriend2Id;
-	}
-
-	public void setRegisterFriendsesForFriend2Id(Set registerFriendsesForFriend2Id) {
-		this.registerFriendsesForFriend2Id = registerFriendsesForFriend2Id;
-	}
-
-	public Set getRegisterScreenshots() {
-		return this.registerScreenshots;
-	}
-
-	public void setRegisterScreenshots(Set registerScreenshots) {
-		this.registerScreenshots = registerScreenshots;
-	}
-
-	public Set getRegisterFriendsesForUserid() {
-		return this.registerFriendsesForUserid;
-	}
-
-	public void setRegisterFriendsesForUserid(Set registerFriendsesForUserid) {
-		this.registerFriendsesForUserid = registerFriendsesForUserid;
-	}
-
-	public Set getRecommendedTimelyResults() {
-		return this.recommendedTimelyResults;
-	}
-
-	public void setRecommendedTimelyResults(Set recommendedTimelyResults) {
-		this.recommendedTimelyResults = recommendedTimelyResults;
-	}
-
-	public Set getRegisterEmails() {
-		return this.registerEmails;
-	}
-
-	public void setRegisterEmails(Set registerEmails) {
-		this.registerEmails = registerEmails;
-	}
-
-	public Set getBlacklists() {
-		return this.blacklists;
-	}
-
-	public void setBlacklists(Set blacklists) {
-		this.blacklists = blacklists;
-	}
-
-	public Set getMatchTimelyResultsForUseraId() {
-		return this.matchTimelyResultsForUseraId;
-	}
-
-	public void setMatchTimelyResultsForUseraId(Set matchTimelyResultsForUseraId) {
-		this.matchTimelyResultsForUseraId = matchTimelyResultsForUseraId;
-	}
-
-	public Set getChatuserlists() {
-		return this.chatuserlists;
-	}
-
-	public void setChatuserlists(Set chatuserlists) {
-		this.chatuserlists = chatuserlists;
-	}
-
-	public Set getImageVisiables() {
-		return this.imageVisiables;
-	}
-
-	public void setImageVisiables(Set imageVisiables) {
-		this.imageVisiables = imageVisiables;
 	}
 
 }

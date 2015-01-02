@@ -1,6 +1,10 @@
 package com.xwq.qingyouapp.bean;
 
 
+
+/**
+ * RecommendedTimelyResult entity. @author MyEclipse Persistence Tools
+ */
 public class RecommendedTimelyResult implements java.io.Serializable {
 
 	// Fields

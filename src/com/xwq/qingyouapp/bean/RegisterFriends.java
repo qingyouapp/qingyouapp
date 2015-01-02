@@ -1,5 +1,10 @@
 package com.xwq.qingyouapp.bean;
 
+
+
+/**
+ * RegisterFriends entity. @author MyEclipse Persistence Tools
+ */
 public class RegisterFriends implements java.io.Serializable {
 
 	// Fields

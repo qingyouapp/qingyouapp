@@ -1,5 +1,10 @@
 package com.xwq.qingyouapp.bean;
 
+
+
+/**
+ * RegisterScreenshot entity. @author MyEclipse Persistence Tools
+ */
 public class RegisterScreenshot implements java.io.Serializable {
 
 	// Fields

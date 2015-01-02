@@ -8,6 +8,12 @@
         android:minSdkVersion="14"
         android:targetSdkVersion="19" />
 
+    <!-- Internet Permissions -->
+    <uses-permission android:name="android.permission.INTERNET" />
+
+    <!-- Network State Permissions -->
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
     <application
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
@@ -15,7 +21,8 @@
         android:theme="@style/AppTheme" >
         <activity
             android:name=".LoginActivity"
-            android:label="@string/app_name" >
+            android:label="@string/app_name"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -23,16 +30,14 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".MainActivity"
-            android:label="@string/title_activity_main" >
-        </activity>
-        <activity
             android:name=".RegisterActivity"
-            android:label="@string/title_activity_register" >
+            android:label="@string/title_activity_register"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden" >
         </activity>
         <activity
             android:name=".BasicInfoActivity"
-            android:label="@string/title_activity_basic_info" >
+            android:label="@string/title_activity_basic_info"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden" >
         </activity>
         <activity
             android:name=".IdentifyActivity"
@@ -43,13 +48,16 @@
             android:label="@string/title_activity_image_upload" >
         </activity>
         <activity
+            android:name=".MainActivity"
+            android:label="@string/title_activity_main" >
+        </activity>
+        <activity
             android:name=".TestActivity"
             android:label="@string/title_activity_test" >
         </activity>
         <activity
             android:name=".SysMainActivity"
             android:label="@string/title_activity_sys_main" >
-            
         </activity>
         <activity
             android:name=".EditInfoActivity"
@@ -70,7 +78,7 @@
         </activity>
         <activity
             android:name=".TagsEditActivity"
-            android:label="@string/title_activity_tags_edit" 
+            android:label="@string/title_activity_tags_edit"
             android:windowSoftInputMode="adjustUnspecified|stateHidden" >
         </activity>
     </application>

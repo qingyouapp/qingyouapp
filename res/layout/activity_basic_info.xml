@@ -127,8 +127,7 @@
                 android:button="@drawable/radiobutton"
                 android:checked="true"
                 android:paddingLeft="@dimen/radio_btn_padding"
-                android:text="@string/man"
-                android:textColor="@color/hint_color" />
+                android:text="@string/man" />
 
             <RadioButton
                 android:id="@+id/radioFemale"
@@ -137,8 +136,7 @@
                 android:layout_marginLeft="30dp"
                 android:button="@drawable/radiobutton"
                 android:paddingLeft="@dimen/radio_btn_padding"
-                android:text="@string/woman"
-                android:textColor="@color/hint_color" />
+                android:text="@string/woman" />
         </RadioGroup>
 
         <ImageView
@@ -157,7 +155,7 @@
             android:layout_marginLeft="@dimen/basic_name_margin"
             android:gravity="center_vertical"
             android:includeFontPadding="false"
-            android:text="@string/height"
+            android:text="@string/height_short"
             android:textColor="@color/font_color"
             android:textSize="@dimen/font_28" />
 
@@ -206,6 +204,7 @@
             android:gravity="center_vertical"
             android:hint="@string/birthday_hint"
             android:includeFontPadding="false"
+            android:text="@string/birthday_value"
             android:textColorHint="@color/hint_color"
             android:textSize="@dimen/font_28" />
     </RelativeLayout>

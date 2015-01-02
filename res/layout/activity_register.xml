@@ -7,108 +7,121 @@
     android:paddingBottom="0dp"
     tools:context="com.xwq.qingyouapp.MainActivity" >
 
-    <include
-        android:id="@+id/include1"
-        layout="@layout/bar_register" />
+    <ScrollView
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent" >
 
-    <TextView
-        android:id="@+id/textView2"
-        android:layout_width="wrap_content"
-        android:layout_height="25dp"
-        android:layout_below="@+id/include1"
-        android:layout_marginLeft="45dp"
-        android:layout_marginRight="@dimen/activity_horizontal_margin"
-        android:layout_marginTop="30dp"
-        android:text="@string/alert_info_null"
-        android:textColor="@color/red"
-        android:textSize="@dimen/font_28" />
+        <RelativeLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content" >
 
-    <com.xwq.qingyouapp.view.EditTextWithDelete
-        android:id="@+id/editText1"
-        android:layout_width="wrap_content"
-        android:layout_height="@dimen/input_box_height"
-        android:layout_below="@+id/include1"
-        android:layout_centerHorizontal="true"
-        android:layout_marginLeft="@dimen/margin_left"
-        android:layout_marginRight="@dimen/margin_right"
-        android:layout_marginTop="55dp"
-        android:background="@drawable/input_box"
-        android:hint="@string/pls_phone"
-        android:paddingLeft="20dp"
-        android:paddingRight="@dimen/activity_horizontal_margin"
-        android:textColorHint="@color/hint_color"
-        android:textSize="@dimen/font_28" />
+            <include
+                android:id="@+id/include1"
+                layout="@layout/bar_register" />
 
-    <com.xwq.qingyouapp.view.EditTextWithDelete
-        android:id="@+id/editText2"
-        android:layout_width="wrap_content"
-        android:layout_height="@dimen/input_box_height"
-        android:layout_below="@+id/editText1"
-        android:layout_centerHorizontal="true"
-        android:layout_marginLeft="@dimen/margin_left"
-        android:layout_marginRight="@dimen/margin_right"
-        android:layout_marginTop="21dp"
-        android:background="@drawable/input_box"
-        android:hint="@string/pls_pwd"
-        android:inputType="textPassword"
-        android:paddingLeft="20dp"
-        android:paddingRight="@dimen/activity_horizontal_margin"
-        android:textColorHint="@color/hint_color"
-        android:textSize="@dimen/font_28" />
+            <com.xwq.qingyouapp.view.EditTextWithDelete
+                android:id="@+id/editText1"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/input_box_height"
+                android:layout_below="@+id/include1"
+                android:layout_centerHorizontal="true"
+                android:layout_marginLeft="@dimen/margin_left"
+                android:layout_marginRight="@dimen/margin_right"
+                android:layout_marginTop="55dp"
+                android:background="@drawable/input_box"
+                android:hint="@string/pls_phone"
+                android:paddingLeft="20dp"
+                android:paddingRight="@dimen/activity_horizontal_margin"
+                android:textColorHint="@color/hint_color"
+                android:textSize="@dimen/font_28" />
 
-    <com.xwq.qingyouapp.view.EditTextWithDelete
-        android:id="@+id/editText3"
-        android:layout_width="wrap_content"
-        android:layout_height="@dimen/input_box_height"
-        android:layout_below="@+id/editText2"
-        android:layout_centerHorizontal="true"
-        android:layout_marginLeft="@dimen/margin_left"
-        android:layout_marginRight="@dimen/margin_right"
-        android:layout_marginTop="21dp"
-        android:background="@drawable/input_box"
-        android:hint="@string/pls_pwd_2"
-        android:inputType="textPassword"
-        android:paddingLeft="20dp"
-        android:paddingRight="@dimen/activity_horizontal_margin"
-        android:textColorHint="@color/hint_color"
-        android:textSize="@dimen/font_28" />
+            <com.xwq.qingyouapp.view.EditTextWithDelete
+                android:id="@+id/editText2"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/input_box_height"
+                android:layout_below="@+id/editText1"
+                android:layout_centerHorizontal="true"
+                android:layout_marginLeft="@dimen/margin_left"
+                android:layout_marginRight="@dimen/margin_right"
+                android:layout_marginTop="21dp"
+                android:background="@drawable/input_box"
+                android:hint="@string/pls_pwd"
+                android:inputType="textPassword"
+                android:paddingLeft="20dp"
+                android:paddingRight="@dimen/activity_horizontal_margin"
+                android:textColorHint="@color/hint_color"
+                android:textSize="@dimen/font_28" />
 
-    <Button
-        android:id="@+id/button1"
-        android:layout_width="wrap_content"
-        android:layout_height="@dimen/input_box_height"
-        android:layout_below="@+id/editText3"
-        android:layout_centerHorizontal="true"
-        android:layout_marginLeft="@dimen/margin_left"
-        android:layout_marginRight="@dimen/margin_right"
-        android:layout_marginTop="21dp"
-        android:background="@drawable/login_btn_disable"
-        android:enabled="false"
-        android:text="@string/register"
-        android:textColor="@color/white"
-        android:textSize="@dimen/font_32" />
+            <com.xwq.qingyouapp.view.EditTextWithDelete
+                android:id="@+id/editText3"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/input_box_height"
+                android:layout_below="@+id/editText2"
+                android:layout_centerHorizontal="true"
+                android:layout_marginLeft="@dimen/margin_left"
+                android:layout_marginRight="@dimen/margin_right"
+                android:layout_marginTop="21dp"
+                android:background="@drawable/input_box"
+                android:hint="@string/pls_pwd_2"
+                android:inputType="textPassword"
+                android:paddingLeft="20dp"
+                android:paddingRight="@dimen/activity_horizontal_margin"
+                android:textColorHint="@color/hint_color"
+                android:textSize="@dimen/font_28" />
 
-    <CheckBox
-        android:id="@+id/checkBox1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/button1"
-        android:layout_below="@+id/button1"
-        android:layout_marginTop="13dp"
-        android:checked="true"
-        android:text="@string/policy1"
-        android:textColor="@color/white"
-        android:textSize="@dimen/font_28" />
+            <Button
+                android:id="@+id/button1"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/input_box_height"
+                android:layout_below="@+id/editText3"
+                android:layout_centerHorizontal="true"
+                android:layout_marginLeft="@dimen/margin_left"
+                android:layout_marginRight="@dimen/margin_right"
+                android:layout_marginTop="21dp"
+                android:background="@drawable/login_btn_disable"
+                android:enabled="false"
+                android:text="@string/register"
+                android:textColor="@color/white"
+                android:textSize="@dimen/font_32" />
 
-    <TextView
-        android:id="@+id/textView1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/checkBox1"
-        android:layout_alignBottom="@+id/checkBox1"
-        android:layout_toRightOf="@+id/checkBox1"
-        android:text="@string/policy2"
-        android:textColor="@color/white"
-        android:textSize="@dimen/font_28" />
+            <CheckBox
+                android:id="@+id/checkBox1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignLeft="@+id/button1"
+                android:layout_below="@+id/button1"
+                android:layout_marginLeft="2dp"
+                android:layout_marginTop="13dp"
+                android:button="@drawable/check_box"
+                android:checked="true"
+                android:paddingLeft="25dp"
+                android:text="@string/policy1"
+                android:textColor="@color/white"
+                android:textSize="@dimen/font_28" />
+
+            <TextView
+                android:id="@+id/textView1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBaseline="@+id/checkBox1"
+                android:layout_alignBottom="@+id/checkBox1"
+                android:layout_toRightOf="@+id/checkBox1"
+                android:text="@string/policy2"
+                android:textColor="@color/white"
+                android:textSize="@dimen/font_28" />
+
+            <TextView
+                android:id="@+id/textView2"
+                android:layout_width="wrap_content"
+                android:layout_height="25dp"
+                android:layout_alignBottom="@+id/editText1"
+                android:layout_alignLeft="@+id/editText1"
+                android:layout_marginBottom="40dp"
+                android:layout_marginLeft="18dp"
+                android:text="@string/alert_info_null"
+                android:textColor="@color/red"
+                android:textSize="@dimen/font_28" />
+        </RelativeLayout>
+    </ScrollView>
 
 </RelativeLayout>

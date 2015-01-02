@@ -1,8 +1,19 @@
 package com.xwq.qingyouapp;
 
+import java.util.ArrayList;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import com.xwq.qingyouapp.bean.UserMetadata;
+import com.xwq.qingyouapp.command.CommandCallback;
+import com.xwq.qingyouapp.command.Processor;
 import com.xwq.qingyouapp.util.EditTextListener;
+import com.xwq.qingyouapp.util.KeyValue;
+import com.xwq.qingyouapp.util.LocalStorage;
 import com.xwq.qingyouapp.util.StringHandler;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
@@ -14,9 +25,12 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.view.View.OnClickListener;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.Toast;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -36,6 +50,7 @@ public class RegisterActivity extends Activity {
 
 	private String phoneStr, pwdStr, pwd2Str;
 	private int alertInfoInteger = R.string.alert_info_null;
+	private LocalStorage localStorage;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +59,7 @@ public class RegisterActivity extends Activity {
 		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.activity_register);
 
+		localStorage = new LocalStorage(this);
 		getComponents();
 		phoneText.addTextChangedListener(phoneTextLis);
 		pwdText.addTextChangedListener(editTextLis);
@@ -52,6 +68,8 @@ public class RegisterActivity extends Activity {
 
 		registerBtn.setOnClickListener(registerLis);
 		backBtn.setOnClickListener(backLis);
+
+		pullInLocalStorage();
 	}
 
 	public void getComponents() {
@@ -64,6 +82,22 @@ public class RegisterActivity extends Activity {
 		checkBox = (CheckBox) this.findViewById(R.id.checkBox1);
 		backBtn = (ImageButton) this.findViewById(R.id.reg_back);
 		registerBtn.setEnabled(false);
+	}
+
+	public void pullInLocalStorage() {
+		String phone = localStorage.getData("my_phone");
+		String pwd = localStorage.getData("my_pwd");
+		// System.out.println("phone:"+phone+"---pwd:"+pwd);
+		if (phone != null) {
+			StringBuilder sb = new StringBuilder(phone);
+			sb.insert(3, " ");
+			sb.insert(8, " ");
+			phoneText.setText(sb.toString());
+		}
+		if (pwd != null) {
+			pwdText.setText(pwd == null ? "" : pwd);
+			pwd2Text.setText(pwd == null ? "" : pwd);
+		}
 	}
 
 	TextWatcher phoneTextLis = new EditTextListener() {
@@ -89,11 +123,40 @@ public class RegisterActivity extends Activity {
 	OnClickListener registerLis = new OnClickListener() {
 		@Override
 		public void onClick(View arg0) {
-			Intent intent = new Intent(RegisterActivity.this,
-					BasicInfoActivity.class);
-			startActivity(intent);
-			overridePendingTransition(android.R.anim.slide_in_left,
-					android.R.anim.slide_out_right);
+			UserMetadata user = new UserMetadata();
+			user.setPhonenum(phoneStr.replace(" ", ""));
+			String url = getResources().getString(R.string.url_base)
+					+ getResources().getString(R.string.url_check_phone_num);
+			Processor processor = Processor.instance(user);
+			try {
+				processor.runCommand(url, StringHandler.objectToJsonString(user), callback);
+			} catch (JSONException e) {
+				e.printStackTrace();
+			}
+		}
+	};
+
+	CommandCallback callback = new CommandCallback() {
+		@Override
+		public void excute(String jb) {
+			System.out.println("post result--" + jb.length() + ":" + jb);
+			if ("valid".equals(jb.trim())) {
+				setLocalStorage();
+				Intent intent = new Intent(RegisterActivity.this, BasicInfoActivity.class);
+				startActivity(intent);
+				overridePendingTransition(android.R.anim.slide_in_left,
+						android.R.anim.slide_out_right);
+			} else if ("invalid".equals(jb.trim())) {
+				Animation shake = AnimationUtils.loadAnimation(RegisterActivity.this, R.anim.shake);
+				phoneText.startAnimation(shake);
+				Toast.makeText(getApplicationContext(),
+						getResources().getString(R.string.phone_repeat_exception),
+						Toast.LENGTH_SHORT).show();
+			} else {
+				Toast.makeText(getApplicationContext(),
+						getResources().getString(R.string.server_exception), Toast.LENGTH_SHORT)
+						.show();
+			}
 		}
 	};
 
@@ -144,6 +207,15 @@ public class RegisterActivity extends Activity {
 			registerBtn.setTextColor(Color.rgb(255, 255, 255));
 			registerBtn.setEnabled(false);
 		}
+	}
+
+	public void setLocalStorage() {
+		ArrayList<KeyValue> list = new ArrayList<KeyValue>();
+		KeyValue phone = new KeyValue("my_phone", phoneStr.replace(" ", ""));
+		KeyValue pwd = new KeyValue("my_pwd", pwdStr);
+		list.add(phone);
+		list.add(pwd);
+		localStorage.addData(getApplicationContext(), list);
 	}
 
 	@Override

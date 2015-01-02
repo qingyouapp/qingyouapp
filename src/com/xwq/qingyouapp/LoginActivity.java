@@ -1,8 +1,11 @@
 package com.xwq.qingyouapp;
 
+import org.json.JSONException;
+import com.google.gson.Gson;
+import com.xwq.qingyouapp.bean.UserMetadata;
 import com.xwq.qingyouapp.util.EditTextListener;
 import com.xwq.qingyouapp.util.StringHandler;
-
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
@@ -21,6 +24,10 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.xwq.qingyouapp.command.CommandCallback;
+import com.xwq.qingyouapp.command.ConnectionDetector;
+import com.xwq.qingyouapp.command.Processor;
+
 public class LoginActivity extends Activity {
 
 	private boolean adNull = true;
@@ -31,6 +38,8 @@ public class LoginActivity extends Activity {
 	private TextView registerText, loginQuesText;
 
 	private String accountStr, pwdStr;
+	private Processor processor;
+	Animation shake;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +63,8 @@ public class LoginActivity extends Activity {
 		registerText = (TextView) this.findViewById(R.id.textView1);
 		loginQuesText = (TextView) this.findViewById(R.id.textView2);
 		loginBtn.setClickable(false);
+
+		shake = AnimationUtils.loadAnimation(LoginActivity.this, R.anim.shake);
 	}
 
 	OnClickListener loginLis = new OnClickListener() {
@@ -62,33 +73,71 @@ public class LoginActivity extends Activity {
 
 			accountStr = accountText.getText().toString();
 			pwdStr = pwdText.getText().toString();
+			UserMetadata user;
 
-			if (!(StringHandler.isEmail(accountStr))
-					&& !(StringHandler.isMobile(accountStr))) {
-				Animation shake = AnimationUtils.loadAnimation(
-						LoginActivity.this, R.anim.shake);
+			if (!(StringHandler.isEmail(accountStr)) && !(StringHandler.isMobile(accountStr))) {
 				accountText.startAnimation(shake);
 				Toast.makeText(getApplicationContext(),
-						getResources().getString(R.string.account_illegal),
-						Toast.LENGTH_SHORT).show();
+						getResources().getString(R.string.account_illegal), Toast.LENGTH_SHORT)
+						.show();
 			} else {
-				Intent intent = new Intent(LoginActivity.this,
-						BasicInfoActivity.class);
-				startActivity(intent);
-				overridePendingTransition(android.R.anim.slide_in_left,android.R.anim.slide_out_right);
-			}
 
+				String url = getResources().getString(R.string.url_base)
+						+ getResources().getString(R.string.url_login);
+
+				user = new UserMetadata();
+				user.setPhonenum(accountText.getText().toString());
+				user.setPassword(pwdText.getText().toString());
+
+				try {
+					if (new ConnectionDetector(LoginActivity.this).isConnectingToInternet()) {
+						processor = Processor.instance(user);
+						processor.runCommand(url, StringHandler.objectToJsonString(user),
+								loginCallback);
+					} else
+						Toast.makeText(getApplication(),
+								getResources().getString(R.string.network_exception),
+								Toast.LENGTH_SHORT).show();
+
+				} catch (JSONException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+	};
+
+	CommandCallback loginCallback = new CommandCallback() {
+		@SuppressLint("ShowToast")
+		@Override
+		public void excute(String jb) {
+			// 如果没有此人，则返回 {"userid":"-1"}
+			// 如果有此人，则返回
+			// {"age":"1","edueducation":"教育","email":"..........."...."username":""...}
+			System.out.println("jb:"+jb);
+			if (jb.indexOf("username") == -1) {
+				accountText.startAnimation(shake);
+				Toast.makeText(getApplication(),
+						getResources().getString(R.string.account_pwd_exception),
+						Toast.LENGTH_SHORT).show();
+			} else if (jb.indexOf("username") > 0) {
+				Intent intent = new Intent(LoginActivity.this, BasicInfoActivity.class);
+				startActivity(intent);
+				overridePendingTransition(android.R.anim.slide_in_left,
+						android.R.anim.slide_out_right);
+			} else {
+				Toast.makeText(getApplication(),
+						getResources().getString(R.string.network_exception), Toast.LENGTH_SHORT)
+						.show();
+			}
 		}
 	};
 
 	OnClickListener registerLis = new OnClickListener() {
 		@Override
 		public void onClick(View arg0) {
-			Intent intent = new Intent(LoginActivity.this,
-					RegisterActivity.class);
+			Intent intent = new Intent(LoginActivity.this, RegisterActivity.class);
 			startActivity(intent);
-			overridePendingTransition(android.R.anim.slide_in_left,
-					android.R.anim.slide_out_right);
+			overridePendingTransition(android.R.anim.slide_in_left, android.R.anim.slide_out_right);
 		}
 	};
 

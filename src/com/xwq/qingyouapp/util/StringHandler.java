@@ -1,10 +1,47 @@
 package com.xwq.qingyouapp.util;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class StringHandler {
+import org.json.JSONException;
+import org.json.JSONObject;
 
+import com.google.gson.Gson;
+public class StringHandler {
+	
+	public static String getStringFromInputStream(InputStream inputStream) {  
+	    java.io.InputStreamReader inputStreamReader = null;  
+	    try {  
+	        inputStreamReader = new java.io.InputStreamReader(inputStream, "utf-8");  
+	    } catch (java.io.UnsupportedEncodingException e1) {  
+	        e1.printStackTrace();  
+	    }  
+	    BufferedReader reader = new BufferedReader(inputStreamReader);  
+	    StringBuffer sb = new StringBuffer("");  
+	    String line;  
+	    try {  
+	        while ((line = reader.readLine()) != null) {  
+	            sb.append(line);  
+	            sb.append("\n");  
+	        }  
+	    } catch (IOException e) {  
+	        e.printStackTrace();  
+	    }  
+	    return sb.toString();  
+	}  
+
+	public static String objectToJsonString(Object obj) throws JSONException {
+		Gson gson = new Gson();
+		String json = gson.toJson(obj);
+		JSONObject jo = new JSONObject(json);
+		jo.put("key", "60528a45-af9c-439c-805e-2e607b0a1331");
+
+		return jo.toString();
+	}
+	
 	public static String limitLength(String str, int length) {
 
 		return str.length() > length ? str.substring(0, length) + "..." : str;

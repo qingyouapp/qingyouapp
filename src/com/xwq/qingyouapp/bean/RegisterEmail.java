@@ -1,5 +1,10 @@
 package com.xwq.qingyouapp.bean;
 
+
+
+/**
+ * RegisterEmail entity. @author MyEclipse Persistence Tools
+ */
 public class RegisterEmail implements java.io.Serializable {
 
 	// Fields

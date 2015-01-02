@@ -9,7 +9,7 @@
     <dimen name="margin_left">14dp</dimen>
     <dimen name="margin_right">14dp</dimen>
     <dimen name="margin_top">16dp</dimen>
-    <dimen name="basic_name_width">40dp</dimen>
+    <dimen name="basic_name_width">45dp</dimen>
     <dimen name="basic_name_height">45dp</dimen>
     <dimen name="basic_name_margin">20dp</dimen>
     <dimen name="basic_hint_width">190dp</dimen>

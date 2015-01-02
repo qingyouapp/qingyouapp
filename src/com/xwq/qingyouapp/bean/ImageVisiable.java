@@ -1,6 +1,9 @@
 package com.xwq.qingyouapp.bean;
 
 
+/**
+ * ImageVisiable entity. @author MyEclipse Persistence Tools
+ */
 public class ImageVisiable implements java.io.Serializable {
 
 	// Fields

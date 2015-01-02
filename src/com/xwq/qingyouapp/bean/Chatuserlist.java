@@ -1,5 +1,9 @@
 package com.xwq.qingyouapp.bean;
 
+
+/**
+ * Chatuserlist entity. @author MyEclipse Persistence Tools
+ */
 public class Chatuserlist implements java.io.Serializable {
 
 	// Fields
