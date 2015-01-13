@@ -1,8 +1,6 @@
 package com.xwq.qingyouapp;
 
-import com.xwq.qingyouapp.util.EditTextListener;
-import com.xwq.qingyouapp.util.StringHandler;
-
+import org.json.JSONException;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
@@ -12,13 +10,20 @@ import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.Window;
 import android.view.View.OnClickListener;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.RadioButton;
 import android.widget.TextView;
+import android.widget.Toast;
+import com.xwq.qingyouapp.bean.UserMetadata;
+import com.xwq.qingyouapp.command.CommandCallback;
+import com.xwq.qingyouapp.command.Processor;
+import com.xwq.qingyouapp.util.EditTextListener;
+import com.xwq.qingyouapp.util.LocalStorage;
+import com.xwq.qingyouapp.util.StringHandler;
+import com.xwq.qingyouapp.util.ThisApp;
 
 @SuppressLint("ResourceAsColor")
 public class IdentifyActivity extends Activity {
@@ -29,14 +34,16 @@ public class IdentifyActivity extends Activity {
 
 	private RadioButton emailRadio, photoRadio, friendRadio;
 	private EditText emailText, friend1Text, friend2Text;
-	private TextView photoView;
+	private TextView photoView, passBtn;
 	private Button finishBtn;
-	private ImageButton back;
 
 	private boolean friend1OK = false;
 	private boolean friend2OK = false;
 
 	private IDENTITY_TYPE iden_type;
+	private LocalStorage localStorage;
+	private UserMetadata user;
+	private Processor processor;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -44,8 +51,11 @@ public class IdentifyActivity extends Activity {
 		// no title setting
 		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.activity_identify);
+		// ThisApp.clearActivities();
+		ThisApp.addActivity(this);
 
 		getComponents();
+		localStorage = new LocalStorage(this);
 		initComponents(IDENTITY_TYPE.Email);
 
 		emailRadio.setOnClickListener(emailLis);
@@ -57,8 +67,11 @@ public class IdentifyActivity extends Activity {
 		friend2Text.addTextChangedListener(friend2TextLis);
 
 		finishBtn.setOnClickListener(finishBtnLis);
-		back.setOnClickListener(backLis);
 		photoView.setOnClickListener(uploadPhotoLis);
+		passBtn.setOnClickListener(passBtnLis);
+
+		// temp
+		emailText.setText("136872734@qq.com");
 	}
 
 	public void getComponents() {
@@ -70,7 +83,7 @@ public class IdentifyActivity extends Activity {
 		friend2Text = (EditText) this.findViewById(R.id.friend_2);
 		photoView = (TextView) this.findViewById(R.id.upload_photo);
 		finishBtn = (Button) this.findViewById(R.id.finish_button);
-		back = (ImageButton) this.findViewById(R.id.iden_back);
+		passBtn = (TextView) this.findViewById(R.id.pass_btn);
 	}
 
 	public void initComponents(IDENTITY_TYPE type) {
@@ -79,8 +92,7 @@ public class IdentifyActivity extends Activity {
 			setEmailStatus(true);
 			setPhotoStatus(false);
 			setFriendStatus(false);
-			setFinishButton(StringHandler.isEmail(emailText.getText()
-					.toString()));
+			setFinishButton(StringHandler.isEmail(emailText.getText().toString()));
 			break;
 		case Photo:
 			setEmailStatus(false);
@@ -96,6 +108,14 @@ public class IdentifyActivity extends Activity {
 			break;
 		}
 	}
+
+	OnClickListener passBtnLis = new OnClickListener() {
+		@Override
+		public void onClick(View arg0) {
+			Intent intent = new Intent(IdentifyActivity.this, SysMainActivity.class);
+			startActivity(intent);
+		}
+	};
 
 	OnClickListener emailLis = new OnClickListener() {
 		@Override
@@ -122,8 +142,7 @@ public class IdentifyActivity extends Activity {
 	OnClickListener uploadPhotoLis = new OnClickListener() {
 		@Override
 		public void onClick(View arg0) {
-			Intent intent = new Intent(IdentifyActivity.this,
-					ImageUploadActivity.class);
+			Intent intent = new Intent(IdentifyActivity.this, ImageUploadActivity.class);
 			startActivity(intent);
 		}
 	};
@@ -173,26 +192,63 @@ public class IdentifyActivity extends Activity {
 	OnClickListener finishBtnLis = new OnClickListener() {
 		@Override
 		public void onClick(View arg0) {
-			Intent intent = new Intent(IdentifyActivity.this,
-					SysMainActivity.class);
-			startActivity(intent);
-			overridePendingTransition(android.R.anim.slide_in_left,
-					android.R.anim.slide_out_right);
+			String updateUrl = getResources().getString(R.string.url_base)
+					+ getResources().getString(R.string.url_update);
+
+			user = localStorage.getUser();
+			user.setEmail(emailText.getText().toString().trim());
+			processor = Processor.instance(IdentifyActivity.this);
+			try {
+				processor.runCommand(updateUrl, StringHandler.userToJsonString(user),
+						updatecallback);
+			} catch (JSONException e) {
+				e.printStackTrace();
+			}
 		}
 	};
 
-	OnClickListener backLis = new OnClickListener() {
+	CommandCallback updatecallback = new CommandCallback() {
 		@Override
-		public void onClick(View arg0) {
-			IdentifyActivity.this.finish();
+		public void excute(String jb) {
+			System.out.println("post result--" + jb.length() + ":" + jb);
+			if ("valid".equals(jb.trim())) {
+				String sendMailUrl = getResources().getString(R.string.url_base)
+						+ getResources().getString(R.string.url_verify);
+				try {
+					processor.runCommand(sendMailUrl, StringHandler.userToJsonString(user),
+							verifycallback);
+				} catch (JSONException e) {
+					e.printStackTrace();
+				}
+			} else
+				Toast.makeText(getApplicationContext(),
+						getResources().getString(R.string.server_exception), Toast.LENGTH_SHORT)
+						.show();
+		}
+	};
+
+	CommandCallback verifycallback = new CommandCallback() {
+		@Override
+		public void excute(String jb) {
+			System.out.println("post result--" + jb.length() + ":" + jb);
+			if ("valid".equals(jb.trim())) {
+				Toast.makeText(getApplicationContext(),
+						getResources().getString(R.string.mail_sent_alert), Toast.LENGTH_SHORT)
+						.show();
+				Intent intent = new Intent(IdentifyActivity.this, SysMainActivity.class);
+				startActivity(intent);
+			} else
+				Toast.makeText(getApplicationContext(),
+						getResources().getString(R.string.server_exception), Toast.LENGTH_SHORT)
+						.show();
 		}
 	};
 
 	public void setEmailStatus(boolean status) {
-		
+
 		emailRadio.setChecked(status);
 		emailText.setEnabled(status);
-		
+
 		if (status) {
 			emailText.setHintTextColor(R.color.hint_color);
 			emailText.setBackgroundResource(R.drawable.input_box);
@@ -211,7 +267,7 @@ public class IdentifyActivity extends Activity {
 		friendRadio.setChecked(status);
 		friend1Text.setEnabled(status);
 		friend2Text.setEnabled(status);
-		
+
 		if (status) {
 			friend1Text.setHintTextColor(R.color.hint_color);
 			friend1Text.setBackgroundResource(R.drawable.input_box);
@@ -234,9 +290,6 @@ public class IdentifyActivity extends Activity {
 			finishBtn.setEnabled(false);
 		}
 	}
-	
-
-
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {

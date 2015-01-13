@@ -8,13 +8,13 @@
     tools:context="com.xwq.qingyouapp.MainActivity" >
 
     <include
-        android:id="@+id/include1"
-        layout="@layout/bar_identify" />
+        android:id="@+id/include"
+        layout="@layout/bar_identify2" />
 
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:layout_below="@+id/include1"
+        android:layout_below="@+id/include"
         android:layout_marginLeft="@dimen/margin_left"
         android:layout_marginRight="@dimen/margin_right"
         android:layout_marginTop="@dimen/margin_top"

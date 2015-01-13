@@ -3,15 +3,14 @@
     android:layout_height="match_parent"
     android:background="@color/grey_bgcolor" >
 
-    <TextView
-        android:id="@+id/textView1"
-        android:layout_width="300dp"
-        android:layout_height="400dp"
+    <com.xwq.qingyouapp.view.ImageControl
+        android:id="@+id/imageControl1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="86dp"
-        android:background="@drawable/shape_rectangle_3"
-        android:gravity="center"
-        android:text="@string/name" />
+        android:layout_marginLeft="100dp"
+        android:layout_marginTop="168dp"
+        android:src="@drawable/addphoto" />
 
 </RelativeLayout>

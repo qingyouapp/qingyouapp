@@ -1,6 +1,5 @@
 package com.xwq.qingyouapp;
 
-import com.xwq.qingyouapp.frag.ChatPageFrag;
 import com.xwq.qingyouapp.frag.MatchPageFrag;
 import com.xwq.qingyouapp.frag.ShowPageFrag;
 import android.annotation.SuppressLint;

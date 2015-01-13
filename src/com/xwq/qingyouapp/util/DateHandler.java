@@ -9,6 +9,23 @@ import java.util.Date;
 @SuppressLint("SimpleDateFormat")
 public class DateHandler {
 
+	private final static int[] dayArr = new int[] { 20, 19, 21, 20, 21, 22, 23, 23, 23, 24, 23, 22 };
+	public final static String[] constellationArr = new String[] { "摩羯座", "水瓶座", "双鱼座", "白羊座",
+			"金牛座", "双子座", "巨蟹座", "狮子座", "处女座", "天秤座", "天蝎座", "射手座", "摩羯座" };
+	private final static int[] constellationInt = new int[] { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11 };
+
+	public static int getConstellationInt(int month, int day) {
+		return day < dayArr[month - 1] ? constellationInt[month - 1] : constellationInt[month];
+	}
+
+	public static String getConstellationString(int month, int day) {
+		return constellationArr[getConstellationInt(month, day)];
+	}
+
+	public static String getConstellationString(int constellationInt) {
+		return constellationArr[constellationInt];
+	}
+
 	// 1990-6-15
 	public static Date stringToDate(String dateStr) {
 		String[] arr = dateStr.split("-");
@@ -18,15 +35,19 @@ public class DateHandler {
 		return new Date(year - 1900, month - 1, day);
 	}
 
+	// 1990-6-15
+	public static String dateToString(Date date) {
+		int year = date.getYear() + 1900;
+		int month = date.getMonth() + 1;
+		int day = date.getDay();
+		return year + "-" + month + "-" + day;
+	}
+
 	// Nov 7, 3:01 PM
 	public static String getFormatedDate(Date date) {
 		SimpleDateFormat sdf = new SimpleDateFormat(" dd, hh:mm ");
 		return date.toString().substring(4, 7) + sdf.format(date)
 				+ (date.getHours() > 11 ? "PM" : "AM");
-	}
-
-	public static String dateToString(Date date) {
-		return new SimpleDateFormat("yyMMddHHmmss").format(date);
 	}
 
 	public static boolean isToday(Date date) throws ParseException {

@@ -1,7 +1,5 @@
 package com.xwq.qingyouapp.bean;
 
-import java.util.Date;
-
 public class UserMetadata implements java.io.Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -16,7 +14,7 @@ public class UserMetadata implements java.io.Serializable {
 	private String registermail;
 	private String email;
 	private Short sex;
-	private Date birthday;
+	private Long birthday;
 	private Short height;
 	private Short weight;
 	private String eduBackground;
@@ -28,32 +26,31 @@ public class UserMetadata implements java.io.Serializable {
 	private String signature;
 	private String friendStandards;
 	private Short verificationMode;
-	private String constellation;
+	private Short constellation;
 	private Integer age;
 	private String headPortrait;
 	private String photoAlbum;
 	private String qqNumber;
 	private Boolean varificationPass;
-	private Date registerDate;
+	private String verifyCode;
+	private Long verifyTime;
+	private Long registerDate;
 
-	// Constructors
-
+	
 	/** default constructor */
 	public UserMetadata() {
 	}
 
 	// Property accessors
 
-	public UserMetadata(Integer userid, Integer hometownCity,
-			Integer currentCity, Integer university, String username,
-			String nickname, String password, String phonenum,
-			String registermail, String email, Short sex, Date birthday,
-			Short height, Short weight, String eduBackground, Short grade,
-			String edueducation, Short major, String interests,
-			String selfValue, String signature, String friendStandards,
-			Short verificationMode, String constellation, Integer age,
-			String headPortrait, String photoAlbum, String qqNumber,
-			Boolean varificationPass, Date registerDate) {
+	public UserMetadata(Integer userid, Integer hometownCity, Integer currentCity,
+			Integer university, String username, String nickname, String password, String phonenum,
+			String registermail, String email, Short sex, Long birthday, Short height,
+			Short weight, String eduBackground, Short grade, String edueducation, Short major,
+			String interests, String selfValue, String signature, String friendStandards,
+			Short verificationMode, Short constellation, Integer age, String headPortrait,
+			String photoAlbum, String qqNumber, String verifyCode, Long verifyTime,
+			Boolean varificationPass, Long registerDate) {
 		super();
 		this.userid = userid;
 		this.hometownCity = hometownCity;
@@ -83,11 +80,11 @@ public class UserMetadata implements java.io.Serializable {
 		this.headPortrait = headPortrait;
 		this.photoAlbum = photoAlbum;
 		this.qqNumber = qqNumber;
+		this.verifyCode = verifyCode;
 		this.varificationPass = varificationPass;
 		this.registerDate = registerDate;
+		this.verifyTime = verifyTime;
 	}
-
-
 
 	public Integer getUserid() {
 		return this.userid;
@@ -97,28 +94,36 @@ public class UserMetadata implements java.io.Serializable {
 		this.userid = userid;
 	}
 
-	public Integer gethometownCity() {
-		return this.hometownCity;
+	public Integer getHometownCity() {
+		return hometownCity;
 	}
 
-	public void sethometownCity(Integer hometownCity) {
+	public void setHometownCity(Integer hometownCity) {
 		this.hometownCity = hometownCity;
 	}
 
-	public Integer getcurrentCity() {
-		return this.currentCity;
+	public Integer getCurrentCity() {
+		return currentCity;
 	}
 
-	public void setcurrentCity(Integer currentCity) {
+	public void setCurrentCity(Integer currentCity) {
 		this.currentCity = currentCity;
 	}
 
-	public Integer getuniversity() {
-		return this.university;
+	public Integer getUniversity() {
+		return university;
 	}
 
-	public void setuniversity(Integer university) {
+	public void setUniversity(Integer university) {
 		this.university = university;
+	}
+
+	public String getVerifyCode() {
+		return verifyCode;
+	}
+
+	public void setVerifyCode(String verifyCode) {
+		this.verifyCode = verifyCode;
 	}
 
 	public String getUsername() {
@@ -177,11 +182,11 @@ public class UserMetadata implements java.io.Serializable {
 		this.sex = sex;
 	}
 
-	public Date getBirthday() {
+	public Long getBirthday() {
 		return this.birthday;
 	}
 
-	public void setBirthday(Date birthday) {
+	public void setBirthday(Long birthday) {
 		this.birthday = birthday;
 	}
 
@@ -193,14 +198,14 @@ public class UserMetadata implements java.io.Serializable {
 		this.height = height;
 	}
 
-	public Date getRegisterDate() {
+	public Long getregisterDate() {
 		return registerDate;
 	}
 
-	public void setRegisterDate(Date registerDate) {
+	public void setregisterDate(Long registerDate) {
 		this.registerDate = registerDate;
 	}
-	
+
 	public Short getWeight() {
 		return this.weight;
 	}
@@ -281,11 +286,11 @@ public class UserMetadata implements java.io.Serializable {
 		this.verificationMode = verificationMode;
 	}
 
-	public String getConstellation() {
+	public Short getConstellation() {
 		return this.constellation;
 	}
 
-	public void setConstellation(String constellation) {
+	public void setConstellation(Short constellation) {
 		this.constellation = constellation;
 	}
 
@@ -327,6 +332,14 @@ public class UserMetadata implements java.io.Serializable {
 
 	public void setVarificationPass(Boolean varificationPass) {
 		this.varificationPass = varificationPass;
+	}
+
+	public Long getVerifyTime() {
+		return verifyTime;
+	}
+
+	public void setVerifyTime(Long verifyTime) {
+		this.verifyTime = verifyTime;
 	}
 
 }

@@ -29,13 +29,13 @@ public class ImageUploadActivity extends Activity {
 	private Button finishBtn;
 	private boolean finishBtnStatus = false;
 
-	private String[] items = new String[] { "从相册选择", "拍照" };
+	public static String[] items = new String[] { "从相册选择", "拍照" };
 
-	private static final String IMAGE_FILE_NAME = "identify_mage.jpg";
+	public static final String IMAGE_FILE_NAME = "image.jpg";
 	/* 请求码 */
-	private static final int IMAGE_REQUEST_CODE = 0;
-	private static final int CAMERA_REQUEST_CODE = 1;
-	private static final int RESULT_REQUEST_CODE = 2;
+	public static final int IMAGE_REQUEST_CODE = 1;
+	public static final int CAMERA_REQUEST_CODE = 2;
+	public static final int RESULT_REQUEST_CODE = 3;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -74,17 +74,15 @@ public class ImageUploadActivity extends Activity {
 	OnClickListener finishBtnLis = new OnClickListener() {
 		@Override
 		public void onClick(View arg0) {
-			Intent intent = new Intent(ImageUploadActivity.this,
-					SysMainActivity.class);
+			Intent intent = new Intent(ImageUploadActivity.this, SysMainActivity.class);
 			startActivity(intent);
-			overridePendingTransition(android.R.anim.slide_in_left,
-					android.R.anim.slide_out_right);
+			overridePendingTransition(android.R.anim.slide_in_left, android.R.anim.slide_out_right);
 		}
 	};
 
 	private void showDialog() {
 		new AlertDialog.Builder(this)
-				.setTitle("选择图片来源")
+				.setTitle(null)
 				.setItems(items, new DialogInterface.OnClickListener() {
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
@@ -92,24 +90,18 @@ public class ImageUploadActivity extends Activity {
 						case 0:
 							Intent intentFromGallery = new Intent();
 							intentFromGallery.setType("image/*"); // 设置文件类型
-							intentFromGallery
-									.setAction(Intent.ACTION_GET_CONTENT);
-							startActivityForResult(intentFromGallery,
-									IMAGE_REQUEST_CODE);
+							intentFromGallery.setAction(Intent.ACTION_GET_CONTENT);
+							startActivityForResult(intentFromGallery, IMAGE_REQUEST_CODE);
 							break;
 						case 1:
-							Intent intentFromCapture = new Intent(
-									MediaStore.ACTION_IMAGE_CAPTURE);
+							Intent intentFromCapture = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
 							// 判断存储卡是否可以用，可用进行存储
 							if (hasSdcard()) {
-								intentFromCapture.putExtra(
-										MediaStore.EXTRA_OUTPUT,
-										Uri.fromFile(new File(Environment
-												.getExternalStorageDirectory(),
-												IMAGE_FILE_NAME)));
+								intentFromCapture.putExtra(MediaStore.EXTRA_OUTPUT, Uri
+										.fromFile(new File(Environment
+												.getExternalStorageDirectory(), IMAGE_FILE_NAME)));
 							}
-							startActivityForResult(intentFromCapture,
-									CAMERA_REQUEST_CODE);
+							startActivityForResult(intentFromCapture, CAMERA_REQUEST_CODE);
 							break;
 						}
 					}
@@ -118,8 +110,7 @@ public class ImageUploadActivity extends Activity {
 						new DialogInterface.OnClickListener() {
 
 							@Override
-							public void onClick(DialogInterface dialog,
-									int which) {
+							public void onClick(DialogInterface dialog, int which) {
 								if (finishBtnStatus)
 									dialog.dismiss();
 								else
@@ -132,23 +123,20 @@ public class ImageUploadActivity extends Activity {
 
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-
 		// 结果码不等于取消时候
 		if (resultCode != RESULT_CANCELED) {
-
 			switch (requestCode) {
 			case IMAGE_REQUEST_CODE:
 				startPhotoZoom(data.getData());
 				break;
 			case CAMERA_REQUEST_CODE:
 				if (hasSdcard()) {
-					File tempFile = new File(
-							Environment.getExternalStorageDirectory() + "/"
-									+ IMAGE_FILE_NAME);
+					File tempFile = new File(Environment.getExternalStorageDirectory() + "/"
+							+ IMAGE_FILE_NAME);
 					startPhotoZoom(Uri.fromFile(tempFile));
 				} else {
-					Toast.makeText(ImageUploadActivity.this, "未找到存储卡，无法存储照片！",
-							Toast.LENGTH_LONG).show();
+					Toast.makeText(ImageUploadActivity.this, "未找到存储卡，无法存储照片！", Toast.LENGTH_LONG)
+							.show();
 				}
 
 				break;

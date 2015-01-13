@@ -3,17 +3,7 @@ package com.xwq.qingyouapp;
 import java.util.ArrayList;
 
 import org.json.JSONException;
-import org.json.JSONObject;
 
-import com.xwq.qingyouapp.bean.UserMetadata;
-import com.xwq.qingyouapp.command.CommandCallback;
-import com.xwq.qingyouapp.command.Processor;
-import com.xwq.qingyouapp.util.EditTextListener;
-import com.xwq.qingyouapp.util.KeyValue;
-import com.xwq.qingyouapp.util.LocalStorage;
-import com.xwq.qingyouapp.util.StringHandler;
-
-import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
@@ -23,18 +13,27 @@ import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.Window;
 import android.view.View.OnClickListener;
+import android.view.Window;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
-import android.widget.Toast;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.xwq.qingyouapp.bean.UserMetadata;
+import com.xwq.qingyouapp.command.CommandCallback;
+import com.xwq.qingyouapp.command.Processor;
+import com.xwq.qingyouapp.util.EditTextListener;
+import com.xwq.qingyouapp.util.KeyValue;
+import com.xwq.qingyouapp.util.LocalStorage;
+import com.xwq.qingyouapp.util.StringHandler;
+import com.xwq.qingyouapp.util.ThisApp;
 
 public class RegisterActivity extends Activity {
 
@@ -51,6 +50,7 @@ public class RegisterActivity extends Activity {
 	private String phoneStr, pwdStr, pwd2Str;
 	private int alertInfoInteger = R.string.alert_info_null;
 	private LocalStorage localStorage;
+	private UserMetadata user;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -58,6 +58,7 @@ public class RegisterActivity extends Activity {
 		// no title setting
 		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.activity_register);
+		ThisApp.addActivity(this);
 
 		localStorage = new LocalStorage(this);
 		getComponents();
@@ -69,7 +70,6 @@ public class RegisterActivity extends Activity {
 		registerBtn.setOnClickListener(registerLis);
 		backBtn.setOnClickListener(backLis);
 
-		pullInLocalStorage();
 	}
 
 	public void getComponents() {
@@ -82,22 +82,6 @@ public class RegisterActivity extends Activity {
 		checkBox = (CheckBox) this.findViewById(R.id.checkBox1);
 		backBtn = (ImageButton) this.findViewById(R.id.reg_back);
 		registerBtn.setEnabled(false);
-	}
-
-	public void pullInLocalStorage() {
-		String phone = localStorage.getData("my_phone");
-		String pwd = localStorage.getData("my_pwd");
-		// System.out.println("phone:"+phone+"---pwd:"+pwd);
-		if (phone != null) {
-			StringBuilder sb = new StringBuilder(phone);
-			sb.insert(3, " ");
-			sb.insert(8, " ");
-			phoneText.setText(sb.toString());
-		}
-		if (pwd != null) {
-			pwdText.setText(pwd == null ? "" : pwd);
-			pwd2Text.setText(pwd == null ? "" : pwd);
-		}
 	}
 
 	TextWatcher phoneTextLis = new EditTextListener() {
@@ -127,9 +111,9 @@ public class RegisterActivity extends Activity {
 			user.setPhonenum(phoneStr.replace(" ", ""));
 			String url = getResources().getString(R.string.url_base)
 					+ getResources().getString(R.string.url_check_phone_num);
-			Processor processor = Processor.instance(user);
+			Processor processor = Processor.instance(RegisterActivity.this);
 			try {
-				processor.runCommand(url, StringHandler.objectToJsonString(user), callback);
+				processor.runCommand(url, StringHandler.userToJsonString(user), callback);
 			} catch (JSONException e) {
 				e.printStackTrace();
 			}
@@ -209,13 +193,33 @@ public class RegisterActivity extends Activity {
 		}
 	}
 
+	// public void pullInLocalStorage() {
+	// user = localStorage.getUser();
+	// if(user!=null){
+	// String phone = user.getPhonenum();
+	// StringBuilder sb = new StringBuilder(phone);
+	// sb.insert(3, " ");
+	// sb.insert(8, " ");
+	// phoneText.setText(sb.toString());
+	// String pwd= user.getPassword();
+	// pwdText.setText(pwd == null ? "" : pwd);
+	// pwd2Text.setText(pwd == null ? "" : pwd);
+	// }
+	// }
+
 	public void setLocalStorage() {
-		ArrayList<KeyValue> list = new ArrayList<KeyValue>();
-		KeyValue phone = new KeyValue("my_phone", phoneStr.replace(" ", ""));
-		KeyValue pwd = new KeyValue("my_pwd", pwdStr);
-		list.add(phone);
-		list.add(pwd);
-		localStorage.addData(getApplicationContext(), list);
+		user = new UserMetadata();
+		user.setPhonenum(phoneStr.replace(" ", ""));
+		user.setPassword(pwdStr);
+		localStorage.setUser(user);
+
+		// ArrayList<KeyValue> list = new ArrayList<KeyValue>();
+		// KeyValue loginAccount = new KeyValue("my_loginAccount",
+		// phoneStr.replace(" ", ""));
+		// KeyValue pwd = new KeyValue("my_pwd", pwdStr);
+		// list.add(loginAccount);
+		// list.add(pwd);
+		// localStorage.addData(list);
 	}
 
 	@Override

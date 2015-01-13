@@ -1,16 +1,10 @@
 package com.xwq.qingyouapp;
 
 import android.annotation.SuppressLint;
-
-import com.xwq.qingyouapp.EditInfoActivity.TAG_TYPE;
-import com.xwq.qingyouapp.adapter.TagsGirdAdapter;
-import com.xwq.qingyouapp.util.StringHandler;
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -20,10 +14,13 @@ import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.EditText;
-import android.widget.GridLayout;
 import android.widget.GridView;
 import android.widget.ImageButton;
 import android.widget.TextView;
+
+import com.xwq.qingyouapp.EditInfoActivity.TAG_TYPE;
+import com.xwq.qingyouapp.adapter.TagsGirdAdapter;
+import com.xwq.qingyouapp.util.StringHandler;
 
 public class TagsEditActivity extends Activity {
 

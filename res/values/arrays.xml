@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    
+
     <string-array name="school">
         <item>中国科技大学</item>
         <item>安徽大学</item>
@@ -17,7 +17,6 @@
         <item>广州中医药</item>
         <item>南方医科大学</item>
     </string-array>
-    
     <string-array name="discipline">
         <item>哲学</item>
         <item>经济学</item>
@@ -33,7 +32,6 @@
         <item>军事学</item>
         <item>艺术学</item>
     </string-array>
-    
     <string-array name="grade">
         <item>大一</item>
         <item>大二</item>
@@ -47,8 +45,6 @@
         <item>博三</item>
         <item>博三以上</item>
     </string-array>
-    
-    
     <string-array name="weight">
         <item>30</item>
         <item>31</item>
@@ -123,7 +119,6 @@
         <item>100</item>
         <item>100以上</item>
     </string-array>
-    
     <string-array name="height">
         <item>140</item>
         <item>141</item>

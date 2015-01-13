@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    
+
     <!-- login -->
     <string name="app_name">青柚</string>
     <string name="hello_world">Hello world! </string>
@@ -47,14 +47,20 @@
     <string name="school_hint">请选择学校</string>
     <string name="discipline_hint">请选择学科</string>
     <string name="grade_hint">请选择年级</string>
+    <string name="province_hint">请选择省份</string>
+    <string name="city_hint">请选择城市</string>
     <string name="man">男</string>
+    <string name="man_num">0</string>
     <string name="woman">女</string>
+    <string name="woman_num">1</string>
     <string name="man_woman">都行</string>
+    <string name="all_num">2</string>
     <string name="pls_input_info">完善资料后才能获得推荐哦</string>
 
     <!-- identify -->
     <string name="title_activity_identify">IdentifyActivity</string>
     <string name="pls_identify">身份认证</string>
+    <string name="pass">跳过</string>
     <string name="identify_intro">为了保证交友环境，所有用户都必须通过学生身份的认证，您可以从以下三种方式中选择一种进行认证：</string>
     <string name="email_iden">EDU邮箱认证</string>
     <string name="photo_iden">证件照认证</string>
@@ -109,6 +115,7 @@
     <string name="personal_tag">自我评价</string>
     <string name="shuoshuo_value">今天终于彻底毕业了,论文答辩结束,下天终于彻底毕业了,论文答辩结束,mark一下~~~</string>
     <string name="education_value">中国科学技术大学-管理学硕士</string>
+    <string name="no_value">未填写</string>
     <string name="hometown_value">河南-信阳</string>
     <string name="info1_value">女24</string>
     <string name="info2_value">155cm</string>
@@ -169,5 +176,11 @@
     <string name="account_pwd_exception">账号或密码错误</string>
     <string name="phone_repeat_exception">该手机号已注册过，请直接登录</string>
     <string name="server_exception">服务器异常</string>
+    <string name="submit_success">资料保存成功</string>
     <string name="register_success">注册成功</string>
+    <string name="shuoshuo_hint">对TA说点什么吧</string>
+    <string name="hometown_hint">您来自于哪里呢</string>
+    <string name="mail_sent_alert">身份认证邮件已发送，请登录邮箱激活账号</string>
+    <string name="title_activity_photo_show">PhotoShowActivity</string>
+
 </resources>

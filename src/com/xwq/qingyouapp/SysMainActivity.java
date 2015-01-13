@@ -1,10 +1,13 @@
 package com.xwq.qingyouapp;
 
+import com.google.gson.Gson;
+import com.xwq.qingyouapp.bean.UserMetadata;
 import com.xwq.qingyouapp.frag.ChatHistoryFrag;
 import com.xwq.qingyouapp.frag.RecomHistoryFrag;
 import com.xwq.qingyouapp.frag.RecomTodayFrag;
 import com.xwq.qingyouapp.frag.ShowPageFrag;
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -170,5 +173,8 @@ public class SysMainActivity extends FragmentActivity {
 	public void onBackPressed() {
 		SysMainActivity.this.finish();
 	}
+	
+
+
 	
 }

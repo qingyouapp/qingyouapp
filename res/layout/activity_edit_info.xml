@@ -4,9 +4,9 @@
     android:layout_height="match_parent" >
 
     <EditText
-        android:inputType="text"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:inputType="text" />
 
     <include
         android:id="@+id/include1"
@@ -27,42 +27,29 @@
             <HorizontalScrollView
                 android:id="@+id/photo_row_edit"
                 android:layout_width="fill_parent"
-                android:layout_height="@dimen/photo_width"
+                android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
+                android:scrollbars="@null"
                 android:visibility="visible" >
 
                 <LinearLayout
-                    android:id="@+id/photo_row_1"
                     android:layout_width="wrap_content"
-                    android:layout_height="@dimen/photo_width"
+                    android:layout_height="wrap_content"
                     android:orientation="horizontal" >
 
-                    <ImageView
-                        android:layout_width="@dimen/photo_width"
-                        android:layout_height="@dimen/photo_width"
-                        android:contentDescription="@string/desc"
-                        android:padding="@dimen/photo_padding"
-                        android:src="@drawable/girl4" />
+                    <LinearLayout
+                        android:id="@+id/photo_linearLayout"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal" >
+                    </LinearLayout>
 
                     <ImageView
+                        android:id="@+id/upload_image"
                         android:layout_width="@dimen/photo_width"
                         android:layout_height="@dimen/photo_width"
                         android:contentDescription="@string/desc"
-                        android:padding="@dimen/photo_padding"
-                        android:src="@drawable/girl2" />
-
-                    <ImageView
-                        android:layout_width="@dimen/photo_width"
-                        android:layout_height="@dimen/photo_width"
-                        android:contentDescription="@string/desc"
-                        android:padding="@dimen/photo_padding"
-                        android:src="@drawable/girl6" />
-
-                    <ImageView
-                        android:layout_width="@dimen/photo_width"
-                        android:layout_height="@dimen/photo_width"
-                        android:contentDescription="@string/desc"
-                        android:padding="@dimen/photo_padding"
+                        android:padding="2dp"
                         android:src="@drawable/upload_image" />
                 </LinearLayout>
             </HorizontalScrollView>
@@ -73,7 +60,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/photo_row_edit"
                 android:layout_centerHorizontal="true"
-                android:layout_marginTop="14dp"
+                android:layout_marginTop="4dp"
                 android:background="@drawable/write_bg"
                 android:visibility="visible" >
 
@@ -137,12 +124,11 @@
                         android:background="@null"
                         android:ems="10"
                         android:gravity="center_vertical"
+                        android:hint="@string/shuoshuo_hint"
                         android:inputType="textMultiLine"
                         android:lineSpacingMultiplier="1.2"
-                        android:text="@string/shuoshuo_value"
                         android:textColor="@color/color_000000"
                         android:textSize="@dimen/font_28" />
-
                 </TableRow>
             </TableLayout>
 
@@ -215,7 +201,6 @@
                         android:layout_height="match_parent"
                         android:layout_marginLeft="@dimen/spinner_margin"
                         android:background="@null"
-                        android:entries="@array/height"
                         android:gravity="center_vertical"
                         android:prompt="@string/height_hint"
                         android:spinnerMode="dialog" />
@@ -250,7 +235,6 @@
                         android:layout_height="match_parent"
                         android:layout_marginLeft="@dimen/spinner_margin"
                         android:background="@null"
-                        android:entries="@array/weight"
                         android:gravity="center_vertical"
                         android:prompt="@string/weight_hint"
                         android:spinnerMode="dialog" />
@@ -285,11 +269,10 @@
 
                     <Spinner
                         android:id="@+id/school_value"
-                        android:layout_width="@dimen/basic_hint_width"
+                        android:layout_width="@dimen/spinner_width"
                         android:layout_height="@dimen/basic_hint_height"
                         android:layout_marginLeft="@dimen/spinner_margin"
                         android:background="@null"
-                        android:entries="@array/school"
                         android:gravity="center_vertical"
                         android:hint="@string/birthday_hint"
                         android:prompt="@string/school_hint"
@@ -321,11 +304,10 @@
 
                     <Spinner
                         android:id="@+id/discipline_value"
-                        android:layout_width="@dimen/basic_hint_width"
+                        android:layout_width="@dimen/spinner_width"
                         android:layout_height="match_parent"
                         android:layout_marginLeft="@dimen/spinner_margin"
                         android:background="@null"
-                        android:entries="@array/discipline"
                         android:gravity="center_vertical"
                         android:prompt="@string/discipline_hint"
                         android:spinnerMode="dialog" />
@@ -356,11 +338,10 @@
 
                     <Spinner
                         android:id="@+id/grade_value"
-                        android:layout_width="@dimen/basic_hint_width"
+                        android:layout_width="@dimen/spinner_width"
                         android:layout_height="match_parent"
                         android:layout_marginLeft="@dimen/spinner_margin"
                         android:background="@null"
-                        android:entries="@array/grade"
                         android:gravity="center_vertical"
                         android:prompt="@string/grade_hint"
                         android:spinnerMode="dialog" />
@@ -389,17 +370,27 @@
                         android:textColor="@color/grey_font_color_2"
                         android:textSize="@dimen/font_28" />
 
-                    <EditText
-                        android:id="@+id/hometown_value"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="@dimen/basic_name_margin"
-                        android:background="@null"
-                        android:gravity="center_vertical"
-                        android:inputType="text"
-                        android:text="@string/hometown_value"
-                        android:textColor="@color/color_000000"
-                        android:textSize="@dimen/font_28" />
+                    <LinearLayout
+                        android:layout_width="@dimen/spinner_width"
+                        android:layout_height="@dimen/table_row_height"
+                        android:layout_marginLeft="11dp" >
+
+                        <Spinner
+                            android:id="@+id/province"
+                            android:layout_width="90dp"
+                            android:layout_height="match_parent"
+                            android:gravity="center_vertical"
+                            android:prompt="@string/province_hint"
+                            android:spinnerMode="dialog" />
+
+                        <Spinner
+                            android:id="@+id/city"
+                            android:layout_width="125dp"
+                            android:layout_height="match_parent"
+                            android:gravity="center_vertical"
+                            android:prompt="@string/city_hint"
+                            android:spinnerMode="dialog" />
+                    </LinearLayout>
                 </TableRow>
             </TableLayout>
 
@@ -527,6 +518,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:button="@drawable/radiobutton"
+                            android:hint="@string/man_num"
                             android:checked="true"
                             android:paddingLeft="@dimen/radio_btn_padding"
                             android:text="@string/man"
@@ -538,6 +530,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="20dp"
                             android:button="@drawable/radiobutton"
+                            android:hint="@string/woman_num"
                             android:paddingLeft="@dimen/radio_btn_padding"
                             android:text="@string/woman"
                             android:textColor="@color/hint_color" />
@@ -548,6 +541,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="20dp"
                             android:button="@drawable/radiobutton"
+                            android:hint="@string/all_num"
                             android:paddingLeft="@dimen/radio_btn_padding"
                             android:text="@string/man_woman"
                             android:textColor="@color/hint_color" />

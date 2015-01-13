@@ -312,7 +312,7 @@
     </RelativeLayout>
 
     <Button
-        android:id="@+id/necxt_button"
+        android:id="@+id/register_button"
         android:layout_width="fill_parent"
         android:layout_height="@dimen/input_box_height"
         android:layout_alignParentBottom="true"
@@ -321,7 +321,7 @@
         android:layout_marginRight="@dimen/margin_right"
         android:background="@drawable/login_btn_disable"
         android:enabled="false"
-        android:text="@string/next_step"
+        android:text="@string/register"
         android:textColor="@color/white"
         android:textSize="@dimen/font_32" />
 

@@ -80,7 +80,7 @@
                 android:layout_marginTop="21dp"
                 android:background="@drawable/login_btn_disable"
                 android:enabled="false"
-                android:text="@string/register"
+                android:text="@string/next_step"
                 android:textColor="@color/white"
                 android:textSize="@dimen/font_32" />
 

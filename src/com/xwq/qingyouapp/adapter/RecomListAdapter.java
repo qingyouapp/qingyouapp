@@ -3,8 +3,12 @@ package com.xwq.qingyouapp.adapter;
 import java.util.ArrayList;
 import java.util.Date;
 
+import org.json.JSONException;
+
 import com.xwq.qingyouapp.R;
+import com.xwq.qingyouapp.bean.School;
 import com.xwq.qingyouapp.bean.UserMetadata;
+import com.xwq.qingyouapp.util.JsonHandler;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -19,14 +23,20 @@ public class RecomListAdapter extends BaseAdapter {
 
 	private LayoutInflater inflater;
 	private ArrayList<UserMetadata> list;
+	private JsonHandler jsonHandler;
 
 	@SuppressWarnings("deprecation")
 	final int FILL_PARENT = LayoutParams.FILL_PARENT;
 	final int WRAP_CONTENT = LayoutParams.WRAP_CONTENT;
 
-	public RecomListAdapter(Context contex, ArrayList<UserMetadata> list) {
-		this.inflater = LayoutInflater.from(contex);
+	public RecomListAdapter(Context context, ArrayList<UserMetadata> list) {
+		this.inflater = LayoutInflater.from(context);
 		this.list = list;
+		try {
+			jsonHandler = new JsonHandler(context);
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
 	}
 
 	@Override
@@ -35,7 +45,7 @@ public class RecomListAdapter extends BaseAdapter {
 	}
 
 	@Override
-	public Object getItem(int position) {
+	public UserMetadata getItem(int position) {
 		return list.get(position);
 	}
 
@@ -66,39 +76,20 @@ public class RecomListAdapter extends BaseAdapter {
 			holder = (ViewHolder) itemView.getTag();
 		}
 
-		// holder.photo
-		switch (position) {
-		case 0:
-			holder.photo.setImageResource(R.drawable.girl1);
-			break;
-		case 1:
-			holder.photo.setImageResource(R.drawable.girl2);
-			holder.latestShuoshuo.setText(R.string.latest_shuoshuo_2);
-			break;
-		case 2:
-			holder.photo.setImageResource(R.drawable.girl3);
-			break;
-		case 3:
-			holder.photo.setImageResource(R.drawable.girl4);
-			holder.latestShuoshuo.setText(R.string.latest_shuoshuo_2);
-			break;
-		case 4:
-			holder.photo.setImageResource(R.drawable.girl5);
-			break;
-		case 5:
-			holder.photo.setImageResource(R.drawable.girl6);
-			holder.latestShuoshuo.setText(R.string.latest_shuoshuo_2);
-			break;
-		case 6:
-			holder.photo.setImageResource(R.drawable.girl7);
-			break;
-		case 7:
-			holder.photo.setImageResource(R.drawable.girl1);
-			break;
-		}
-
+//		holder.photo.setImageResource(R.drawable.girl1);
 		holder.nickname.setText(list.get(position).getNickname());
-//		holder.school.setText(list.get(position).getSchool());
+		holder.latestShuoshuo.setText(list.get(position).getSignature());
+		
+		//school
+		int num = list.get(position).getUniversity();
+		School school;
+		try {
+			school = (School)jsonHandler.getBeanById(num, JsonHandler.TYPE_SCHOOL);
+			holder.school.setText(school.getName());
+		} catch (JSONException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 //		holder.matchNum.setText(list.get(position).getMatchNum());
 //		holder.hotNum1.setText(list.get(position).getHotNum1());
 //		holder.hotNum2.setText(list.get(position).getHotNum2());
