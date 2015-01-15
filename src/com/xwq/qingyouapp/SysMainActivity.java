@@ -1,26 +1,21 @@
 package com.xwq.qingyouapp;
 
-import com.google.gson.Gson;
-import com.xwq.qingyouapp.bean.UserMetadata;
-import com.xwq.qingyouapp.frag.ChatHistoryFrag;
-import com.xwq.qingyouapp.frag.RecomHistoryFrag;
-import com.xwq.qingyouapp.frag.RecomTodayFrag;
-import com.xwq.qingyouapp.frag.ShowPageFrag;
-import com.xwq.qingyouapp.util.LocalStorage;
-import com.xwq.qingyouapp.util.ThisApp;
-
 import android.annotation.SuppressLint;
-import android.content.Intent;
-import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.view.View;
-import android.view.Window;
 import android.view.View.OnClickListener;
+import android.view.Window;
 import android.widget.RadioButton;
+
+import com.xwq.qingyouapp.frag.ChatHistoryFrag;
+import com.xwq.qingyouapp.frag.RecomHistoryFrag;
+import com.xwq.qingyouapp.frag.ShowPageFrag;
+import com.xwq.qingyouapp.util.LocalStorage;
+import com.xwq.qingyouapp.util.ThisApp;
 
 public class SysMainActivity extends FragmentActivity {
 
@@ -29,7 +24,6 @@ public class SysMainActivity extends FragmentActivity {
 	};
 
 	private static FragmentManager fMgr;
-	private ITEM item = ITEM.RecomHistory;
 	private RadioButton recomHistory, chatHistory, selfPage;
 	private Drawable item1d, item1n, item2d, item2n, item3d, item3n;
 	private int downColor;
