@@ -15,6 +15,9 @@ public class ThisApp extends Application {
 	public static int USER_ID_SELECTED = 0;
 	public static int PHOTOS_SELECTED_ITEM = 0;
 	
+	//查看主页时存储的UserId
+	public static int SHOW_USER_ID = 0;
+	
 	public static ImageLoader imageLoader;
 
 	private static List<Activity> activityList = new ArrayList<Activity>();

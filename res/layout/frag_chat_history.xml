@@ -15,8 +15,45 @@
         android:layout_marginBottom="50dp"
         android:cacheColorHint="#00000000"
         android:fadingEdge="none"
-        android:listSelector="#00000000" >
-
+        android:listSelector="#00000000"
+        android:visibility="gone" >
     </ListView>
+    
+    <RelativeLayout
+        android:id="@+id/no_message_view"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_below="@+id/include2"
+        android:layout_marginBottom="50dp" >
+
+        <TextView
+            android:id="@+id/textView1"
+            android:layout_width="wrap_content"
+            android:layout_height="2dp"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true" />
+
+        <ImageView
+            android:id="@+id/imageView1"
+            android:layout_width="120dp"
+            android:layout_height="100dp"
+            android:layout_above="@+id/textView1"
+            android:layout_centerHorizontal="true"
+            android:contentDescription="@string/desc"
+            android:src="@drawable/no_message" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/textView1"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="10dp"
+            android:gravity="center_horizontal"
+            android:lineSpacingMultiplier="1.2"
+            android:text="@string/no_message_alert"
+            android:textColor="@color/hint_color"
+            android:textSize="@dimen/font_28"
+            android:visibility="visible" />
+    </RelativeLayout>
 
 </RelativeLayout>

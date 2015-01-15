@@ -152,6 +152,7 @@
                         android:layout_width="@dimen/table_column1_width"
                         android:layout_height="@dimen/table_row_height"
                         android:layout_marginLeft="@dimen/margin_left"
+                        android:layout_marginTop="2dp"
                         android:gravity="center_vertical"
                         android:includeFontPadding="false"
                         android:text="@string/birthday"
@@ -160,10 +161,11 @@
 
                     <TextView
                         android:id="@+id/birthday_value"
-                        android:layout_width="@dimen/basic_hint_width"
-                        android:layout_height="@dimen/basic_hint_height"
+                        android:layout_width="@dimen/spinner_width"
+                        android:layout_height="match_parent"
                         android:layout_marginLeft="@dimen/basic_name_margin"
-                        android:background="@color/white"
+                        android:layout_marginTop="2dp"
+                        android:background="@drawable/layout_selector"
                         android:gravity="center_vertical"
                         android:hint="@string/birthday_hint"
                         android:includeFontPadding="false"
@@ -197,10 +199,10 @@
 
                     <Spinner
                         android:id="@+id/height_value"
-                        android:layout_width="@dimen/basic_hint_width"
+                        android:layout_width="@dimen/spinner_width"
                         android:layout_height="match_parent"
                         android:layout_marginLeft="@dimen/spinner_margin"
-                        android:background="@null"
+                        android:background="@drawable/layout_selector"
                         android:gravity="center_vertical"
                         android:prompt="@string/height_hint"
                         android:spinnerMode="dialog" />
@@ -222,6 +224,7 @@
                         android:id="@+id/weight"
                         android:layout_width="@dimen/table_column1_width"
                         android:layout_height="@dimen/table_row_height"
+                        android:layout_marginBottom="2dp"
                         android:layout_marginLeft="@dimen/margin_left"
                         android:gravity="center_vertical"
                         android:includeFontPadding="false"
@@ -231,10 +234,11 @@
 
                     <Spinner
                         android:id="@+id/weight_value"
-                        android:layout_width="@dimen/basic_hint_width"
+                        android:layout_width="@dimen/spinner_width"
                         android:layout_height="match_parent"
+                        android:layout_marginBottom="2dp"
                         android:layout_marginLeft="@dimen/spinner_margin"
-                        android:background="@null"
+                        android:background="@drawable/layout_selector"
                         android:gravity="center_vertical"
                         android:prompt="@string/weight_hint"
                         android:spinnerMode="dialog" />
@@ -261,6 +265,7 @@
                         android:layout_width="@dimen/table_column1_width"
                         android:layout_height="@dimen/table_row_height"
                         android:layout_marginLeft="@dimen/margin_left"
+                        android:layout_marginTop="2dp"
                         android:gravity="center_vertical"
                         android:includeFontPadding="false"
                         android:text="@string/school"
@@ -270,9 +275,10 @@
                     <Spinner
                         android:id="@+id/school_value"
                         android:layout_width="@dimen/spinner_width"
-                        android:layout_height="@dimen/basic_hint_height"
+                        android:layout_height="match_parent"
                         android:layout_marginLeft="@dimen/spinner_margin"
-                        android:background="@null"
+                        android:layout_marginTop="2dp"
+                        android:background="@drawable/layout_selector"
                         android:gravity="center_vertical"
                         android:hint="@string/birthday_hint"
                         android:prompt="@string/school_hint"
@@ -307,7 +313,7 @@
                         android:layout_width="@dimen/spinner_width"
                         android:layout_height="match_parent"
                         android:layout_marginLeft="@dimen/spinner_margin"
-                        android:background="@null"
+                        android:background="@drawable/layout_selector"
                         android:gravity="center_vertical"
                         android:prompt="@string/discipline_hint"
                         android:spinnerMode="dialog" />
@@ -341,7 +347,7 @@
                         android:layout_width="@dimen/spinner_width"
                         android:layout_height="match_parent"
                         android:layout_marginLeft="@dimen/spinner_margin"
-                        android:background="@null"
+                        android:background="@drawable/layout_selector"
                         android:gravity="center_vertical"
                         android:prompt="@string/grade_hint"
                         android:spinnerMode="dialog" />
@@ -377,19 +383,39 @@
 
                         <Spinner
                             android:id="@+id/province"
-                            android:layout_width="90dp"
+                            android:layout_width="wrap_content"
                             android:layout_height="match_parent"
+                            android:background="@drawable/layout_selector"
                             android:gravity="center_vertical"
+                            android:paddingRight="8dp"
                             android:prompt="@string/province_hint"
                             android:spinnerMode="dialog" />
 
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_margin="5dp"
+                            android:contentDescription="@string/desc"
+                            android:gravity="center_vertical"
+                            android:src="@drawable/drop_down_btn" />
+
                         <Spinner
                             android:id="@+id/city"
-                            android:layout_width="125dp"
+                            android:layout_width="wrap_content"
                             android:layout_height="match_parent"
+                            android:background="@drawable/layout_selector"
                             android:gravity="center_vertical"
+                            android:paddingRight="8dp"
                             android:prompt="@string/city_hint"
                             android:spinnerMode="dialog" />
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_margin="5dp"
+                            android:contentDescription="@string/desc"
+                            android:gravity="center_vertical"
+                            android:src="@drawable/drop_down_btn" />
                     </LinearLayout>
                 </TableRow>
             </TableLayout>
@@ -428,6 +454,7 @@
                         android:layout_marginLeft="@dimen/basic_name_margin"
                         android:layout_marginRight="@dimen/margin_right"
                         android:layout_marginTop="13dp"
+                        android:background="@drawable/layout_selector"
                         android:gravity="center_vertical" />
                 </TableRow>
 
@@ -463,6 +490,7 @@
                         android:layout_marginLeft="@dimen/basic_name_margin"
                         android:layout_marginRight="@dimen/margin_right"
                         android:layout_marginTop="13dp"
+                        android:background="@drawable/layout_selector"
                         android:gravity="center_vertical" />
                 </TableRow>
 
@@ -518,8 +546,8 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:button="@drawable/radiobutton"
-                            android:hint="@string/man_num"
                             android:checked="true"
+                            android:hint="@string/man_num"
                             android:paddingLeft="@dimen/radio_btn_padding"
                             android:text="@string/man"
                             android:textColor="@color/hint_color" />
@@ -734,6 +762,7 @@
                         android:layout_marginLeft="@dimen/basic_name_margin"
                         android:layout_marginRight="@dimen/margin_right"
                         android:layout_marginTop="13dp"
+                        android:background="@drawable/layout_selector"
                         android:gravity="center_vertical" />
                 </TableRow>
             </TableLayout>

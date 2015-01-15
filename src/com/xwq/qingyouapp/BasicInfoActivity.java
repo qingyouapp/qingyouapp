@@ -282,6 +282,7 @@ public class BasicInfoActivity extends Activity {
 		user.setUniversity(univerInt);
 		user.setMajor(majorSrt);
 		user.setGrade(gradeSrt);
+		user.setVersion(0);
 
 		return user;
 	}

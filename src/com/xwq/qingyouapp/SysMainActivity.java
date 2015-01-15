@@ -6,6 +6,9 @@ import com.xwq.qingyouapp.frag.ChatHistoryFrag;
 import com.xwq.qingyouapp.frag.RecomHistoryFrag;
 import com.xwq.qingyouapp.frag.RecomTodayFrag;
 import com.xwq.qingyouapp.frag.ShowPageFrag;
+import com.xwq.qingyouapp.util.LocalStorage;
+import com.xwq.qingyouapp.util.ThisApp;
+
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.Color;
@@ -30,6 +33,7 @@ public class SysMainActivity extends FragmentActivity {
 	private RadioButton recomHistory, chatHistory, selfPage;
 	private Drawable item1d, item1n, item2d, item2n, item3d, item3n;
 	private int downColor;
+	private LocalStorage localStorage;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +45,8 @@ public class SysMainActivity extends FragmentActivity {
 		getComponents();
 		initFragment();
 		dealBottomButtonsClickEvent();
+		
+		localStorage = new LocalStorage(this);
 	}
 
 	/**
@@ -120,7 +126,9 @@ public class SysMainActivity extends FragmentActivity {
 
 			@Override
 			public void onClick(View v) {
-				// TODO Auto-generated method stub
+				//告诉ShowPageFrag显示哪个User的信息
+				ThisApp.SHOW_USER_ID = localStorage.getUser().getUserid();
+				
 				popAllFragmentsExceptTheBottomOne();
 				FragmentTransaction ft = fMgr.beginTransaction();
 				ft.hide(fMgr.findFragmentByTag("recomHistoryFrag"));

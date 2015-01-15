@@ -1,29 +1,35 @@
 package com.xwq.qingyouapp.adapter;
 
 import java.util.ArrayList;
-import java.util.Date;
 
 import org.json.JSONException;
 
-import com.xwq.qingyouapp.R;
-import com.xwq.qingyouapp.bean.School;
-import com.xwq.qingyouapp.bean.UserMetadata;
-import com.xwq.qingyouapp.util.JsonHandler;
-
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.RelativeLayout.LayoutParams;
+import android.widget.TextView;
+
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.xwq.qingyouapp.R;
+import com.xwq.qingyouapp.bean.School;
+import com.xwq.qingyouapp.bean.UserMetadata;
+import com.xwq.qingyouapp.util.JsonHandler;
+import com.xwq.qingyouapp.util.PhotoHandler;
+import com.xwq.qingyouapp.util.PhotoHandler.ImageType;
+import com.xwq.qingyouapp.util.ThisApp;
 
 public class RecomListAdapter extends BaseAdapter {
 
 	private LayoutInflater inflater;
 	private ArrayList<UserMetadata> list;
 	private JsonHandler jsonHandler;
+	private PhotoHandler photoHandler;
+	private ImageLoader imageloader;
 
 	@SuppressWarnings("deprecation")
 	final int FILL_PARENT = LayoutParams.FILL_PARENT;
@@ -37,6 +43,8 @@ public class RecomListAdapter extends BaseAdapter {
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}
+		photoHandler = new PhotoHandler(context);
+		imageloader = ThisApp.imageLoader;
 	}
 
 	@Override
@@ -56,7 +64,6 @@ public class RecomListAdapter extends BaseAdapter {
 
 	@Override
 	public View getView(int position, View itemView, ViewGroup parent) {
-
 		final ViewHolder holder;
 		if (itemView == null) {
 			holder = new ViewHolder();
@@ -76,25 +83,40 @@ public class RecomListAdapter extends BaseAdapter {
 			holder = (ViewHolder) itemView.getTag();
 		}
 
-//		holder.photo.setImageResource(R.drawable.girl1);
-		holder.nickname.setText(list.get(position).getNickname());
-		holder.latestShuoshuo.setText(list.get(position).getSignature());
-		
-		//school
-		int num = list.get(position).getUniversity();
+		UserMetadata user = list.get(position);
+		// 获取头像
+		Bitmap bitmap = null;
+		boolean photoExist = photoHandler.isExisted(
+				photoHandler.getLocalAbsolutePath(user.getUserid(), ImageType.Headportrait),
+				user.getHeadPortrait());
+		if (photoExist) {
+			bitmap = photoHandler.getUserHeadPortrait(user.getUserid());
+			holder.photo.setImageBitmap(bitmap);
+		} else {
+			// 如果头像不存在，则立即加载
+			String url = photoHandler.getServerPath(user.getUserid()) + user.getHeadPortrait();
+			imageloader.displayImage(url, holder.photo);
+			photoHandler.downloadImageFromServer(user.getUserid(), user.getHeadPortrait(), true);
+		}
+		holder.nickname.setText(user.getNickname());
+		holder.latestShuoshuo.setText(user.getSignature());
+
+		// school
+		int num = user.getUniversity();
 		School school;
 		try {
-			school = (School)jsonHandler.getBeanById(num, JsonHandler.TYPE_SCHOOL);
+			school = (School) jsonHandler.getBeanById(num, JsonHandler.TYPE_SCHOOL);
 			holder.school.setText(school.getName());
 		} catch (JSONException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-//		holder.matchNum.setText(list.get(position).getMatchNum());
-//		holder.hotNum1.setText(list.get(position).getHotNum1());
-//		holder.hotNum2.setText(list.get(position).getHotNum2());
-//		holder.date.setText(list.get(position).getDate());
+		// holder.matchNum.setText(user.getMatchNum());
+		// holder.hotNum1.setText(user.getHotNum1());
+		// holder.hotNum2.setText(user.getHotNum2());
+		// holder.date.setText(user.getDate());
 
+		//将userid传入view,这样在ListView中可以唯一标识user和行的对应关系
+		itemView.setContentDescription(user.getUserid()+"");
 		return itemView;
 	}
 

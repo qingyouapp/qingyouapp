@@ -3,6 +3,7 @@ package com.xwq.qingyouapp;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashSet;
@@ -479,9 +480,12 @@ public class EditInfoActivity extends Activity {
 				BitmapDrawable drawable = (BitmapDrawable) view.getDrawable();
 				Bitmap bitmap = drawable.getBitmap();
 				// 分别保存原图和缩略图
-				photoHandler.saveBitmapToLocal(bitmap, user.getUserid(), ImageType.Album);
+				String iamgeName = user.getUserid() + "_"
+						+ Calendar.getInstance().getTimeInMillis() + ".png";
+				photoHandler
+						.saveBitmapToLocal(bitmap, iamgeName, user.getUserid(), ImageType.Album);
 				photoHandler.saveBitmapToLocal(ThumbnailUtils.extractThumbnail(bitmap, 240, 240),
-						user.getUserid(), ImageType.AlbumThumbnail);
+						iamgeName, user.getUserid(), ImageType.AlbumThumbnail);
 			}
 		}
 		// 图片有改动时提交,否则直接更新基本信息
@@ -490,12 +494,12 @@ public class EditInfoActivity extends Activity {
 			photoPathsNow = photoHandler.getLocalBitmapPaths(url);
 			photoPathsNew = photoHandler.getNewPhotosPath(photoPathsBegin, photoPathsNow);
 			processor.refreshPhoto(photoPathsNew, deletesPhotos, user, photoCallback);
-		}else {
+		} else {
 			updateBasicInfo();
 		}
 	}
-	
-	public void updateBasicInfo() throws JSONException{
+
+	public void updateBasicInfo() throws JSONException {
 		user = getSubmitUser();
 		String url = getResources().getString(R.string.url_base)
 				+ getResources().getString(R.string.url_update);

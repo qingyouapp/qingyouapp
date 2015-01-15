@@ -7,9 +7,7 @@ import org.json.JSONException;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.graphics.Color;
-import android.media.ThumbnailUtils;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -27,7 +25,6 @@ import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.nostra13.universalimageloader.core.ImageLoader;
-import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
 import com.xwq.qingyouapp.bean.UserMetadata;
 import com.xwq.qingyouapp.command.CommandCallback;
 import com.xwq.qingyouapp.command.ConnectionDetector;
@@ -171,7 +168,11 @@ public class LoginActivity extends Activity {
 				Gson gson = new Gson();
 				user = gson.fromJson(jb, UserMetadata.class);
 				setLocalStorage();
-				Intent intent = new Intent(LoginActivity.this, IdentifyActivity.class);
+				Intent intent = null;
+				if (user.getVarificationPass())
+					intent = new Intent(LoginActivity.this, SysMainActivity.class);
+				else
+					intent = new Intent(LoginActivity.this, IdentifyActivity.class);
 				startActivity(intent);
 			} else {
 				Toast.makeText(getApplication(),
@@ -191,35 +192,18 @@ public class LoginActivity extends Activity {
 		// 下载图片
 		if (!StringHandler.isNull(user.getPhotoAlbum())) {
 			String[] photoNames = user.getPhotoAlbum().trim().split(",");
-			//检测解析后的名字不为空
+			// 检测解析后的名字不为空
 			if (photoNames != null && photoNames.length > 0) {
 				String localUrl = photoHandler.getLocalAbsolutePath(user.getUserid(),
 						ImageType.Album);
 				for (String photoName : photoNames) {
-					//如果图片不存在则开始下载
+					// 如果图片不存在则开始下载
 					if (!photoHandler.isExisted(localUrl, photoName)) {
-						String url = photoHandler.getServerPath(user.getUserid()) + photoName;
-						downloadImageFromUrl(url, localUrl);
+						photoHandler.downloadImageFromServer(user.getUserid(), photoName, false);
 					}
 				}
 			}
 		}
-	}
-
-	public void downloadImageFromUrl(String url, String localUrl) {
-		imageLoader.loadImage(url, new SimpleImageLoadingListener() {
-			@Override
-			public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
-				// 保存原图
-				photoHandler.saveBitmapToLocal(loadedImage, user.getUserid(), ImageType.Album);
-				// 保存缩略图
-				photoHandler.saveBitmapToLocal(
-						ThumbnailUtils.extractThumbnail(loadedImage, 240, 240), user.getUserid(),
-						ImageType.AlbumThumbnail);
-				super.onLoadingComplete(imageUri, view, loadedImage);
-			}
-
-		});
 	}
 
 	OnClickListener registerLis = new OnClickListener() {

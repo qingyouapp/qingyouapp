@@ -15,9 +15,9 @@
     <string name="login_quest">登录遇到问题？</string>
     <string name="title_activity_main">MainActivity</string>
     <string name="title_activity_register">RegisterActivity</string>
-    <string name="pls_phone">请输入您的手机号</string>
-    <string name="pls_pwd">请输入您的密码</string>
-    <string name="pls_pwd_2">请重复您的密码</string>
+    <string name="pls_phone">请输入手机号</string>
+    <string name="pls_pwd">请输入密码</string>
+    <string name="pls_pwd_2">请重复密码</string>
     <string name="policy1">我已阅读并同意</string>
     <string name="policy2"><u>使用条款和隐私政策</u></string>
     <string name="alert_info_null"></string>
@@ -182,5 +182,7 @@
     <string name="hometown_hint">您来自于哪里呢</string>
     <string name="mail_sent_alert">身份认证邮件已发送，请登录邮箱激活账号</string>
     <string name="title_activity_photo_show">PhotoShowActivity</string>
+    <string name="no_recom_alert">暂时没有新推荐\n请耐心等待</string>
+    <string name="no_message_alert">暂时没有新消息</string>
 
 </resources>
