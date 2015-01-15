@@ -6,13 +6,17 @@ import org.json.JSONException;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.media.ThumbnailUtils;
 import android.os.Bundle;
 import android.text.Editable;
+import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -26,9 +30,17 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
+import com.gotye.api.GotyeAPI;
+import com.gotye.api.GotyeStatusCode;
+import com.gotye.api.GotyeUser;
+import com.gotye.api.listener.LoginListener;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
 import com.xwq.qingyouapp.bean.UserMetadata;
+import com.xwq.qingyouapp.chat.GotyeService;
+import com.xwq.qingyouapp.chat.LoginPage;
+import com.xwq.qingyouapp.chat.main.ChatMainActivity;
+import com.xwq.qingyouapp.chat.util.ProgressDialogUtil;
 import com.xwq.qingyouapp.command.CommandCallback;
 import com.xwq.qingyouapp.command.ConnectionDetector;
 import com.xwq.qingyouapp.command.Processor;
@@ -40,7 +52,7 @@ import com.xwq.qingyouapp.util.PhotoHandler.ImageType;
 import com.xwq.qingyouapp.util.StringHandler;
 import com.xwq.qingyouapp.util.ThisApp;
 
-public class LoginActivity extends Activity {
+public class LoginActivity extends Activity implements LoginListener{
 
 	private boolean adNull = true;
 	private boolean paNull = true;
@@ -78,6 +90,15 @@ public class LoginActivity extends Activity {
 		registerText.setOnClickListener(registerLis);
 
 		pullInLocalStorage();
+
+		GotyeAPI.getInstance().addListener(this);
+
+		int state = GotyeAPI.getInstance().getOnLineState();
+		Log.d("login", "state=" + state);
+		if (state != 0) {
+			Intent toService = new Intent(LoginActivity.this, GotyeService.class);
+			startService(toService);
+		}
 	}
 
 	public void pullInLocalStorage() {
@@ -128,6 +149,21 @@ public class LoginActivity extends Activity {
 			user = new UserMetadata();
 			user.setPhonenum(accountText.getText().toString());
 			user.setPassword(pwdText.getText().toString());
+
+
+			//chat login
+			GotyeAPI.getInstance().addListener(LoginActivity.this);
+			saveUser(user.getPhonenum().trim(), user.getPassword().trim());
+			Intent login = new Intent(getBaseContext(),
+					GotyeService.class);
+			login.setAction(GotyeService.ACTION_LOGIN);
+			login.putExtra("name", user.getPhonenum().trim());
+			login.putExtra("pwd", user.getPassword().trim());
+			startService(login);
+			ProgressDialogUtil.showProgress(LoginActivity.this, "正在登录...");
+
+
+
 			try {
 				// 检测网络正常，则请求数据
 				if (new ConnectionDetector(LoginActivity.this).isConnectingToInternet()) {
@@ -300,4 +336,78 @@ public class LoginActivity extends Activity {
 		}
 		return super.onOptionsItemSelected(item);
 	}
+	
+	//chat module
+	public static final String CONFIG = "login_config";
+
+	public void saveUser(String name, String password) {
+		if (TextUtils.isEmpty(name)) {
+			return;
+		}
+		SharedPreferences sp = getSharedPreferences(CONFIG,
+				Context.MODE_PRIVATE);
+		SharedPreferences.Editor edit = sp.edit();
+		edit.putString("username", name);
+		if (TextUtils.isEmpty(password)) {
+			edit.putString("password", null);
+		} else {
+			edit.putString("password", password.trim());
+		}
+
+		edit.commit();
+	}
+
+	public static String[] getUser(Context context) {
+		SharedPreferences sp = context.getSharedPreferences(CONFIG,
+				Context.MODE_PRIVATE);
+		String name = sp.getString("username", null);
+		String password = sp.getString("password", null);
+		String[] user = new String[2];
+		user[0] = name;
+		user[1] = password;
+		return user;
+	}
+
+	@Override
+	protected void onDestroy() {
+		// 移除监听
+		GotyeAPI.getInstance().removeListener(this);
+		super.onDestroy();
+	}
+
+	@Override
+	public void onLogin(int code, GotyeUser user) {
+//		ProgressDialogUtil.dismiss();
+		// 判断登陆是否成功
+		if (code == GotyeStatusCode.CODE_OK
+				|| code == GotyeStatusCode.CODE_OFFLINELOGIN_SUCCESS
+				|| code == GotyeStatusCode.CODE_RELOGIN_SUCCESS) {
+
+//			saveUser(mUsername, mPassword);
+
+			if (code == GotyeStatusCode.CODE_OFFLINELOGIN_SUCCESS) {
+				Toast.makeText(this, "您当前处于离线状态", Toast.LENGTH_SHORT).show();
+			} else if (code == GotyeStatusCode.CODE_OK) {
+				Toast.makeText(this, "登录成功", Toast.LENGTH_SHORT).show();
+			}
+//			this.finish();
+		} else {
+			// 失败,可根据code定位失败原因
+			Toast.makeText(this, "登录失败 code=" + code, Toast.LENGTH_SHORT)
+					.show();
+		}
+	}
+
+	@Override
+	public void onLogout(int code) {
+		// TODO Auto-generated method stub
+		Log.d("gotye", "onLogout");
+	}
+
+	@Override
+	public void onReconnecting(int code, GotyeUser currentLoginUser) {
+		// TODO Auto-generated method stub
+		Log.d("gotye", "onReconnecting");
+	}
+	
 }
