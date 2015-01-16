@@ -1,7 +1,5 @@
 package com.xwq.qingyouapp;
 
-import java.util.ArrayList;
-
 import org.json.JSONException;
 
 import android.app.Activity;
@@ -30,7 +28,6 @@ import com.xwq.qingyouapp.bean.UserMetadata;
 import com.xwq.qingyouapp.command.CommandCallback;
 import com.xwq.qingyouapp.command.Processor;
 import com.xwq.qingyouapp.util.EditTextListener;
-import com.xwq.qingyouapp.util.KeyValue;
 import com.xwq.qingyouapp.util.LocalStorage;
 import com.xwq.qingyouapp.util.StringHandler;
 import com.xwq.qingyouapp.util.ThisApp;

@@ -25,7 +25,7 @@ import com.xwq.qingyouapp.util.LocalStorage;
 import com.xwq.qingyouapp.util.StringHandler;
 import com.xwq.qingyouapp.util.ThisApp;
 
-@SuppressLint("ResourceAsColor")
+@SuppressLint({ "ResourceAsColor", "NewApi" })
 public class IdentifyActivity extends Activity {
 
 	public enum IDENTITY_TYPE {
@@ -56,8 +56,7 @@ public class IdentifyActivity extends Activity {
 
 		getComponents();
 		localStorage = new LocalStorage(this);
-		initComponents(IDENTITY_TYPE.Email);
-
+	
 		emailRadio.setOnClickListener(emailLis);
 		photoRadio.setOnClickListener(photoLis);
 		friendRadio.setOnClickListener(friendLis);
@@ -70,6 +69,7 @@ public class IdentifyActivity extends Activity {
 		photoView.setOnClickListener(uploadPhotoLis);
 		passBtn.setOnClickListener(passBtnLis);
 
+		initComponents(IDENTITY_TYPE.Email);
 		// temp
 		emailText.setText("136872734@qq.com");
 	}
@@ -261,6 +261,14 @@ public class IdentifyActivity extends Activity {
 	public void setPhotoStatus(boolean status) {
 		photoRadio.setChecked(status);
 		photoView.setClickable(status);
+
+		if (status) {
+			photoView.setHintTextColor(R.color.hint_color);
+			photoView.setBackgroundResource(R.drawable.input_box);
+		} else {
+			photoView.setHintTextColor(R.color.disabled_color);
+			photoView.setBackgroundResource(R.drawable.addphoto_box);
+		}
 	}
 
 	public void setFriendStatus(boolean status) {

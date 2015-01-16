@@ -17,10 +17,17 @@ import android.support.v4.app.FragmentTransaction;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.Window;
 import android.view.View.OnClickListener;
+import android.view.Window;
 import android.widget.ImageButton;
 import android.widget.RadioButton;
+import android.widget.TextView;
+
+import com.xwq.qingyouapp.bean.UserMetadata;
+import com.xwq.qingyouapp.frag.MatchPageFrag;
+import com.xwq.qingyouapp.frag.ShowPageFrag;
+import com.xwq.qingyouapp.util.LocalStorage;
+import com.xwq.qingyouapp.util.ThisApp;
 
 public class TaMainActivity extends FragmentActivity {
 
@@ -29,12 +36,15 @@ public class TaMainActivity extends FragmentActivity {
 	};
 
 	private static FragmentManager fMgr;
-	private ITEM item = ITEM.ShowPage;
 	private RadioButton showPageBtn, matchPageBtn, chatPageBtn;
 	private Drawable item1d, item1n, item2d, item2n, item3d, item3n;
 	private int downColor;
 	private ImageButton backBtn, settingBtn;
-	LocalStorage localStorage;
+	private TextView titleView;
+
+	private LocalStorage localStorage;
+	private UserMetadata user;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -45,7 +55,14 @@ public class TaMainActivity extends FragmentActivity {
 		getComponents();
 		initFragment();
 		dealBottomButtonsClickEvent();
-		
+
+		// 本地存储
+		localStorage = new LocalStorage(this);
+		// 通过SHOW_USER_ID获取需要显示的用户信息
+		user = localStorage.getUserById(ThisApp.SHOW_USER_ID);
+		titleView = (TextView)this.findViewById(R.id.ta_main_title);
+		titleView.setText(user.getNickname());
+
 		backBtn.setOnClickListener(backLis);
 		settingBtn.setOnClickListener(settingLis);
 	}
@@ -57,14 +74,14 @@ public class TaMainActivity extends FragmentActivity {
 		ft.addToBackStack("showPageFrag");
 		ft.commit();
 	}
-	
+
 	OnClickListener backLis = new OnClickListener() {
 		@Override
 		public void onClick(View arg0) {
 			TaMainActivity.this.finish();
 		}
 	};
-	
+
 	OnClickListener settingLis = new OnClickListener() {
 		@Override
 		public void onClick(View arg0) {
@@ -74,10 +91,10 @@ public class TaMainActivity extends FragmentActivity {
 	};
 
 	public void getComponents() {
-		
+
 		backBtn = (ImageButton) findViewById(R.id.ta_main_back);
 		settingBtn = (ImageButton) findViewById(R.id.setting);
-		
+
 		showPageBtn = (RadioButton) findViewById(R.id.show_page);
 		matchPageBtn = (RadioButton) findViewById(R.id.match_page);
 		chatPageBtn = (RadioButton) findViewById(R.id.chat_page);
@@ -179,6 +196,7 @@ public class TaMainActivity extends FragmentActivity {
 				
 				intent.putExtra("user", new GotyeUser(""+ThisApp.SHOW_USER_ID));
 				
+
 				startActivity(intent);
 			}
 		});

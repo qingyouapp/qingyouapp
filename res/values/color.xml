@@ -24,7 +24,7 @@
     <color name="basic_info_bg">#C8E3DE</color>
     <color name="hobby_tag_bg">#B9D4E9</color>
     <color name="personal_tag_bg">#D2C9E6</color>
-    <color name="click_color">#F0F0F0</color>
+    <color name="click_color">#E0E0E0</color>
     
 
 </resources>

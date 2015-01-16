@@ -4,18 +4,18 @@
     android:layout_height="match_parent"
     tools:context="com.xwq.qingyouapp.SysMainActivity" >
 
-    <include 
+    <include
         android:id="@+id/include_bar"
-        layout="@layout/bar_ta_main"/>
-    
+        layout="@layout/bar_ta_main" />
+
     <LinearLayout
         android:id="@+id/fragmentRoot"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
+        android:layout_above="@+id/view1"
         android:layout_below="@+id/include_bar"
-        android:orientation="vertical"
-        android:layout_above="@+id/view1" />
-    
+        android:orientation="vertical" />
+
     <View
         android:id="@+id/view1"
         android:layout_width="fill_parent"
@@ -38,12 +38,12 @@
             <RadioButton
                 android:id="@+id/show_page"
                 style="@style/footbar"
+                android:background="@drawable/layout_selector"
                 android:drawableTop="@drawable/homepage_down"
                 android:paddingBottom="3dp"
                 android:paddingTop="5dp"
                 android:text="@string/self_page"
                 android:textColor="@color/down_color" />
-
         </LinearLayout>
 
         <LinearLayout
@@ -53,12 +53,12 @@
             <RadioButton
                 android:id="@+id/match_page"
                 style="@style/footbar"
+                android:background="@drawable/layout_selector"
                 android:drawableTop="@drawable/match_normal"
                 android:paddingBottom="3dp"
                 android:paddingTop="5dp"
                 android:text="@string/match"
                 android:textColor="@color/normal_color" />
-
         </LinearLayout>
 
         <LinearLayout
@@ -68,12 +68,12 @@
             <RadioButton
                 android:id="@+id/chat_page"
                 style="@style/footbar"
+                android:background="@drawable/layout_selector"
                 android:drawableTop="@drawable/chat_normal"
                 android:paddingBottom="3dp"
                 android:paddingTop="5dp"
                 android:text="@string/chat_history"
                 android:textColor="@color/normal_color" />
-
         </LinearLayout>
     </LinearLayout>
 

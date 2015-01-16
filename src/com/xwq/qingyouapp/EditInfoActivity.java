@@ -480,7 +480,7 @@ public class EditInfoActivity extends Activity {
 				BitmapDrawable drawable = (BitmapDrawable) view.getDrawable();
 				Bitmap bitmap = drawable.getBitmap();
 				// 分别保存原图和缩略图
-				String iamgeName = user.getUserid() + "_"
+				String iamgeName = "." + user.getUserid() + "_"
 						+ Calendar.getInstance().getTimeInMillis() + ".png";
 				photoHandler
 						.saveBitmapToLocal(bitmap, iamgeName, user.getUserid(), ImageType.Album);

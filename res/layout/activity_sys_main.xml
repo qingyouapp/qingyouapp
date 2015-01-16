@@ -9,7 +9,7 @@
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:orientation="vertical" />
-    
+
     <View
         android:id="@+id/view1"
         android:layout_width="fill_parent"
@@ -32,12 +32,12 @@
             <RadioButton
                 android:id="@+id/recommand_history"
                 style="@style/footbar"
+                android:background="@drawable/layout_selector"
                 android:drawableTop="@drawable/history_down"
                 android:paddingBottom="3dp"
                 android:paddingTop="5dp"
                 android:text="@string/recommand_history"
                 android:textColor="@color/down_color" />
-
         </LinearLayout>
 
         <LinearLayout
@@ -47,12 +47,12 @@
             <RadioButton
                 android:id="@+id/chat_history"
                 style="@style/footbar"
+                android:background="@drawable/layout_selector"
                 android:drawableTop="@drawable/chat_normal"
                 android:paddingBottom="3dp"
                 android:paddingTop="5dp"
                 android:text="@string/chat_history"
                 android:textColor="@color/normal_color" />
-
         </LinearLayout>
 
         <LinearLayout
@@ -62,12 +62,12 @@
             <RadioButton
                 android:id="@+id/self_page"
                 style="@style/footbar"
+                android:background="@drawable/layout_selector"
                 android:drawableTop="@drawable/homepage_normal"
                 android:paddingBottom="3dp"
                 android:paddingTop="5dp"
                 android:text="@string/self_page"
                 android:textColor="@color/normal_color" />
-
         </LinearLayout>
     </LinearLayout>
 

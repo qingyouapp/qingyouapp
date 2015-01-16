@@ -15,8 +15,9 @@
 	<string name="photo_base">http://192.168.1.222:8080/pic/Image/</string>
 
     <!-- local url -->
-    <string name="local_base">/sdcard/qingyou/</string>
+    <string name="local_base">/sdcard/qingyou/.pic/</string>
     <string name="local_album">album/</string>
     <string name="local_album_thumbnail">album_thumbnail/</string>
     <string name="local_headportrait">headportrait/</string>
+    
 </resources>
