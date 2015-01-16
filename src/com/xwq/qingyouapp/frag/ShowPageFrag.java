@@ -85,7 +85,8 @@ public class ShowPageFrag extends Fragment {
 
 		// 本地存储
 		localStorage = new LocalStorage(getActivity());
-		user = localStorage.getUser();
+		//通过SHOW_USER_ID获取需要显示的用户信息
+		user = localStorage.getUserById(ThisApp.SHOW_USER_ID);
 		try {
 			pullInLocalStorage(user);
 		} catch (JSONException e) {

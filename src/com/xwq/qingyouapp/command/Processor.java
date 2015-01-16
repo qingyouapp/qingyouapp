@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.util.HashSet;
+
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
@@ -19,9 +20,11 @@ import org.apache.http.entity.mime.content.StringBody;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.json.JSONException;
 import org.json.JSONObject;
+
 import android.content.Context;
 import android.os.AsyncTask;
 import android.widget.Toast;
+
 import com.xwq.qingyouapp.R;
 import com.xwq.qingyouapp.bean.UserMetadata;
 
@@ -48,6 +51,13 @@ public class Processor {
 		this.context = context;
 	}
 
+	/**
+	 * 处理以下业务请求： 登录、 注册、 手机号验证、
+	 * 
+	 * @param url
+	 * @param json
+	 * @param callback
+	 */
 	@SuppressWarnings("unchecked")
 	public void runCommand(final String url, final String json, final CommandCallback callback) {
 
@@ -91,7 +101,7 @@ public class Processor {
 
 	public String post(String url, String json) throws IOException, ClientProtocolException,
 			UnsupportedEncodingException, JSONException {
-		
+
 		HttpClient httpclient = new DefaultHttpClient();
 		HttpPost request = new HttpPost(url);
 		StringEntity input = new StringEntity(json, "utf-8");
@@ -108,8 +118,16 @@ public class Processor {
 		return sb.toString();
 	}
 
+	/**
+	 * 处理图片上传
+	 * 
+	 * @param paths
+	 * @param deletes
+	 * @param user
+	 * @param callback
+	 */
 	@SuppressWarnings("unchecked")
-	public void refreshPhoto(final HashSet<String> paths, final String deletes, 
+	public void refreshPhoto(final HashSet<String> paths, final String deletes,
 			final UserMetadata user, final CommandCallback callback) {
 		task = new AsyncTask<Object, Object, Integer>() {
 			@Override
@@ -147,6 +165,13 @@ public class Processor {
 		task.execute();
 	}
 
+	/**
+	 * 上传图片
+	 * @param paths
+	 * @param deletes
+	 * @param user
+	 * @return 上传结果码，成功为200
+	 */
 	public int photoPost(HashSet<String> paths, String deletes, UserMetadata user) {
 		HttpClient httpclient = new DefaultHttpClient();
 		int statusCode = 0;

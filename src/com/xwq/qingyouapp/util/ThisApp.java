@@ -3,15 +3,14 @@ package com.xwq.qingyouapp.util;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.app.Activity;
+import android.app.Application;
+
 import com.iflytek.cloud.SpeechConstant;
 import com.iflytek.cloud.SpeechUtility;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.xwq.qingyouapp.chat.CrashApplication;
-import com.xwq.qingyouapp.chat.MyApplication;
-
-import android.app.Activity;
-import android.app.Application;
 
 public class ThisApp extends Application {
 
@@ -19,6 +18,7 @@ public class ThisApp extends Application {
 	public static int USER_ID_SELECTED = 0;
 	public static int PHOTOS_SELECTED_ITEM = 0;
 
+	public static int SHOW_USER_ID = 0;
 	public static ImageLoader imageLoader;
 
 	private static List<Activity> activityList = new ArrayList<Activity>();

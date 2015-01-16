@@ -9,9 +9,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Bitmap;
 import android.graphics.Color;
-import android.media.ThumbnailUtils;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextUtils;
@@ -35,11 +33,8 @@ import com.gotye.api.GotyeStatusCode;
 import com.gotye.api.GotyeUser;
 import com.gotye.api.listener.LoginListener;
 import com.nostra13.universalimageloader.core.ImageLoader;
-import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
 import com.xwq.qingyouapp.bean.UserMetadata;
 import com.xwq.qingyouapp.chat.GotyeService;
-import com.xwq.qingyouapp.chat.LoginPage;
-import com.xwq.qingyouapp.chat.main.ChatMainActivity;
 import com.xwq.qingyouapp.chat.util.ProgressDialogUtil;
 import com.xwq.qingyouapp.command.CommandCallback;
 import com.xwq.qingyouapp.command.ConnectionDetector;
@@ -151,30 +146,22 @@ public class LoginActivity extends Activity implements LoginListener{
 			user.setPassword(pwdText.getText().toString());
 
 
-			//chat login
-			GotyeAPI.getInstance().addListener(LoginActivity.this);
-			saveUser(user.getPhonenum().trim(), user.getPassword().trim());
-			Intent login = new Intent(getBaseContext(),
-					GotyeService.class);
-			login.setAction(GotyeService.ACTION_LOGIN);
-			login.putExtra("name", user.getPhonenum().trim());
-			login.putExtra("pwd", user.getPassword().trim());
-			startService(login);
-			ProgressDialogUtil.showProgress(LoginActivity.this, "正在登录...");
-
-
-
 			try {
 				// 检测网络正常，则请求数据
 				if (new ConnectionDetector(LoginActivity.this).isConnectingToInternet()) {
 					processor = Processor.instance(LoginActivity.this);
 					processor.runCommand(url, StringHandler.userToJsonString(user), loginCallback);
+
+
 				} else if (isOldUser) {
 					// 无网络，但是登录过
 					Toast.makeText(
 							LoginActivity.this,
 							LoginActivity.this.getResources().getString(R.string.network_exception),
 							Toast.LENGTH_SHORT).show();
+
+					chatLogin();
+
 					Intent intent = new Intent(LoginActivity.this, IdentifyActivity.class);
 					startActivity(intent);
 				} else {
@@ -188,6 +175,17 @@ public class LoginActivity extends Activity implements LoginListener{
 				e.printStackTrace();
 			}
 		}
+	}
+
+	private void chatLogin(){
+		GotyeAPI.getInstance().addListener(LoginActivity.this);
+		saveUser(user.getPhonenum().trim(), user.getPassword().trim());
+		Intent login = new Intent(getBaseContext(),
+				GotyeService.class);
+		login.setAction(GotyeService.ACTION_LOGIN);
+		login.putExtra("name", localStorage.getUser().getUserid()+"");
+		login.putExtra("pwd", localStorage.getUser().getPassword().trim());
+		startService(login);
 	}
 
 	CommandCallback loginCallback = new CommandCallback() {
@@ -207,7 +205,14 @@ public class LoginActivity extends Activity implements LoginListener{
 				Gson gson = new Gson();
 				user = gson.fromJson(jb, UserMetadata.class);
 				setLocalStorage();
-				Intent intent = new Intent(LoginActivity.this, IdentifyActivity.class);
+
+				chatLogin();
+
+				Intent intent = null;
+				if (user.getVarificationPass())
+					intent = new Intent(LoginActivity.this, SysMainActivity.class);
+				else
+					intent = new Intent(LoginActivity.this, IdentifyActivity.class);
 				startActivity(intent);
 			} else {
 				Toast.makeText(getApplication(),
@@ -227,35 +232,18 @@ public class LoginActivity extends Activity implements LoginListener{
 		// 下载图片
 		if (!StringHandler.isNull(user.getPhotoAlbum())) {
 			String[] photoNames = user.getPhotoAlbum().trim().split(",");
-			//检测解析后的名字不为空
+			// 检测解析后的名字不为空
 			if (photoNames != null && photoNames.length > 0) {
 				String localUrl = photoHandler.getLocalAbsolutePath(user.getUserid(),
 						ImageType.Album);
 				for (String photoName : photoNames) {
-					//如果图片不存在则开始下载
+					// 如果图片不存在则开始下载
 					if (!photoHandler.isExisted(localUrl, photoName)) {
-						String url = photoHandler.getServerPath(user.getUserid()) + photoName;
-						downloadImageFromUrl(url, localUrl);
+						photoHandler.downloadImageFromServer(user.getUserid(), photoName, false);
 					}
 				}
 			}
 		}
-	}
-
-	public void downloadImageFromUrl(String url, String localUrl) {
-		imageLoader.loadImage(url, new SimpleImageLoadingListener() {
-			@Override
-			public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
-				// 保存原图
-				photoHandler.saveBitmapToLocal(loadedImage, user.getUserid(), ImageType.Album);
-				// 保存缩略图
-				photoHandler.saveBitmapToLocal(
-						ThumbnailUtils.extractThumbnail(loadedImage, 240, 240), user.getUserid(),
-						ImageType.AlbumThumbnail);
-				super.onLoadingComplete(imageUri, view, loadedImage);
-			}
-
-		});
 	}
 
 	OnClickListener registerLis = new OnClickListener() {
@@ -336,7 +324,7 @@ public class LoginActivity extends Activity implements LoginListener{
 		}
 		return super.onOptionsItemSelected(item);
 	}
-	
+
 	//chat module
 	public static final String CONFIG = "login_config";
 
@@ -377,24 +365,24 @@ public class LoginActivity extends Activity implements LoginListener{
 
 	@Override
 	public void onLogin(int code, GotyeUser user) {
-//		ProgressDialogUtil.dismiss();
+		//	ProgressDialogUtil.dismiss();
 		// 判断登陆是否成功
 		if (code == GotyeStatusCode.CODE_OK
 				|| code == GotyeStatusCode.CODE_OFFLINELOGIN_SUCCESS
 				|| code == GotyeStatusCode.CODE_RELOGIN_SUCCESS) {
 
-//			saveUser(mUsername, mPassword);
+			//			saveUser(mUsername, mPassword);
 
 			if (code == GotyeStatusCode.CODE_OFFLINELOGIN_SUCCESS) {
 				Toast.makeText(this, "您当前处于离线状态", Toast.LENGTH_SHORT).show();
 			} else if (code == GotyeStatusCode.CODE_OK) {
 				Toast.makeText(this, "登录成功", Toast.LENGTH_SHORT).show();
 			}
-//			this.finish();
+			//			this.finish();
 		} else {
 			// 失败,可根据code定位失败原因
 			Toast.makeText(this, "登录失败 code=" + code, Toast.LENGTH_SHORT)
-					.show();
+			.show();
 		}
 	}
 
@@ -409,5 +397,5 @@ public class LoginActivity extends Activity implements LoginListener{
 		// TODO Auto-generated method stub
 		Log.d("gotye", "onReconnecting");
 	}
-	
+
 }

@@ -1,7 +1,12 @@
 package com.xwq.qingyouapp;
 
+import com.gotye.api.GotyeUser;
+import com.xwq.qingyouapp.chat.activity.ChatPage;
 import com.xwq.qingyouapp.frag.MatchPageFrag;
 import com.xwq.qingyouapp.frag.ShowPageFrag;
+import com.xwq.qingyouapp.util.LocalStorage;
+import com.xwq.qingyouapp.util.ThisApp;
+
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
@@ -29,13 +34,13 @@ public class TaMainActivity extends FragmentActivity {
 	private Drawable item1d, item1n, item2d, item2n, item3d, item3n;
 	private int downColor;
 	private ImageButton backBtn, settingBtn;
-
+	LocalStorage localStorage;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.activity_ta_main);
-
+		localStorage = new LocalStorage(this);
 		fMgr = getSupportFragmentManager();
 		getComponents();
 		initFragment();
@@ -170,7 +175,10 @@ public class TaMainActivity extends FragmentActivity {
 //				ft.addToBackStack("chatPageFrag");
 //				ft.commit();
 //				ChooseItem(ITEM.ChatPage);
-				Intent intent = new Intent(TaMainActivity.this, ChatActivity.class);
+				Intent intent = new Intent(TaMainActivity.this, ChatPage.class);
+				
+				intent.putExtra("user", new GotyeUser(""+ThisApp.SHOW_USER_ID));
+				
 				startActivity(intent);
 			}
 		});

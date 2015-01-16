@@ -31,7 +31,7 @@ public class ImageUploadActivity extends Activity {
 
 	public static String[] items = new String[] { "从相册选择", "拍照" };
 
-	public static final String IMAGE_FILE_NAME = "image.jpg";
+	public static final String IMAGE_FILE_NAME = "qingyoutemp.png";
 	/* 请求码 */
 	public static final int IMAGE_REQUEST_CODE = 1;
 	public static final int CAMERA_REQUEST_CODE = 2;

@@ -13,7 +13,7 @@
     <dimen name="basic_name_height">45dp</dimen>
     <dimen name="basic_name_margin">20dp</dimen>
     <dimen name="basic_hint_width">190dp</dimen>
-    <dimen name="spinner_width">230dp</dimen>
+    <dimen name="spinner_width">250dp</dimen>
     <dimen name="age_layout_width">195dp</dimen>
     <dimen name="rangebar_width">250dp</dimen>
     <dimen name="basic_hint_height">43dp</dimen>

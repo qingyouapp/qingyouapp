@@ -35,10 +35,19 @@ public class UserMetadata implements java.io.Serializable {
 	private String verifyCode;
 	private Long verifyTime;
 	private Long registerDate;
+	private Integer version;
+	private String newPassword;
 
-	
+	// Constructors
+
 	/** default constructor */
 	public UserMetadata() {
+	}
+
+	public UserMetadata(Integer userid, String password) {
+		super();
+		this.userid = userid;
+		this.password = password;
 	}
 
 	// Property accessors
@@ -50,7 +59,7 @@ public class UserMetadata implements java.io.Serializable {
 			String interests, String selfValue, String signature, String friendStandards,
 			Short verificationMode, Short constellation, Integer age, String headPortrait,
 			String photoAlbum, String qqNumber, String verifyCode, Long verifyTime,
-			Boolean varificationPass, Long registerDate) {
+			Boolean varificationPass, Long registerDate, String newPassword, Integer version) {
 		super();
 		this.userid = userid;
 		this.hometownCity = hometownCity;
@@ -84,6 +93,8 @@ public class UserMetadata implements java.io.Serializable {
 		this.varificationPass = varificationPass;
 		this.registerDate = registerDate;
 		this.verifyTime = verifyTime;
+		this.newPassword = newPassword;
+		this.version = version;
 	}
 
 	public Integer getUserid() {
@@ -198,11 +209,11 @@ public class UserMetadata implements java.io.Serializable {
 		this.height = height;
 	}
 
-	public Long getregisterDate() {
+	public Long getRegisterDate() {
 		return registerDate;
 	}
 
-	public void setregisterDate(Long registerDate) {
+	public void setRegisterDate(Long registerDate) {
 		this.registerDate = registerDate;
 	}
 
@@ -340,6 +351,22 @@ public class UserMetadata implements java.io.Serializable {
 
 	public void setVerifyTime(Long verifyTime) {
 		this.verifyTime = verifyTime;
+	}
+
+	public String getNewPassword() {
+		return newPassword;
+	}
+
+	public void setNewPassword(String newPassword) {
+		this.newPassword = newPassword;
+	}
+
+	public Integer getVersion() {
+		return version;
+	}
+
+	public void setVersion(Integer version) {
+		this.version = version;
 	}
 
 }

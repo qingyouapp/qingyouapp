@@ -6,12 +6,12 @@
     <RelativeLayout
         android:id="@+id/relativeLayout1"
         android:layout_width="fill_parent"
-        android:layout_height="165dp"
-        android:layout_marginBottom="5dp"
+        android:layout_height="160dp"
+        android:layout_marginBottom="10dp"
         android:layout_marginLeft="@dimen/margin_left"
         android:layout_marginRight="@dimen/margin_right"
-        android:layout_marginTop="5dp"
-        android:background="@drawable/data_card_bg"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/layout_card_selector"
         android:paddingBottom="10dp"
         android:paddingTop="15dp" >
 
@@ -118,7 +118,7 @@
             android:layout_alignBottom="@+id/imageView1"
             android:layout_alignLeft="@+id/imageView1"
             android:layout_margin="4dp"
-            android:src="@drawable/girl1" />
+            android:src="@drawable/head_default" />
 
         <ImageView
             android:id="@+id/match_icon"
