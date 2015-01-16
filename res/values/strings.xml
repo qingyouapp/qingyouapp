@@ -39,8 +39,8 @@
     <string name="discipline">学科</string>
     <string name="major">专业</string>
     <string name="grade">年级</string>
-    <string name="name_hint">必须是真实姓名哦</string>
-    <string name="nickname_hint">填写一个好玩的昵称吧</string>
+    <string name="name_hint">真实姓名哦</string>
+    <string name="nickname_hint">好玩的昵称</string>
     <string name="height_hint">单位cm</string>
     <string name="weight_hint">单位kg</string>
     <string name="birthday_hint">YYYY-MM-DD</string>

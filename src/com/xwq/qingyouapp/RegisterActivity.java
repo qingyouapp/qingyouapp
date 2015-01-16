@@ -66,7 +66,11 @@ public class RegisterActivity extends Activity {
 
 		registerBtn.setOnClickListener(registerLis);
 		backBtn.setOnClickListener(backLis);
-
+		
+		//temp
+		phoneText.setText("18511110008");
+		pwdText.setText("qqqq");
+		pwd2Text.setText("qqqq");
 	}
 
 	public void getComponents() {
@@ -125,8 +129,6 @@ public class RegisterActivity extends Activity {
 				setLocalStorage();
 				Intent intent = new Intent(RegisterActivity.this, BasicInfoActivity.class);
 				startActivity(intent);
-				overridePendingTransition(android.R.anim.slide_in_left,
-						android.R.anim.slide_out_right);
 			} else if ("invalid".equals(jb.trim())) {
 				Animation shake = AnimationUtils.loadAnimation(RegisterActivity.this, R.anim.shake);
 				phoneText.startAnimation(shake);

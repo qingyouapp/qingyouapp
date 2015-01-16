@@ -82,22 +82,14 @@ public class PhotoHandler {
 	 * @param url
 	 * @param userId
 	 */
-	public void downloadImageFromServer(final int userId, final String iamgeName,
+	public void downloadImageFromServer(final int userId, final String imageName,
 			final boolean isHeadPic) {
-		String url = getServerPath(userId) + iamgeName;
+		String url = getServerPath(userId) + imageName;
 		imageLoader.loadImage(url, new SimpleImageLoadingListener() {
 			@Override
 			public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
-				// 保存原图
-				saveBitmapToLocal(loadedImage, iamgeName, userId, ImageType.Album);
-				// 保存缩略图
-				saveBitmapToLocal(ThumbnailUtils.extractThumbnail(loadedImage, 240, 240),
-						iamgeName, userId, ImageType.AlbumThumbnail);
-				if (isHeadPic) {
-					// 保存缩略图为头像
-					saveBitmapToLocal(ThumbnailUtils.extractThumbnail(loadedImage, 240, 240),
-							iamgeName, userId, ImageType.Headportrait);
-				}
+				
+				saveBitmaps(userId, imageName, loadedImage, isHeadPic);
 				super.onLoadingComplete(imageUri, view, loadedImage);
 			}
 		});
@@ -166,10 +158,8 @@ public class PhotoHandler {
 		return str;
 	}
 
-	public void saveBitmapToLocal(Bitmap bitmap, String imageName, Integer userId, ImageType type) {
-		String url = getLocalAbsolutePath(userId, type);
+	public void saveBitmap(String url, String imageName, Bitmap bitmap) {
 		checkFolder(url);
-
 		// 存储文件
 		File file = new File(url + imageName);
 		try {
@@ -182,6 +172,19 @@ public class PhotoHandler {
 			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
+		}
+	}
+
+	public void saveBitmaps(Integer userId, String imageName, Bitmap bitmap, boolean isHeadPic) {
+		String albumUrl = localBase + userId + "/" + lacalAlbum;
+		String albumThumbnailUrl = localBase + userId + "/" + localAlbumThubmnail;
+
+		saveBitmap(albumUrl, imageName, bitmap);
+		saveBitmap(albumThumbnailUrl, imageName, ThumbnailUtils.extractThumbnail(bitmap, 240, 240));
+		if (isHeadPic) {
+			String headPortraitUrl = localBase + userId + "/" + localHeadPortrait;
+			saveBitmap(headPortraitUrl, imageName,
+					ThumbnailUtils.extractThumbnail(bitmap, 240, 240));
 		}
 	}
 

@@ -107,10 +107,10 @@ public class EditInfoActivity extends Activity {
 	private ArrayList<Integer> deletesPhotoList = new ArrayList<Integer>();
 	private String deletesPhotos = "";
 	private String allPhotos = "";
-	private final String IMAGE_FILE_LOCATION = "file:///sdcard/qingyoutemp.png";// temp
-																				// file
-	private Uri IMAGE_URL = Uri.parse(IMAGE_FILE_LOCATION);// The Uri to store
-															// the big bitmap
+	
+	// The Uri to store the big bitmap
+	@SuppressLint("SdCardPath")
+	public static Uri IMAGE_URL = Uri.parse("file:///sdcard/.qingyoutemp.png");
 
 	public static final int TAG_HOBBY = 4;
 	public static final int TAG_PERSONAL = 5;
@@ -480,12 +480,9 @@ public class EditInfoActivity extends Activity {
 				BitmapDrawable drawable = (BitmapDrawable) view.getDrawable();
 				Bitmap bitmap = drawable.getBitmap();
 				// 分别保存原图和缩略图
-				String iamgeName = "." + user.getUserid() + "_"
+				String imageName = "." + user.getUserid() + "_"
 						+ Calendar.getInstance().getTimeInMillis() + ".png";
-				photoHandler
-						.saveBitmapToLocal(bitmap, iamgeName, user.getUserid(), ImageType.Album);
-				photoHandler.saveBitmapToLocal(ThumbnailUtils.extractThumbnail(bitmap, 240, 240),
-						iamgeName, user.getUserid(), ImageType.AlbumThumbnail);
+				photoHandler.saveBitmaps(user.getUserid(), imageName, bitmap, false);
 			}
 		}
 		// 图片有改动时提交,否则直接更新基本信息
