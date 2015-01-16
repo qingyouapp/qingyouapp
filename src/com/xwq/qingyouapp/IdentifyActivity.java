@@ -56,8 +56,7 @@ public class IdentifyActivity extends Activity {
 
 		getComponents();
 		localStorage = new LocalStorage(this);
-		initComponents(IDENTITY_TYPE.Email);
-
+	
 		emailRadio.setOnClickListener(emailLis);
 		photoRadio.setOnClickListener(photoLis);
 		friendRadio.setOnClickListener(friendLis);
@@ -70,6 +69,7 @@ public class IdentifyActivity extends Activity {
 		photoView.setOnClickListener(uploadPhotoLis);
 		passBtn.setOnClickListener(passBtnLis);
 
+		initComponents(IDENTITY_TYPE.Email);
 		// temp
 		emailText.setText("136872734@qq.com");
 	}
