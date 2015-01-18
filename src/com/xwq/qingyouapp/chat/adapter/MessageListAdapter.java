@@ -26,15 +26,16 @@ import com.xwq.qingyouapp.chat.main.MessageFragment;
 import com.xwq.qingyouapp.chat.util.BitmapUtil;
 import com.xwq.qingyouapp.chat.util.ImageCache;
 import com.xwq.qingyouapp.chat.util.TimeUtil;
+import com.xwq.qingyouapp.frag.ChatHistoryFrag;
 
 public class MessageListAdapter extends BaseAdapter {
-	private MessageFragment messageFragment;
+	private ChatHistoryFrag chatHistoryFrag;
 	private List<GotyeChatTarget> sessions;
 	private GotyeAPI api;
 
-	public MessageListAdapter(MessageFragment messageFragment,
+	public MessageListAdapter(ChatHistoryFrag chatHistoryFrag,
 			List<GotyeChatTarget> sessions) {
-		this.messageFragment = messageFragment;
+		this.chatHistoryFrag = chatHistoryFrag;
 		this.sessions = sessions;
 		api = GotyeAPI.getInstance();
 	}
@@ -72,7 +73,7 @@ public class MessageListAdapter extends BaseAdapter {
 	public int getItemViewType(int position) {
 		// TODO Auto-generated method stub
 		GotyeChatTarget t = sessions.get(position);
-		if (t.getName().equals(MessageFragment.fixName)) {
+		if (t.getName().equals(ChatHistoryFrag.fixName)) {
 			return 0;
 		} else {
 			return 1;
@@ -86,7 +87,7 @@ public class MessageListAdapter extends BaseAdapter {
 		// TODO Auto-generated method stub
 		ViewHolder viewHolder;
 		if (view == null) {
-			view = LayoutInflater.from(messageFragment.getActivity()).inflate(
+			view = LayoutInflater.from(chatHistoryFrag.getActivity()).inflate(
 					R.layout.chat_item_delete, null);
 			viewHolder = new ViewHolder();
 			viewHolder.icon = (ImageView) view.findViewById(R.id.icon);

@@ -9,7 +9,7 @@ import com.gotye.api.listener.LoginListener;
 import com.gotye.api.listener.UserListener;
 
 import android.annotation.SuppressLint;
-import android.app.Fragment;
+import android.support.v4.app.Fragment;
 
 @SuppressLint("NewApi")
 public class BaseFragment extends Fragment implements UserListener,

@@ -4,7 +4,7 @@
     android:layout_height="wrap_content"
     android:gravity="center_horizontal"
     android:orientation="vertical"
-    android:paddingTop="13dp" >
+    android:paddingBottom="13dp" >
 
     <TextView
         android:id="@+id/timestamp"
@@ -24,34 +24,31 @@
             android:layout_alignParentLeft="true"
             android:layout_alignParentTop="true"
             android:layout_marginLeft="@dimen/chat_margin_chat_activity"
-            android:background="@drawable/chat_mini_avatar_shadow" />
-
-        <ImageView
-            android:id="@+id/iv_voice"
-            android:layout_width="wrap_content"
-            android:layout_height="50dp"
-            android:layout_marginLeft="10dp"
-            android:layout_toRightOf="@id/iv_userhead"
-            android:background="@drawable/chat_chatfrom_bg"
-            android:clickable="true"
-            android:src="@drawable/chat_chatfrom_voice_playing" />
+           />
 
         <TextView
-            android:id="@+id/tv_length"
-            style="@style/chat_text_name_style"
+            android:id="@+id/iv_voice"
+            style="@style/GotyeTitleTextSmallStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
-            android:layout_toRightOf="@id/iv_voice"
-            android:gravity="center"
-            android:text="3&apos;&apos;" />
+            android:layout_toRightOf="@id/iv_userhead"
+            android:background="@drawable/gotye_bg_msg_voice_selector"
+            android:clickable="true"
+            android:drawableLeft="@drawable/gotye_anim_voice"
+            android:drawablePadding="5dip"
+            android:gravity="right|center_vertical"
+            android:text="3&apos;&apos;"
+            android:textColor="#2fbdb8"
+            android:textSize="16sp" />
+
 
         <ImageView
             android:id="@+id/iv_unread_voice"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
-            android:layout_toRightOf="@id/tv_length"
+            android:layout_toRightOf="@id/iv_voice"
             android:src="@drawable/chat_voice_unread" />
 
         <TextView

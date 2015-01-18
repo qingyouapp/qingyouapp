@@ -143,7 +143,7 @@ public class VoiceToTextUtil implements RecognizerListener{
     		if(p>=0&&p<chatPage.toSend.size()){
     			 chatPage.api.sendMessage(message);
     			 message.setStatus(GotyeMessage.STATUS_SENDING);
-    			 chatPage.adapter.addMsgToBottom(message);
+    			 chatPage.chatMessageAdapter.addMsgToBottom(message);
     			 chatPage.scrollToBottom();
     		}
     	}
@@ -193,7 +193,7 @@ public class VoiceToTextUtil implements RecognizerListener{
 	    			 message.setStatus(GotyeMessage.STATUS_SENDING);
 	    		}
 	    	}
-			 chatPage.adapter.addMsgToBottom(message);
+			 chatPage.chatMessageAdapter.addMsgToBottom(message);
 			 chatPage.scrollToBottom();
 			  
 		 }

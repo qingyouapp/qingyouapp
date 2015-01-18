@@ -4,6 +4,7 @@ import java.util.List;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
 
 import com.gotye.api.GotyeAPI;
 import com.gotye.api.GotyeChatTarget;
@@ -21,7 +22,7 @@ import com.gotye.api.listener.PlayListener;
 import com.gotye.api.listener.RoomListener;
 import com.gotye.api.listener.UserListener;
 
-public class BaseActivity extends Activity implements LoginListener, ChatListener,
+public class BaseActivity extends FragmentActivity implements LoginListener, ChatListener,
 		DownloadListener, GroupListener, UserListener, RoomListener,PlayListener,NotifyListener {
 	public GotyeAPI api=GotyeAPI.getInstance();
 	@Override

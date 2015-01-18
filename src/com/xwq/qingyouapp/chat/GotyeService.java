@@ -97,7 +97,7 @@ public class GotyeService extends Service implements NotifyListener {
 		intent.putExtra("notify", 1);
 		PendingIntent pendingIntent = PendingIntent.getActivity(this, 0,
 				intent, PendingIntent.FLAG_UPDATE_CURRENT);
-		notification.setLatestEventInfo(this, getString(R.string.chat_app_name),
+		notification.setLatestEventInfo(this, getString(R.string.app_name),
 				msg, pendingIntent);
 		notificationManager.notify(0, notification);
 	}

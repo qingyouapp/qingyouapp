@@ -4,7 +4,7 @@
     android:layout_height="wrap_content"
     android:gravity="center_horizontal"
     android:orientation="vertical"
-    android:paddingTop="13dp" >
+    android:paddingBottom="13dp" >
 
     <TextView
         android:id="@+id/timestamp"
@@ -24,32 +24,31 @@
             android:layout_alignParentRight="true"
             android:layout_alignParentTop="true"
             android:layout_marginRight="@dimen/chat_margin_chat_activity"
-            android:background="@drawable/chat_mini_avatar_shadow" />
-
-        <ImageView
-            android:id="@+id/iv_voice"
-            android:layout_width="wrap_content"
-            android:layout_height="48dp"
-            android:layout_marginRight="10dp"
-            android:layout_toLeftOf="@id/iv_userhead"
-            android:background="@drawable/chat_chatto_bg"
-            android:src="@drawable/chat_chatto_voice_playing" />
+         	/>
 
         <TextView
-            android:id="@+id/tv_length"
-            style="@style/chat_text_name_style"
+            android:id="@+id/iv_voice"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginRight="10dp"
-            android:layout_toLeftOf="@id/iv_voice"
-            android:gravity="center" />
+            android:layout_toLeftOf="@id/iv_userhead"
+            android:background="@drawable/gotye_bg_msg_voice_right_selector"
+            android:drawablePadding="5dip"
+            android:drawableRight="@drawable/gotye_anim_voice_right"
+            android:gravity="left|center_vertical"
+            android:singleLine="true"
+            android:text="3&apos;&apos;"
+            android:textColor="@color/gotye_text_white"
+            android:textSize="16sp" />
+
 
         <ImageView
             android:id="@+id/msg_status"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_toLeftOf="@id/tv_length"
+            android:layout_toLeftOf="@id/iv_voice"
+             android:layout_marginRight="10dp"
             android:clickable="true"
             android:src="@drawable/chat_msg_state_failed_resend"
             android:visibility="gone" />
@@ -60,7 +59,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_toLeftOf="@id/tv_length"
+            android:layout_toLeftOf="@id/iv_voice"
+             android:layout_marginRight="10dp"
             android:text="@string/chat_text_ack_msg"
             android:textSize="12sp"
             android:visibility="invisible" />
@@ -71,7 +71,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_toLeftOf="@id/tv_length"
+            android:layout_toLeftOf="@id/iv_voice"
+             android:layout_marginRight="10dp"
             android:text="@string/chat_text_delivered_msg"
             android:textSize="12sp"
             android:visibility="visible" />
@@ -91,8 +92,9 @@
             android:id="@+id/pb_sending"
             android:layout_width="25dp"
             android:layout_height="25dp"
+             android:layout_marginRight="10dp"
             android:layout_centerVertical="true"
-            android:layout_toLeftOf="@id/tv_length"
+            android:layout_toLeftOf="@id/iv_voice"
             android:visibility="visible" />
     </RelativeLayout>
 

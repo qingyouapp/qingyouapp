@@ -9,15 +9,22 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.drawable.AnimationDrawable;
+import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.provider.MediaStore;
+import android.text.Editable;
+import android.text.InputFilter;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
+import android.view.Gravity;
 import android.view.KeyEvent;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.MenuItem.OnMenuItemClickListener;
 import android.view.MotionEvent;
@@ -26,11 +33,13 @@ import android.view.View.OnClickListener;
 import android.view.View.OnCreateContextMenuListener;
 import android.view.View.OnTouchListener;
 import android.view.Window;
+import android.view.animation.AnimationUtils;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemLongClickListener;
-import android.widget.Button;
 import android.widget.EditText;
+import android.widget.GridView;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
@@ -53,15 +62,20 @@ import com.iflytek.cloud.InitListener;
 import com.iflytek.cloud.SpeechRecognizer;
 import com.xwq.qingyouapp.R;
 import com.xwq.qingyouapp.chat.adapter.ChatMessageAdapter;
+import com.xwq.qingyouapp.chat.adapter.EmotiAdapter;
 import com.xwq.qingyouapp.chat.base.BaseActivity;
 import com.xwq.qingyouapp.chat.main.ChatMainActivity;
+import com.xwq.qingyouapp.chat.util.AnimUtil;
 import com.xwq.qingyouapp.chat.util.CommonUtils;
 import com.xwq.qingyouapp.chat.util.GotyeVoicePlayClickListener;
 import com.xwq.qingyouapp.chat.util.GotyeVoicePlayClickPlayListener;
+import com.xwq.qingyouapp.chat.util.GraphicsUtil;
 import com.xwq.qingyouapp.chat.util.ProgressDialogUtil;
 import com.xwq.qingyouapp.chat.util.SendImageMessageTask;
+import com.xwq.qingyouapp.chat.util.SmileyUtil;
 import com.xwq.qingyouapp.chat.util.ToastUtil;
 import com.xwq.qingyouapp.chat.util.URIUtil;
+import com.xwq.qingyouapp.chat.util.ViewHelper;
 import com.xwq.qingyouapp.chat.util.VoiceToTextUtil;
 import com.xwq.qingyouapp.chat.view.RTPullListView;
 import com.xwq.qingyouapp.chat.view.RTPullListView.OnRefreshListener;
@@ -72,28 +86,34 @@ public class ChatPage extends BaseActivity implements OnClickListener {
 	public static final int REALTIMEFROM_NO = 0;
 	private static final int REQUEST_PIC = 1;
 	private static final int REQUEST_CAMERA = 2;
-
+	private static final int TEXT_MAX_LEN = 150;
 	public static final int VOICE_MAX_TIME = 60 * 1000;
 	private RTPullListView pullListView;
-	public ChatMessageAdapter adapter;
+	public ChatMessageAdapter chatMessageAdapter;
 	private GotyeUser o_user,user;
 	private GotyeRoom o_room,room;
 	private GotyeGroup o_group,group;
 	private GotyeUser currentLoginUser;
-	private ImageView voice_text_chage;
-	private Button pressToVoice;
+	private ImageButton voice_text_chage;
+	private TextView pressToVoice;
 	private EditText textMessage;
-	private ImageView showMoreType;
-	private LinearLayout moreTypeLayout;
-
+	private ImageButton showMoreType;
+	private TextView sendMessage;
+	private Handler handler = new Handler();
+	private GridView emoti_list;
+	private View textModelArea;
+	private PopupWindow pannelWindow;
 	private PopupWindow menuWindow;
 	private AnimationDrawable anim;
 	public int chatType = 0;
-       
+	public static final int TEXT = 0;
+	public static final int VOICE = 1;
+
+	private int inputMode = TEXT;
 	private View realTalkView;
 	private TextView realTalkName, stopRealTalk;
 	private AnimationDrawable realTimeAnim;
-	private boolean moreTypeForSend = true;
+	//	private boolean moreTypeForSend = true;
 
 	public int onRealTimeTalkFrom = -1; // -1默认状态 ,0表示我在说话,1表示别人在实时语音
 
@@ -156,8 +176,45 @@ public class ChatPage extends BaseActivity implements OnClickListener {
 		}else{
 			setErrorTip(1);
 		}
+		emoti_list = (GridView) findViewById(R.id.emoti_list);
+		emoti_list.setAdapter(new EmotiAdapter(this, getResources()));
+		hideEmotiView();
+		emoti_list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+			@Override
+			public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+				int index = textMessage.getSelectionStart();
+				Editable edit = textMessage.getEditableText();
+				String face="[s"+(i+1)+"]";
+
+				if(edit.length() + face.length() > TEXT_MAX_LEN){
+					return;
+				}
+
+				edit.insert(index,face);//光标所在位置插入文字
+
+				textMessage.setText(SmileyUtil.replace(ChatPage.this, getResources(), edit));
+				textMessage.setSelection(index+face.length());
+			}
+		});
+	}
+	private void hideEmotiView(){
+		emoti_list.setVisibility(View.GONE);
 	}
 
+	private void showEmotiView(){
+		emoti_list.setVisibility(View.VISIBLE);
+		handler.postDelayed(new Runnable() {
+
+			@Override
+			public void run() {
+				scrollToBottom();
+			}
+		}, 400);
+		textMessage.requestFocus();
+	}
+	private boolean isEmotiShow(){
+		return  emoti_list.getVisibility() == View.VISIBLE;
+	}
 	private void initView() {
 		pullListView = (RTPullListView) findViewById(R.id.gotye_msg_listview);
 		findViewById(R.id.back).setOnClickListener(this);
@@ -169,6 +226,8 @@ public class ChatPage extends BaseActivity implements OnClickListener {
 		realTimeAnim = (AnimationDrawable) anim[2];
 		stopRealTalk = (TextView) realTalkView
 				.findViewById(R.id.stop_real_talk);
+
+		textModelArea = findViewById(R.id.gotye_text_area);
 		stopRealTalk.setOnClickListener(this);
 
 		if (user != null) {
@@ -194,21 +253,17 @@ public class ChatPage extends BaseActivity implements OnClickListener {
 			title.setText("群：" + titleText);
 		}
 
-		voice_text_chage = (ImageView) findViewById(R.id.send_voice);
-		pressToVoice = (Button) findViewById(R.id.press_to_voice_chat);
+		voice_text_chage = (ImageButton) findViewById(R.id.send_voice);
+		pressToVoice = (TextView) findViewById(R.id.press_to_voice_chat);
+		pressToVoice.setText(R.string.gotye_record_press);
+		pressToVoice.setTextColor(getResources().getColor(R.color.gotye_voice_send_pressed));
 		textMessage = (EditText) findViewById(R.id.text_msg_input);
-		showMoreType = (ImageView) findViewById(R.id.more_type);
-		moreTypeLayout = (LinearLayout) findViewById(R.id.more_type_layout);
-
-		moreTypeLayout.findViewById(R.id.to_gallery).setOnClickListener(this);
-		moreTypeLayout.findViewById(R.id.to_camera).setOnClickListener(this);
-		moreTypeLayout.findViewById(R.id.voice_to_text)
-				.setOnClickListener(this);
-		moreTypeLayout.findViewById(R.id.real_time_voice_chat)
-				.setOnClickListener(this);
+		showMoreType = (ImageButton) findViewById(R.id.more_type);
+		sendMessage = (TextView) findViewById(R.id.send_message);
 
 		voice_text_chage.setOnClickListener(this);
 		showMoreType.setOnClickListener(this);
+		sendMessage.setOnClickListener(this);
 		textMessage.setOnEditorActionListener(new OnEditorActionListener() {
 			@Override
 			public boolean onEditorAction(TextView arg0, int arg1, KeyEvent arg2) {
@@ -220,45 +275,64 @@ public class ChatPage extends BaseActivity implements OnClickListener {
 				return true;
 			}
 		});
+
+		textMessage.addTextChangedListener(new TextWatcher() {   
+
+			int line;
+			@Override
+			public void onTextChanged(CharSequence s, int start, int before, int count) {
+				if(line != textMessage.getLineCount()){
+					scrollToBottom();
+				}
+				line = textMessage.getLineCount();
+			}
+
+			@Override
+			public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+			}
+
+			@Override
+			public void afterTextChanged(Editable s) {
+			}
+		});
+
+		textMessage.setFilters(new InputFilter[]{ new InputFilter.LengthFilter(150)});  
+
+
+		textMessage.setOnTouchListener(new OnTouchListener() {
+
+			@Override
+			public boolean onTouch(View v, MotionEvent event) {
+
+				hideEmotiView();
+				handler.postDelayed(new Runnable() {
+
+					@Override
+					public void run() {
+						scrollToBottom();
+					}
+				}, 400);
+
+				return false;
+			}
+		});
 		pressToVoice.setOnTouchListener(new OnTouchListener() {
 			@SuppressLint("ClickableViewAccessibility")
 			@Override
 			public boolean onTouch(View v, MotionEvent event) {
 				switch (event.getAction()) {
 				case MotionEvent.ACTION_DOWN:
-					if (onRealTimeTalkFrom == 0) {
-						ToastUtil.show(ChatPage.this, "正在实时通话中...");
-						return false;
-					}
-
 					if (GotyeVoicePlayClickListener.isPlaying) {
 						GotyeVoicePlayClickListener.currentPlayListener
-								.stopPlayVoice();
+						.stopPlayVoice();
 					}
-                   int code = 0;
-					if (chatType == 0) {
-						code=api.startTalk(user, WhineMode.DEFAULT, 60 * 1000);
-					} else if (chatType == 1) {
-						code=api.startTalk(room, WhineMode.DEFAULT, false, 60 * 1000);
-					} else if (chatType == 2) {
-						code=api.startTalk(group, WhineMode.DEFAULT, 60 * 1000);
-					}
-					int c=code;
-					pressToVoice.setText("松开 发送");
+					pressVoice();
 					break;
 				case MotionEvent.ACTION_UP:
 					if (onRealTimeTalkFrom == 0) {
 						return false;
 					}
-					Log.d("chat_page",
-							"onTouch action=ACTION_UP" + event.getAction());
-					// if (onRealTimeTalkFrom > 0) {
-					// return false;
-					// }
-					api.stopTalk();
-					Log.d("chat_page",
-							"after stopTalk action=" + event.getAction());
-					pressToVoice.setText("按住 说话");
+					upVoice();
 					break;
 				case MotionEvent.ACTION_CANCEL:
 					if (onRealTimeTalkFrom == 0) {
@@ -266,26 +340,166 @@ public class ChatPage extends BaseActivity implements OnClickListener {
 					}
 					Log.d("chat_page",
 							"onTouch action=ACTION_CANCEL" + event.getAction());
-					// if (onRealTimeTalkFrom > 0) {
-					// return false;
-					// }
-					api.stopTalk();
-					pressToVoice.setText("按住 说话");
+					upVoice();
 					break;
 				default:
-					Log.d("chat_page",
-							"onTouch action=default" + event.getAction());
 					break;
 				}
-				return false;
+
+				return true;
+				//				switch (event.getAction()) {
+				//				case MotionEvent.ACTION_DOWN:
+				//					if (onRealTimeTalkFrom == 0) {
+				//						ToastUtil.show(ChatPage.this, "正在实时通话中...");
+				//						return false;
+				//					}
+				//
+				//					if (GotyeVoicePlayClickListener.isPlaying) {
+				//						GotyeVoicePlayClickListener.currentPlayListener
+				//						.stopPlayVoice();
+				//					}
+				//					int code = 0;
+				//					if (chatType == 0) {
+				//						pressVoice();
+				//					} else if (chatType == 1) {
+				//						code=api.startTalk(room, WhineMode.DEFAULT, false, 60 * 1000);
+				//					} else if (chatType == 2) {
+				//						code=api.startTalk(group, WhineMode.DEFAULT, 60 * 1000);
+				//					}
+				//					break;
+				//				case MotionEvent.ACTION_UP:
+				//					if (onRealTimeTalkFrom == 0) {
+				//						return false;
+				//					}
+				//					Log.d("chat_page",
+				//							"onTouch action=ACTION_UP" + event.getAction());
+				//					// if (onRealTimeTalkFrom > 0) {
+				//					// return false;
+				//					// }
+				//					upVoice();
+				//					Log.d("chat_page",
+				//							"after stopTalk action=" + event.getAction());
+				//					break;
+				//				case MotionEvent.ACTION_CANCEL:
+				//					if (onRealTimeTalkFrom == 0) {
+				//						return false;
+				//					}
+				//					Log.d("chat_page",
+				//							"onTouch action=ACTION_CANCEL" + event.getAction());
+				//					// if (onRealTimeTalkFrom > 0) {
+				//					// return false;
+				//					// }
+				//					upVoice();
+				//					break;
+				//				default:
+				//					Log.d("chat_page",
+				//							"onTouch action=default" + event.getAction());
+				//					break;
+				//				}
+				//				return false;
+
+
+
+
+
 			}
 		});
-		adapter = new ChatMessageAdapter(this, new ArrayList<GotyeMessage>());
-		pullListView.setAdapter(adapter);
-		pullListView.setSelection(adapter.getCount());
+		chatMessageAdapter = new ChatMessageAdapter(this, new ArrayList<GotyeMessage>());
+		pullListView.setAdapter(chatMessageAdapter);
+		scrollToBottom();
 		setListViewInfo();
 	}
+	private void pressVoice(){
+		pressToVoice.setBackgroundResource(R.drawable.gotye_btn_send_voice_pressed);
+		pressToVoice.setText(R.string.gotye_record_up);
+		pressToVoice.setTextColor(getResources().getColor(R.color.gotye_text_white));
 
+
+		showRecordingView();
+		int code = 0;
+		code = api.startTalk(user, WhineMode.DEFAULT, 60 * 1000);
+		if(code==0){
+			handler.post(new Runnable() {
+
+				@Override
+				public void run() {
+					upVoice();
+				}
+			});
+		}
+	}
+
+	private void upVoice(){
+		hidesRecordingView();
+		pressToVoice.setBackgroundResource(R.drawable.gotye_btn_send_voice_normal);
+		pressToVoice.setText(R.string.gotye_record_press);
+		pressToVoice.setTextColor(getResources().getColor(R.color.gotye_voice_send_pressed));
+		api.stopTalk();
+	}
+
+	private void showRecordingView() {
+		handler.post(new Runnable() {
+
+			@Override
+			public void run() {
+				View view = LayoutInflater.from(ChatPage.this).inflate(
+						R.layout.gotye_audio_recorder_ring, null);
+
+				anim = initRecordingView(view);
+
+				menuWindow = new PopupWindow(ChatPage.this);
+				menuWindow.setContentView(view);
+
+				menuWindow.setAnimationStyle(android.R.style.Animation_Dialog);
+				// int width = (int) (view.getMeasuredWidth() * 3 * 1.0 / 2);
+				Drawable dd = getResources().getDrawable(R.drawable.gotye_pls_talk);
+				menuWindow.setWidth(dd.getIntrinsicWidth());
+
+				menuWindow.setHeight(dd.getIntrinsicHeight());
+				menuWindow.setBackgroundDrawable(null);
+				menuWindow.showAtLocation(findViewById(R.id.gotye_chat_content), Gravity.CENTER, 0, 0);
+
+				handler.post(new Runnable() {
+
+					@Override
+					public void run() {
+						if (anim != null) {
+							anim.start();
+						}
+					}
+				});
+			}
+		});
+	}
+
+	private void hidesRecordingView() {
+		handler.post(new Runnable() {
+
+			@Override
+			public void run() {
+				if (menuWindow != null) {
+					menuWindow.dismiss();
+				}				
+			}
+		});
+
+	}
+	private AnimationDrawable initRecordingView(View layout) {
+
+		ImageView speakingBg = (ImageView) layout
+				.findViewById(R.id.background_image);
+		speakingBg.setImageDrawable(getResources().getDrawable(R.drawable.gotye_pop_voice));
+		layout.setBackgroundResource(R.drawable.gotye_pls_talk);
+
+
+		AnimationDrawable anim = AnimUtil.getSpeakBgAnim(getResources());
+		anim.selectDrawable(0);
+
+		ImageView dot = (ImageView) layout.findViewById(R.id.speak_tip);
+		dot.setBackgroundDrawable(anim);
+
+		return anim;
+	}
 	private void sendTextMessage(String text) {
 		if (!TextUtils.isEmpty(text)) {
 			GotyeMessage toSend;
@@ -319,7 +533,7 @@ public class ChatPage extends BaseActivity implements OnClickListener {
 			// int code =
 			int code = api.sendMessage(toSend);
 			Log.d("", String.valueOf(code));
-			adapter.addMsgToBottom(toSend);
+			chatMessageAdapter.addMsgToBottom(toSend);
 			scrollToBottom();
 			//sendUserDataMessage("userdata message".getBytes(), "text#text");
 		}
@@ -357,13 +571,13 @@ public class ChatPage extends BaseActivity implements OnClickListener {
 
 			// int code =
 			api.sendMessage(toSend);
-			adapter.addMsgToBottom(toSend);
+			chatMessageAdapter.addMsgToBottom(toSend);
 			scrollToBottom();
 		}
 	}
 
 	public void callBackSendImageMessage(GotyeMessage msg) {
-		adapter.addMsgToBottom(msg);
+		chatMessageAdapter.addMsgToBottom(msg);
 		scrollToBottom();
 	}
 
@@ -399,7 +613,8 @@ public class ChatPage extends BaseActivity implements OnClickListener {
 		for (GotyeMessage msg : messages) {
 			api.downloadMessage(msg);
 		}
-		adapter.refreshData(messages);
+		chatMessageAdapter.refreshData(messages);
+		scrollToBottom();
 	}
 
 	private void setListViewInfo() {
@@ -422,12 +637,12 @@ public class ChatPage extends BaseActivity implements OnClickListener {
 						for (GotyeMessage msg : list) {
 							api.downloadMessage(msg);
 						}
-						adapter.refreshData(list);
+						chatMessageAdapter.refreshData(list);
 					} else {
 						ToastUtil.show(ChatPage.this, "没有更多历史消息");
 					}
 				}
-				adapter.notifyDataSetChanged();
+				chatMessageAdapter.notifyDataSetChanged();
 				pullListView.onRefreshComplete();
 			}
 		});
@@ -436,58 +651,73 @@ public class ChatPage extends BaseActivity implements OnClickListener {
 			@Override
 			public boolean onItemLongClick(AdapterView<?> arg0, View arg1,
 					int position, long arg3) {
-				final GotyeMessage message = adapter.getItem(position - 1);
+				final GotyeMessage message = chatMessageAdapter.getItem(position - 1);
 				pullListView.setTag(message);
 				pullListView.showContextMenu();
 				return true;
 			}
 		});
-		pullListView
-				.setOnCreateContextMenuListener(new OnCreateContextMenuListener() {
+
+		pullListView.setOnTouchListener(new OnTouchListener() {
+
+			@Override
+			public boolean onTouch(View v, MotionEvent event) {
+				hideKeyboard();
+				hideEmotiView();
+				//				if(isShowTopPannel()){
+				//					hideTopPannel();
+				//					return true;
+				//				}
+
+				return false;
+			}
+		});
+
+		pullListView.setOnCreateContextMenuListener(new OnCreateContextMenuListener() {
+
+			@Override
+			public void onCreateContextMenu(ContextMenu conMenu,
+					View arg1, ContextMenuInfo arg2) {
+				final GotyeMessage message = (GotyeMessage) pullListView
+						.getTag();
+				if (message == null) {
+					return;
+				}
+				MenuItem m = null;
+				if (chatType == 1
+						&& !message.getSender().getName()
+						.equals(currentLoginUser.getName())) {
+					m = conMenu.add(0, 0, 0, "举报");
+				}
+				// if(message.getType()==GotyeMessageType.GotyeMessageTypeAudio){
+				// m= conMenu.add(0, 1, 0, "转为文字(仅限普通话)");
+				// }
+				if (m == null) {
+					return;
+				}
+				m.setOnMenuItemClickListener(new OnMenuItemClickListener() {
 
 					@Override
-					public void onCreateContextMenu(ContextMenu conMenu,
-							View arg1, ContextMenuInfo arg2) {
-						final GotyeMessage message = (GotyeMessage) pullListView
-								.getTag();
-						if (message == null) {
-							return;
-						}
-						MenuItem m = null;
-						if (chatType == 1
-								&& !message.getSender().getName()
-										.equals(currentLoginUser.getName())) {
-							m = conMenu.add(0, 0, 0, "举报");
-						}
-						// if(message.getType()==GotyeMessageType.GotyeMessageTypeAudio){
-						// m= conMenu.add(0, 1, 0, "转为文字(仅限普通话)");
-						// }
-						if (m == null) {
-							return;
-						}
-						m.setOnMenuItemClickListener(new OnMenuItemClickListener() {
+					public boolean onMenuItemClick(MenuItem item) {
+						switch (item.getItemId()) {
+						case 0:
+							api.report(0, "举报的说明", message);
+							break;
 
-							@Override
-							public boolean onMenuItemClick(MenuItem item) {
-								switch (item.getItemId()) {
-								case 0:
-									api.report(0, "举报的说明", message);
-									break;
-
-								case 1:
-									// api.decodeMessage(message);
-									break;
-								}
-								return true;
-							}
-						});
+						case 1:
+							// api.decodeMessage(message);
+							break;
+						}
+						return true;
 					}
 				});
+			}
+		});
 
 	}
 
 	public void scrollToBottom() {
-		pullListView.setSelection(adapter.getCount() - 1);
+		pullListView.setSelection(chatMessageAdapter.getCount() - 1);
 	}
 
 	// private void showTalkView() {
@@ -545,7 +775,18 @@ public class ChatPage extends BaseActivity implements OnClickListener {
 		} else {
 			api.deactiveSession(o_group);
 		}
+		if(pannelWindow != null){
+			pannelWindow.dismiss();
+		}
 		super.onDestroy();
+	}
+
+	@Override
+	protected void onResume() {
+		super.onResume();
+		if(pannelWindow != null){
+			pannelWindow.update();
+		}
 	}
 
 	@Override
@@ -567,6 +808,10 @@ public class ChatPage extends BaseActivity implements OnClickListener {
 		// } else if (onRealTimeTalkFrom == REALTIMEFROM_OTHER) {
 		api.stopPlay();
 		// }
+		if(isEmotiShow()){
+			hideEmotiView();
+			return;
+		}
 		super.onBackPressed();
 	}
 
@@ -581,57 +826,20 @@ public class ChatPage extends BaseActivity implements OnClickListener {
 			onBackPressed();
 			break;
 		case R.id.send_voice:
-			if (pressToVoice.getVisibility() == View.VISIBLE) {
-				pressToVoice.setVisibility(View.GONE);
-				textMessage.setVisibility(View.VISIBLE);
-				voice_text_chage
-						.setImageResource(R.drawable.chat_voice_btn_selector);
-				showMoreType.setImageResource(R.drawable.chat_send_selector);
-				moreTypeForSend = true;
-				moreTypeLayout.setVisibility(View.GONE);
-			} else {
-				pressToVoice.setVisibility(View.VISIBLE);
-				textMessage.setVisibility(View.GONE);
-
-				voice_text_chage
-						.setImageResource(R.drawable.chat_change_to_text_press);
-
-				showMoreType.setImageResource(R.drawable.chat_more_type_selector);
-				moreTypeForSend = false;
-				hideKeyboard();
+			if(inputMode == TEXT){
+				toVoice(true);
+			}else {
+				toText(true);
 			}
 
 			break;
 		case R.id.more_type:
-			if (moreTypeForSend) {
-				hideKeyboard();
-				String str = textMessage.getText().toString();
-				sendTextMessage(str);
-				textMessage.setText("");
-			} else {
-				if (moreTypeLayout.getVisibility() == View.VISIBLE) {
-					moreTypeLayout.setVisibility(View.GONE);
-				} else {
-					moreTypeLayout.setVisibility(View.VISIBLE);
-					if (chatType == 1 && api.supportRealtime(room) == true) {
-						moreTypeLayout.findViewById(R.id.real_time_voice_chat)
-								.setVisibility(View.VISIBLE);
-					}
-
-				}
-			}
+			showPannel(arg0);
 			break;
-		case R.id.to_gallery:
-			takePic();
-			break;
-		case R.id.to_camera:
-			takePhoto();
-			break;
-		case R.id.voice_to_text:
-			// showTalkView();
-			break;
-		case R.id.real_time_voice_chat:
-			realTimeTalk();
+		case R.id.send_message:
+			String str = textMessage.getText().toString();
+			sendTextMessage(str);
+			textMessage.setText("");
 			break;
 		case R.id.stop_real_talk:
 			// int i =
@@ -652,7 +860,6 @@ public class ChatPage extends BaseActivity implements OnClickListener {
 			return;
 		}
 		api.startTalk(room, WhineMode.DEFAULT, true, Voice_MAX_TIME_LIMIT);
-		moreTypeLayout.setVisibility(View.GONE);
 	}
 
 	public void hideKeyboard() {
@@ -693,7 +900,7 @@ public class ChatPage extends BaseActivity implements OnClickListener {
 		startActivityForResult(
 				new Intent(MediaStore.ACTION_IMAGE_CAPTURE).putExtra(
 						MediaStore.EXTRA_OUTPUT, Uri.fromFile(cameraFile)),
-				REQUEST_CAMERA);
+						REQUEST_CAMERA);
 	}
 
 	@Override
@@ -733,24 +940,149 @@ public class ChatPage extends BaseActivity implements OnClickListener {
 
 	public void setPlayingId(long playingId) {
 		this.playingId = playingId;
-		adapter.notifyDataSetChanged();
+		chatMessageAdapter.notifyDataSetChanged();
 	}
 
 	public long getPlayingId() {
 		return playingId;
 	}
 
+
+	private void showPannel(final View v){
+		hideKeyboard();
+		hideEmotiView();
+		if(pannelWindow != null){
+			pannelWindow.dismiss();
+		}
+		View view = LayoutInflater.from(v.getContext()).inflate(R.layout.gotye_pop_chat_pannel, null);
+		final PopupWindow window = new PopupWindow(view, ViewHelper.getWidth(view), ViewHelper.getHeight(view));
+		window.setOutsideTouchable(true);
+		window.setFocusable(true);
+		//让pop可以点击外面消失掉  
+		window.setBackgroundDrawable(new ColorDrawable(0));  
+		window.setOnDismissListener(new PopupWindow.OnDismissListener() {
+
+			@Override
+			public void onDismiss() {
+			}
+		});
+		int lineCount = textMessage.getLineCount();
+		if(lineCount == 0 || lineCount == 1){
+			window.showAsDropDown(v, 0, GraphicsUtil.dipToPixel(30));
+		}else if(lineCount == 2){
+			window.showAsDropDown(v, 0, GraphicsUtil.dipToPixel(35));
+		}else if(lineCount == 3){
+			window.showAsDropDown(v, 0, GraphicsUtil.dipToPixel(40));
+		}else if(lineCount == 4){
+			window.showAsDropDown(v, 0, GraphicsUtil.dipToPixel(50));
+		}
+
+		View faceSelectBtn = view.findViewById(R.id.gotye_pannel_face);
+		faceSelectBtn.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				window.dismiss();
+				if(inputMode != TEXT){
+					toText(true);
+				}
+				showEmotiView();
+				hideKeyboard();
+			}
+		});
+
+		View picSelectBtn = view.findViewById(R.id.gotye_pannel_pic);
+		picSelectBtn.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				window.dismiss();
+				hideKeyboard();
+				takePic();
+			}
+		});
+
+		View cameraSelectBtn = view.findViewById(R.id.gotye_pannel_camera);
+		cameraSelectBtn.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				window.dismiss();
+				hideKeyboard();
+				takePhoto();
+			}
+		});
+		pannelWindow = window;
+	}
+	private void toText(boolean hasAnim){
+		//      hideEmotiView();
+		if(textMessage.getLineCount() > 1){
+			hasAnim = false;
+		}
+		if(hasAnim){
+			pressToVoice.startAnimation(AnimationUtils.loadAnimation(this, R.anim.gotye_translate_anim_down));
+		}
+		pressToVoice.setVisibility(View.GONE);
+
+		textModelArea.setVisibility(View.VISIBLE);
+		if(hasAnim){
+			textModelArea.startAnimation(AnimationUtils.loadAnimation(this, R.anim.gotye_translate_anim_down2));
+		}
+		if(inputMode == TEXT){
+			inputMode = VOICE;
+			voice_text_chage.setImageResource(R.drawable.gotye_btn_to_text_selector);
+		}else {
+			inputMode = TEXT;
+			voice_text_chage.setImageResource(R.drawable.gotye_btn_to_voice_selector);
+		}
+		handler.post(new Runnable() {
+
+			@Override
+			public void run() {
+				textMessage.requestFocus();		
+			}
+		});
+	}
+
+	private void toVoice(boolean hasAnim){
+		hideEmotiView();
+		hideKeyboard();
+
+		textMessage.clearFocus();
+
+		if(hasAnim){
+			textModelArea.startAnimation(AnimationUtils.loadAnimation(this, R.anim.gotye_translate_anim_up2));
+		}
+		textModelArea.setVisibility(View.GONE);
+
+		pressToVoice.setVisibility(View.VISIBLE);
+		if(hasAnim){
+			pressToVoice.startAnimation(AnimationUtils.loadAnimation(this, R.anim.gotye_translate_anim_up));
+		}
+
+		if(inputMode == TEXT){
+			inputMode = VOICE;
+			voice_text_chage.setImageResource(R.drawable.gotye_btn_to_text_selector);
+		}else {
+			inputMode = TEXT;
+			voice_text_chage.setImageResource(R.drawable.gotye_btn_to_voice_selector);
+		}
+	}
+
 	@Override
 	public void onSendMessage(int code, GotyeMessage message) {
 		Log.d("OnSend", "code= " + code + "message = " + message);
 		// GotyeChatManager.getInstance().insertChatMessage(message);
-		adapter.updateMessage(message);
+		chatMessageAdapter.updateMessage(message);
 		if (message.getType() == GotyeMessageType.GotyeMessageTypeAudio) {
 			// api.decodeMessage(message);
 		}
 		// message.senderUser =
 		// DBManager.getInstance().getUser(currentLoginName);
-		pullListView.setSelection(adapter.getCount());
+		if(pannelWindow != null){
+			pannelWindow.update();
+		}
+		scrollToBottom();
 	}
 
 	@Override
@@ -758,26 +1090,28 @@ public class ChatPage extends BaseActivity implements OnClickListener {
 		// GotyeChatManager.getInstance().insertChatMessage(message);
 		if (chatType == 0) {
 			if (isMyMessage(message)) {
-				adapter.addMsgToBottom(message);
-				pullListView.setSelection(adapter.getCount());
+				chatMessageAdapter.addMsgToBottom(message);
+				scrollToBottom();
 				api.downloadMessage(message);
 			}
 		} else if (chatType == 1) {
 			if (message.getReceiver().getId() == room.getRoomID()) {
-				adapter.addMsgToBottom(message);
-				pullListView.setSelection(adapter.getCount());
+				chatMessageAdapter.addMsgToBottom(message);
+				scrollToBottom();
 				api.downloadMessage(message);
 
 			}
 		} else if (chatType == 2) {
 			if (message.getReceiver().getId() == group.getGroupID()) {
-				adapter.addMsgToBottom(message);
-				pullListView.setSelection(adapter.getCount());
+				chatMessageAdapter.addMsgToBottom(message);
+				scrollToBottom();
 				api.downloadMessage(message);
 			}
 		}
-
-		// scrollToBottom();
+		if(pannelWindow != null){
+			pannelWindow.update();
+		}
+		scrollToBottom();
 	}
 
 	private boolean isMyMessage(GotyeMessage message) {
@@ -824,7 +1158,7 @@ public class ChatPage extends BaseActivity implements OnClickListener {
 				for (GotyeMessage temp : listmessages) {
 					api.downloadMessage(temp);
 				}
-				adapter.refreshData(listmessages);
+				chatMessageAdapter.refreshData(listmessages);
 			} else {
 				ToastUtil.show(this, "没有历史记录");
 			}
@@ -834,7 +1168,7 @@ public class ChatPage extends BaseActivity implements OnClickListener {
 				for (GotyeMessage temp : listmessages) {
 					api.downloadMessage(temp);
 				}
-				adapter.refreshData(listmessages);
+				chatMessageAdapter.refreshData(listmessages);
 			} else {
 				ToastUtil.show(this, "没有历史记录");
 			}
@@ -844,19 +1178,19 @@ public class ChatPage extends BaseActivity implements OnClickListener {
 				for (GotyeMessage temp : listmessages) {
 					api.downloadMessage(temp);
 				}
-				adapter.refreshData(listmessages);
+				chatMessageAdapter.refreshData(listmessages);
 			} else {
 				ToastUtil.show(this, "没有历史记录");
 			}
 		}
-		adapter.notifyDataSetInvalidated();
+		chatMessageAdapter.notifyDataSetInvalidated();
 		pullListView.onRefreshComplete();
 	}
-    boolean realTalk,realPlay;
+	boolean realTalk,realPlay;
 	@Override
 	public void onStartTalk(int code, boolean isRealTime, int targetType,
 			GotyeChatTarget target) {
-		
+
 		Log.e("player", "onStartTalk:" + isRealTime);
 		if (isRealTime) {
 			this.realTalk=true;
@@ -880,7 +1214,7 @@ public class ChatPage extends BaseActivity implements OnClickListener {
 	@Override
 	public void onStopTalk(int code, GotyeMessage message, boolean isVoiceReal) {
 		Log.e("player", "onStopTalk");
-		
+
 		if (isVoiceReal) {
 			onRealTimeTalkFrom = -1;
 			realTimeAnim.stop();
@@ -901,11 +1235,11 @@ public class ChatPage extends BaseActivity implements OnClickListener {
 			// api.sendMessage(message);
 			// message.setStatus(GotyeMessage.STATUS_SENDING);
 			// adapter.addMsgToBottom(message);
-			// scrollToBottom();
+			scrollToBottom();
 		}
 
 	}
-	
+
 	@Override
 	public void onPlayStart(int code, GotyeMessage message) {
 		// TODO Auto-generated method stub
@@ -927,7 +1261,7 @@ public class ChatPage extends BaseActivity implements OnClickListener {
 			realTimeAnim.stop();
 			realTalkView.setVisibility(View.GONE);	
 		}
-		adapter.notifyDataSetChanged();
+		chatMessageAdapter.notifyDataSetChanged();
 	}
 
 	@Override
@@ -947,17 +1281,17 @@ public class ChatPage extends BaseActivity implements OnClickListener {
 
 	@Override
 	public void onRequestUserInfo(int code, GotyeUser user) {
-        if(chatType==0){
-        	if(user.getName().equals(this.user.getName())){
-    			this.user = user;
-    		}
-        }
+		if(chatType==0){
+			if(user.getName().equals(this.user.getName())){
+				this.user = user;
+			}
+		}
 	}
 
 	@Override
 	public void onDownloadMedia(int code, String path, String url) {
 		// TODO Auto-generated method stub
-		adapter.notifyDataSetChanged();
+		chatMessageAdapter.notifyDataSetChanged();
 	}
 
 	@Override
@@ -967,7 +1301,7 @@ public class ChatPage extends BaseActivity implements OnClickListener {
 			Intent i = new Intent(this, ChatMainActivity.class);
 			i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 			Toast.makeText(getBaseContext(), "群主解散了该群,会话结束", Toast.LENGTH_SHORT)
-					.show();
+			.show();
 			finish();
 			startActivity(i);
 		}
@@ -1025,7 +1359,7 @@ public class ChatPage extends BaseActivity implements OnClickListener {
 		if (code == GotyeStatusCode.CODE_OK) {
 			VoiceToTextUtil util = new VoiceToTextUtil(this);
 			util.toPress(mSpeech, message);
-			
+
 		} else {
 			if (toSend != null) {
 				int p = toSend.indexOf(message);
@@ -1056,21 +1390,21 @@ public class ChatPage extends BaseActivity implements OnClickListener {
 	}
 	private void setErrorTip(int code) {
 		if (code == 1) {
-			 findViewById(R.id.error_tip).setVisibility(View.GONE);
+			findViewById(R.id.error_tip).setVisibility(View.GONE);
 		} else {
-			 findViewById(R.id.error_tip).setVisibility(View.VISIBLE);
+			findViewById(R.id.error_tip).setVisibility(View.VISIBLE);
 			if (code == -1) {
-				 findViewById(R.id.loading)
-						.setVisibility(View.VISIBLE);
+				findViewById(R.id.loading)
+				.setVisibility(View.VISIBLE);
 				((TextView) findViewById(R.id.showText))
-						.setText("正在连接登陆...");
-				 findViewById(R.id.error_tip_icon).setVisibility(
+				.setText("正在连接登陆...");
+				findViewById(R.id.error_tip_icon).setVisibility(
 						View.GONE);
 			} else {
-				 findViewById(R.id.loading).setVisibility(View.GONE);
+				findViewById(R.id.loading).setVisibility(View.GONE);
 				((TextView)  findViewById(R.id.showText))
-						.setText("当前未登陆或网络异常");
-				 findViewById(R.id.error_tip_icon).setVisibility(
+				.setText("当前未登陆或网络异常");
+				findViewById(R.id.error_tip_icon).setVisibility(
 						View.VISIBLE);
 			}
 		}

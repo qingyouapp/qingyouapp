@@ -4,7 +4,7 @@
     android:layout_height="wrap_content"
     android:gravity="center_horizontal"
     android:orientation="vertical"
-    android:paddingTop="13dp" >
+    android:paddingBottom="13dp" >
 
     <TextView
         android:id="@+id/timestamp"
@@ -24,7 +24,7 @@
             android:layout_alignParentLeft="true"
             android:layout_alignParentTop="true"
             android:layout_marginLeft="@dimen/chat_margin_chat_activity"
-            android:background="@drawable/chat_mini_avatar_shadow" />
+           />
 
         <RelativeLayout
             android:id="@+id/row_recv_pic"
@@ -37,7 +37,7 @@
                 android:id="@+id/iv_sendPicture"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@drawable/chat_chatfrom_bg"
+                android:background="@drawable/gotye_bg_msg_text_selector"
                 android:scaleType="fitCenter" />
 
             <ProgressBar

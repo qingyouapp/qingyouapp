@@ -8,20 +8,18 @@
     <RelativeLayout
         android:id="@+id/title_bar"
         android:layout_width="match_parent"
-        android:layout_height="40dp"
+        android:layout_height="45dp"
         android:layout_alignParentTop="true"
         android:background="@drawable/chat_title_bar_bg" >
 
         <ImageView
             android:id="@+id/back"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="45dp"
+            android:layout_height="match_parent"
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
             android:background="@drawable/chat_common_tab_bg"
             android:clickable="true"
-            android:contentDescription="@string/desc"
-            android:padding="10dp"
             android:scaleType="centerInside"
             android:src="@drawable/chat_back" />
 
@@ -35,15 +33,13 @@
 
         <ImageView
             android:id="@+id/right_menu"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="45dp"
+            android:layout_height="match_parent"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:background="@drawable/chat_common_tab_bg"
             android:clickable="true"
-            android:contentDescription="@string/desc"
             android:onClick="info"
-            android:padding="10dp"
             android:scaleType="centerInside"
             android:src="@drawable/chat_to_info_normal" />
     </RelativeLayout>
@@ -102,114 +98,101 @@
 
     <LinearLayout
         android:id="@+id/bottom_layout"
-        android:layout_width="match_parent"
-        android:layout_height="40dp"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:orientation="vertical" >
 
         <RelativeLayout
-            android:layout_width="match_parent"
+            style="@style/GotyeContentPaddingStyle"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:background="@color/chat_white"
-            android:padding="5dp" >
+            android:background="@drawable/gotye_bg_tab_bottom"
+            android:paddingBottom="5dip"
+            android:paddingTop="5dip" >
 
-            <ImageView
+            <ImageButton
                 android:id="@+id/send_voice"
-                android:layout_width="35dp"
-                android:layout_height="35dp"
-                android:layout_alignParentLeft="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:contentDescription="@string/desc"
-                android:src="@drawable/chat_voice_btn_selector" />
+                android:background="@android:color/transparent"
+                android:src="@drawable/gotye_btn_to_voice_selector" />
 
-            <EditText
-                android:id="@+id/text_msg_input"
-                android:layout_width="35dp"
-                android:layout_height="35dp"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="2dp"
-                android:layout_marginRight="2dp"
-                android:layout_toLeftOf="@+id/more_type"
-                android:layout_toRightOf="@+id/send_voice"
-                android:background="@drawable/shape_rectangle_2"
-                android:imeOptions="actionSend"
-                android:hint="请输入文字"
-                android:paddingBottom="0dp"
-                android:paddingLeft="10dp"
-                android:paddingRight="5dp"
-                android:paddingTop="0dp" />
-
-            <Button
-                android:id="@+id/press_to_voice_chat"
-                android:layout_width="45dp"
-                android:layout_height="35dp"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="2dp"
-                android:layout_marginRight="2dp"
-                android:layout_toLeftOf="@+id/more_type"
-                android:layout_toRightOf="@+id/send_voice"
-                android:background="@drawable/chat_press_to_voice_selector"
-                android:padding="0dp"
-                android:text="按住 说话"
-                android:textColor="@color/chat_white"
-                android:textSize="20sp"
-                android:visibility="gone" />
-
-            <ImageView
+            <ImageButton
                 android:id="@+id/more_type"
-                android:layout_width="45dp"
-                android:layout_height="35dp"
-                android:layout_alignParentRight="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:contentDescription="@string/desc"
-                android:src="@drawable/chat_send_selector" />
+                android:layout_marginLeft="7dip"
+                android:layout_toRightOf="@+id/send_voice"
+                android:background="@android:color/transparent"
+                android:src="@drawable/gotye_btn_chat_pannel_selector" />
+
+            <RelativeLayout
+                android:id="@+id/gotye_text_area"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="7dip"
+                android:layout_toRightOf="@+id/more_type" >
+
+                <EditText
+                    android:id="@+id/text_msg_input"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="7dip"
+                    android:layout_toLeftOf="@+id/send_message"
+                    android:background="@drawable/gotye_btn_chat_edit_normal"
+                    android:maxLength="500"
+                    android:singleLine="true" />
+
+                <TextView
+                    android:id="@+id/send_message"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:background="@drawable/gotye_btn_send_text_selector"
+                    android:gravity="center"
+                    android:text="发送"
+                    android:textColor="@color/gotye_color_send_selector"
+                    android:textSize="18sp"
+                    android:textStyle="normal"
+                    android:typeface="sans" />
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/press_to_voice_chat"
+                style="@style/GotyeTitleTextMiddleStyle"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@+id/send_voice"
+                android:layout_alignParentRight="true"
+                android:layout_alignTop="@+id/send_voice"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="7dip"
+                android:layout_toRightOf="@+id/more_type"
+                android:background="@drawable/gotye_btn_send_voice_selector"
+                android:gravity="center"
+                android:textSize="18sp"
+                android:textStyle="normal"
+                android:typeface="sans"
+                android:visibility="invisible" />
         </RelativeLayout>
 
-        <LinearLayout
-            android:id="@+id/more_type_layout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="#eeeeeeee"
-            android:orientation="horizontal"
-            android:paddingBottom="10dp"
-            android:paddingTop="10dp"
-            android:visibility="gone"
-            android:weightSum="4" >
-
-            <ImageView
-                android:id="@+id/to_gallery"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:contentDescription="@string/desc"
-                android:src="@drawable/chat_send_image_selector" />
-
-            <ImageView
-                android:id="@+id/to_camera"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:contentDescription="@string/desc"
-                android:src="@drawable/chat_take_photo_selector" />
-
-            <ImageView
-                android:id="@+id/voice_to_text"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:contentDescription="@string/desc"
-                android:src="@drawable/chat_realtime_voice_selector"
-                android:visibility="gone" />
-
-            <ImageView
-                android:id="@+id/real_time_voice_chat"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:contentDescription="@string/desc"
-                android:src="@drawable/chat_realtime_voice_selector"
-                android:visibility="gone" />
-        </LinearLayout>
+        <GridView
+            android:id="@+id/emoti_list"
+            android:layout_width="fill_parent"
+            android:layout_height="200dip"
+            android:background="#ffffff"
+            android:columnWidth="40dp"
+            android:fadingEdge="none"
+            android:horizontalSpacing="5dip"
+            android:numColumns="auto_fit"
+            android:stretchMode="columnWidth"
+            android:verticalSpacing="5dip"
+            android:visibility="visible" />
     </LinearLayout>
 
 </RelativeLayout>

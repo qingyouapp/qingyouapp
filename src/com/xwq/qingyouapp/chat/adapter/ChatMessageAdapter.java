@@ -3,13 +3,16 @@ package com.xwq.qingyouapp.chat.adapter;
 import java.io.File;
 import java.util.List;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.AnimationDrawable;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.WindowManager;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -30,6 +33,7 @@ import com.xwq.qingyouapp.chat.activity.UserInfoPage;
 import com.xwq.qingyouapp.chat.util.BitmapUtil;
 import com.xwq.qingyouapp.chat.util.GotyeVoicePlayClickPlayListener;
 import com.xwq.qingyouapp.chat.util.ImageCache;
+import com.xwq.qingyouapp.chat.util.SmileyUtil;
 import com.xwq.qingyouapp.chat.util.TimeUtil;
 import com.xwq.qingyouapp.chat.util.ToastUtil;
 
@@ -54,12 +58,16 @@ public class ChatMessageAdapter extends BaseAdapter {
 	private LayoutInflater inflater;
 	private String currentLoginName;
 	private GotyeAPI api;
+	private float width;
+	private WindowManager wm;
 	public ChatMessageAdapter(ChatPage activity, List<GotyeMessage> messageList) {
 		this.chatPage = activity;
 		this.messageList = messageList;
 		inflater = activity.getLayoutInflater();
 		api = GotyeAPI.getInstance();
 		currentLoginName = api.getCurrentLoginUser().getName();
+		wm = (WindowManager) activity.getSystemService(Context.WINDOW_SERVICE);
+		width = wm.getDefaultDisplay().getWidth();
 	}
 
 	public void addMsgToBottom(GotyeMessage msg) {
@@ -106,12 +114,12 @@ public class ChatMessageAdapter extends BaseAdapter {
 
 	@Override
 	public GotyeMessage getItem(int position) {
-		 if(position<0||position>=messageList.size()){
-			 return null;
-		 }else{
+		if(position<0||position>=messageList.size()){
+			return null;
+		}else{
 			return messageList.get(position);
-		 }
-		 
+		}
+
 	}
 
 	@Override
@@ -153,7 +161,7 @@ public class ChatMessageAdapter extends BaseAdapter {
 			holder = new ViewHolder();
 			convertView = createViewByMessage(message, position);
 			if (message.getType() == GotyeMessageType.GotyeMessageTypeImage) {
-				holder.iv = ((ImageView) convertView
+				holder.send_image = ((ImageView) convertView
 						.findViewById(R.id.iv_sendPicture));
 				holder.head_iv = (ImageView) convertView
 						.findViewById(R.id.iv_userhead);
@@ -167,11 +175,10 @@ public class ChatMessageAdapter extends BaseAdapter {
 						.findViewById(R.id.tv_userid);
 				holder.tv_delivered=(TextView) convertView.findViewById(R.id.tv_delivered);
 			} else if (message.getType() == GotyeMessageType.GotyeMessageTypeAudio) {
-				holder.iv = ((ImageView) convertView
+				holder.iv = ((TextView) convertView
 						.findViewById(R.id.iv_voice));
 				holder.head_iv = (ImageView) convertView
 						.findViewById(R.id.iv_userhead);
-				holder.tv = (TextView) convertView.findViewById(R.id.tv_length);
 				holder.pb = (ProgressBar) convertView
 						.findViewById(R.id.pb_sending);
 				holder.staus_iv = (ImageView) convertView
@@ -230,7 +237,7 @@ public class ChatMessageAdapter extends BaseAdapter {
 		// }
 		// }
 		holder.head_iv.setOnClickListener(new OnClickListener() {
-			
+
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
@@ -245,8 +252,8 @@ public class ChatMessageAdapter extends BaseAdapter {
 
 	private void handleImageMessage(final GotyeMessage message,
 			final ViewHolder holder, final int position, View convertView) {
-		holder.iv.setImageResource(R.drawable.ic_launcher);
-		setImageMessage(holder.iv, message, holder);
+		holder.send_image.setImageResource(R.drawable.ic_launcher);
+		setImageMessage(holder.send_image, message, holder);
 
 		if (getDirect(message) == MESSAGE_DIRECT_SEND) {
 			switch (message.getStatus()) {
@@ -279,8 +286,8 @@ public class ChatMessageAdapter extends BaseAdapter {
 				}
 			}
 		}else{
-				String name=message.getSender().getName();
-				holder.tv_userId.setText(name);
+			String name=message.getSender().getName();
+			holder.tv_userId.setText(name);
 		}
 	}
 
@@ -296,12 +303,12 @@ public class ChatMessageAdapter extends BaseAdapter {
 			}
 		}else{
 			if(message.getType()==GotyeMessageType.GotyeMessageTypeText){
-				holder.tv.setText(message.getText());
+				holder.tv.setText(SmileyUtil.replace(chatPage, chatPage.getResources(), message.getText()));
 			}else{
 				holder.tv.setText("自定义消息："+new String(message.getUserData()));
 			}
 		}
-		
+
 		// 设置长按事件监听
 		if (getDirect(message) == MESSAGE_DIRECT_SEND) {
 			switch (message.getStatus()) {
@@ -341,29 +348,58 @@ public class ChatMessageAdapter extends BaseAdapter {
 
 	private void handleVoiceMessage(final GotyeMessage message,
 			final ViewHolder holder, final int position, View convertView) {
-		holder.tv.setText(TimeUtil.getVoiceTime(message.getMedia()
-				.getDuration()));
-		holder.iv.setOnClickListener(new GotyeVoicePlayClickPlayListener(message,
-				holder.iv, this, chatPage));
-		boolean isPlaying = isPlaying(message);
-		if (isPlaying) {
-			AnimationDrawable voiceAnimation;
-			if (getDirect(message) == MESSAGE_DIRECT_RECEIVE) {
-				holder.iv.setImageResource(R.anim.voice_from_icon);
-			} else {
-				holder.iv.setImageResource(R.anim.voice_to_icon);
+		Drawable[] leftRight = holder.iv.getCompoundDrawables();
+		AnimationDrawable left = (AnimationDrawable) leftRight[0];
+		AnimationDrawable right = (AnimationDrawable) leftRight[2];
+		
+		int time = (int) (message.getMedia().getDuration() / 1000f);
+		
+		if(isPlaying(message)){
+//			time = (int) (curPlayTime / 1000f);
+			if(left != null){
+				left.start();
+			}else if(right != null){
+				right.start();
 			}
-			voiceAnimation = (AnimationDrawable) holder.iv.getDrawable();
-			voiceAnimation.start();
-		} else {
-			if (getDirect(message) == MESSAGE_DIRECT_RECEIVE) {
-				holder.iv.setImageResource(R.drawable.chat_chatfrom_voice_playing);
-			} else {
-				holder.iv.setImageResource(R.drawable.chat_chatto_voice_playing);
+		}else {
+			if(left != null){
+				left.stop();
+				left.selectDrawable(0);
+			}else if(right != null){
+				right.stop();
+				right.selectDrawable(0);
 			}
 		}
+		if(time == 0){
+			time = 1;
+		}
+		
+		holder.iv.setText((int)time + "''");
+		int voiceWidth = chatPage.getResources().getDimensionPixelSize(R.dimen.gotye_message_voice_len) + (int) (width / 2f * (time / 60f));
+		holder.iv.setWidth(voiceWidth);
 		
 		
+		holder.iv.setOnClickListener(new GotyeVoicePlayClickPlayListener(message,
+				holder.iv, this, chatPage));
+//		boolean isPlaying = isPlaying(message);
+//		if (isPlaying) {
+//			AnimationDrawable voiceAnimation;
+//			if (getDirect(message) == MESSAGE_DIRECT_RECEIVE) {
+//				holder.iv.setImageResource(R.anim.voice_from_icon);
+//			} else {
+//				holder.iv.setImageResource(R.anim.voice_to_icon);
+//			}
+//			voiceAnimation = (AnimationDrawable) holder.iv.getDrawable();
+//			voiceAnimation.start();
+//		} else {
+//			if (getDirect(message) == MESSAGE_DIRECT_RECEIVE) {
+//				holder.iv.setImageResource(R.drawable.chat_chatfrom_voice_playing);
+//			} else {
+//				holder.iv.setImageResource(R.drawable.chat_chatto_voice_playing);
+//			}
+//		}
+
+
 		if(holder.extra_data!=null){
 			if(message.getExtraData()!=null){
 				holder.extra_data.setVisibility(View.VISIBLE);
@@ -373,8 +409,8 @@ public class ChatMessageAdapter extends BaseAdapter {
 				holder.extra_data.setVisibility(View.GONE);
 			}
 		} 
-		
-		
+
+
 		if (getDirect(message) == MESSAGE_DIRECT_RECEIVE) {
 			if (message.getStatus() == GotyeMessage.ACK_UNREAD) {// if
 				// holder.iv_read_status.setVisibility(View.INVISIBLE);
@@ -382,13 +418,13 @@ public class ChatMessageAdapter extends BaseAdapter {
 			} else {
 				holder.iv_read_status.setVisibility(View.INVISIBLE);
 			}
-			
+
 			String name=message.getSender().getName();
 			holder.tv_userId.setText(name);
 			return;
 		}
-		
-		
+
+
 		// until here, deal with send voice msg
 		switch (message.getStatus()) {
 		case GotyeMessage.STATUS_SENT:
@@ -428,7 +464,7 @@ public class ChatMessageAdapter extends BaseAdapter {
 			break;
 		}
 	}
-	
+
 
 	private boolean isPlaying(GotyeMessage msg) {
 		long id = msg.getDbId();
@@ -552,7 +588,8 @@ public class ChatMessageAdapter extends BaseAdapter {
 	}
 
 	public static class ViewHolder {
-		ImageView iv;
+		ImageView send_image;
+		TextView iv;
 		TextView tv;
 		ProgressBar pb;
 		ImageView staus_iv;

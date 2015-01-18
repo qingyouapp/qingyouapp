@@ -4,7 +4,7 @@
     android:layout_height="wrap_content"
     android:gravity="center_horizontal"
     android:orientation="vertical"
-    android:paddingTop="13dp" >
+    android:paddingBottom="13dp" >
 
     <TextView
         android:id="@+id/timestamp"
@@ -23,9 +23,7 @@
             android:layout_height="@dimen/chat_size_avatar"
             android:layout_alignParentRight="true"
             android:layout_alignParentTop="true"
-            android:layout_marginRight="@dimen/chat_margin_chat_activity"
-            android:background="@drawable/chat_mini_avatar_shadow"
-              />
+            android:layout_marginRight="@dimen/chat_margin_chat_activity" />
 
         <RelativeLayout
             android:id="@+id/rl_picture"
@@ -38,10 +36,10 @@
                 android:id="@+id/iv_sendPicture"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@drawable/chat_chatto_bg"
-                android:scaleType="fitCenter"
-                />
-        </RelativeLayout>	
+                android:background="@drawable/gotye_bg_msg_text_right_selector"
+                android:scaleType="fitCenter" />
+        </RelativeLayout>
+
         <LinearLayout
             android:id="@+id/ll_loading"
             android:layout_width="wrap_content"
@@ -87,18 +85,17 @@
             android:text="@string/chat_text_ack_msg"
             android:textSize="12sp"
             android:visibility="invisible" />
-        
+
         <TextView
             android:id="@+id/tv_delivered"
             style="@style/chat_text_name_style"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
+            android:layout_toLeftOf="@id/rl_picture"
             android:text="@string/chat_text_delivered_msg"
             android:textSize="12sp"
-            android:layout_toLeftOf="@id/rl_picture"
-            android:visibility="visible"
-            />
+            android:visibility="visible" />
     </RelativeLayout>
 
 </LinearLayout>

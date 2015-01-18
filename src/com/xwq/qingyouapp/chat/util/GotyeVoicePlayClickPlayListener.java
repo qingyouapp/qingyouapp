@@ -17,10 +17,11 @@ import java.io.File;
 
 import android.app.Activity;
 import android.graphics.drawable.AnimationDrawable;
-import android.util.Log;
+import android.graphics.drawable.Drawable;
 import android.view.View;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.gotye.api.GotyeAPI;
@@ -34,12 +35,14 @@ public class GotyeVoicePlayClickPlayListener implements View.OnClickListener,
 		PlayListener {
 
 	GotyeMessage message;
-	ImageView voiceIconView;
+	TextView voiceIconView;
 
 	private AnimationDrawable voiceAnimation = null;
 	ImageView iv_read_status;
 	Activity activity;
 	private BaseAdapter adapter;
+	private AnimationDrawable left;
+	private AnimationDrawable right;
 
 	public static boolean isPlaying = false;
 	public static GotyeVoicePlayClickPlayListener currentPlayListener = null;
@@ -54,21 +57,19 @@ public class GotyeVoicePlayClickPlayListener implements View.OnClickListener,
 	 * @param user
 	 * @param chatType
 	 */
-	public GotyeVoicePlayClickPlayListener(GotyeMessage message, ImageView v,
+	public GotyeVoicePlayClickPlayListener(GotyeMessage message, TextView v,
 			BaseAdapter adapter, Activity activity) {
 		this.message = message;
 		this.adapter = adapter;
 		voiceIconView = v;
 		this.activity = activity;
+		Drawable[] leftRight = voiceIconView.getCompoundDrawables();
+		left = (AnimationDrawable) leftRight[0];
+		right = (AnimationDrawable) leftRight[2];
 	}
 
 	public void stopPlayVoice(boolean byclick) {
 		voiceAnimation.stop();
-		if (getDirect(message) == ChatMessageAdapter.MESSAGE_DIRECT_RECEIVE) {
-			voiceIconView.setImageResource(R.drawable.chat_chatfrom_voice_playing);
-		} else {
-			voiceIconView.setImageResource(R.drawable.chat_chatto_voice_playing);
-		}
 		
 		isPlaying = false;
 		((ChatPage) activity).setPlayingId(-1);
@@ -106,12 +107,11 @@ public class GotyeVoicePlayClickPlayListener implements View.OnClickListener,
 	// show the voice playing animation
 	private void showAnimation() {
 		// play voice, and start animation
-		if (getDirect(message) == ChatMessageAdapter.MESSAGE_DIRECT_RECEIVE) {
-			voiceIconView.setImageResource(R.anim.voice_from_icon);
-		} else {
-			voiceIconView.setImageResource(R.anim.voice_to_icon);
+		if(left != null){
+			voiceAnimation = left;
+		}else if(right != null){
+			voiceAnimation = right;
 		}
-		voiceAnimation = (AnimationDrawable) voiceIconView.getDrawable();
 		voiceAnimation.start();
 	}
 

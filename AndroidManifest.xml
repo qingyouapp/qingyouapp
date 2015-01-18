@@ -105,68 +105,68 @@
         <!-- chat -->
         <activity
             android:name="com.xwq.qingyouapp.chat.main.ChatMainActivity"
-            android:label="@string/chat_app_name" >
+            android:label="@string/app_name" >
         </activity>
         <activity
             android:name="com.xwq.qingyouapp.chat.activity.CreateGroupSelectUser"
-            android:label="@string/chat_app_name"
+            android:label="@string/app_name"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden|adjustResize" >
         </activity>
         <activity
             android:name="com.xwq.qingyouapp.chat.activity.GroupRoomListPage"
-            android:label="@string/chat_app_name"
+            android:label="@string/app_name"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden|adjustResize" >
         </activity>
         <activity
             android:name="com.xwq.qingyouapp.chat.activity.GroupInfoPage"
-            android:label="@string/chat_app_name"
+            android:label="@string/app_name"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden|adjustResize" >
         </activity>
         <activity
             android:name="com.xwq.qingyouapp.chat.activity.UserInfoPage"
-            android:label="@string/chat_app_name"
+            android:label="@string/app_name"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden|adjustResize" >
         </activity>
         <activity
             android:name="com.xwq.qingyouapp.chat.activity.RoomInfoPage"
-            android:label="@string/chat_app_name"
+            android:label="@string/app_name"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden|adjustResize" >
         </activity>
         <activity
             android:name="com.xwq.qingyouapp.chat.activity.ChatPage"
-            android:label="@string/chat_app_name"
+            android:label="@string/app_name"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden|adjustResize" >
         </activity>
         <activity
             android:name="com.xwq.qingyouapp.chat.activity.SearchPage"
-            android:label="@string/chat_app_name"
+            android:label="@string/app_name"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden|adjustResize" >
         </activity>
         <activity
             android:name="com.xwq.qingyouapp.chat.activity.NotifyListPage"
-            android:label="@string/chat_app_name"
+            android:label="@string/app_name"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden|adjustResize" >
         </activity>
         <activity
             android:name="com.xwq.qingyouapp.chat.activity.ShowBigImage"
-            android:label="@string/chat_app_name"
+            android:label="@string/app_name"
             android:launchMode="singleTop"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden|adjustResize" >
         </activity>
         <activity
             android:name="com.xwq.qingyouapp.chat.activity.TextPageVoice"
-            android:label="@string/chat_app_name"
+            android:label="@string/app_name"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden|adjustResize" >
         </activity>
