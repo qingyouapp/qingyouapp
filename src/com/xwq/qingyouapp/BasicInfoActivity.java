@@ -130,11 +130,11 @@ public class BasicInfoActivity extends Activity {
 		photoView.setOnClickListener(photoLis);
 
 		// temp
-		nameText.setText("夏俊");
-		nameOK = true;
-		nicknameText.setText("Kevin");
-		nicknameOK = true;
-		responseToInput();
+//		nameText.setText("夏俊");
+//		nameOK = true;
+//		nicknameText.setText("Kevin");
+//		nicknameOK = true;
+//		responseToInput();
 	}
 
 	private void getComponents() {
@@ -276,6 +276,7 @@ public class BasicInfoActivity extends Activity {
 			// 提前传入头像名称，命名为.0_开头，而不是用userid
 			photoName = ".0_" + Calendar.getInstance().getTimeInMillis() + ".png";
 			user.setHeadPortrait(photoName);
+			user.setPhotoAlbum(photoName);
 
 			String url = getResources().getString(R.string.url_base)
 					+ getResources().getString(R.string.url_register);

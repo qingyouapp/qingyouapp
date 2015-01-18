@@ -15,24 +15,24 @@
     <dimen name="basic_hint_width">190dp</dimen>
     <dimen name="spinner_width">240dp</dimen>
     <dimen name="age_layout_width">195dp</dimen>
-    <dimen name="rangebar_width">250dp</dimen>
+    <dimen name="rangebar_width">240dp</dimen>
     <dimen name="basic_hint_height">43dp</dimen>
     <dimen name="basic_hint_margin">20dp</dimen>
     <dimen name="spinner_margin">13dp</dimen>
     <dimen name="photo_width">120dp</dimen>
     <dimen name="photo_padding">1dp</dimen>
-    
     <dimen name="font_left_right">6dp</dimen>
     <dimen name="font_top_buttom">2dp</dimen>
     <dimen name="table_row_height">50dp</dimen>
     <dimen name="table_column1_width">65dp</dimen>
 
     <!-- font size -->
-    <dimen name="font_32">18sp</dimen>
-    <dimen name="font_28">15sp</dimen>
-    <dimen name="font_24">13sp</dimen>
-    <dimen name="font_72">40sp</dimen>
     <dimen name="font_16">9sp</dimen>
-
+    <dimen name="font_20">11sp</dimen>
+    <dimen name="font_24">13sp</dimen>
+    <dimen name="font_28">15sp</dimen>
+    <dimen name="font_32">18sp</dimen>
+    <dimen name="font_72">40sp</dimen>
     <dimen name="radio_btn_padding">19dp</dimen>
+
 </resources>

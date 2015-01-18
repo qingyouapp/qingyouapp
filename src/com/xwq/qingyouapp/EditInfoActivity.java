@@ -22,7 +22,6 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
-import android.media.ThumbnailUtils;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -39,6 +38,7 @@ import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ImageView.ScaleType;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -107,7 +107,7 @@ public class EditInfoActivity extends Activity {
 	private ArrayList<Integer> deletesPhotoList = new ArrayList<Integer>();
 	private String deletesPhotos = "";
 	private String allPhotos = "";
-	
+
 	// The Uri to store the big bitmap
 	@SuppressLint("SdCardPath")
 	public static Uri IMAGE_URL = Uri.parse("file:///sdcard/.qingyoutemp.png");
@@ -352,12 +352,13 @@ public class EditInfoActivity extends Activity {
 			initRangeSeekBar(weightBar, weightS, weightE, weightL, weightR);
 		}
 		// 加载相册
-		String url = photoHandler.getLocalAbsolutePath(user.getUserid(), ImageType.AlbumThumbnail);
-		ArrayList<Bitmap> list = photoHandler.getLocalBitmap(url);
+		ArrayList<Bitmap> list = photoHandler.getLocalBitmaps(user.getUserid(),
+				ImageType.AlbumThumbnail);
 		if (list != null && list.size() > 0)
 			addPhotoListToLayout(list);
 	}
 
+	@SuppressLint("NewApi")
 	public void initRangeSeekBar(RangeSeekBar<Integer> bar, int start, int end, int min, int max) {
 		double a = (double) (min - start) / (end - start);
 		double b = (double) (max - start) / (end - start);
@@ -777,6 +778,7 @@ public class EditInfoActivity extends Activity {
 		view.setLayoutParams(new LayoutParams(240, 240));
 		view.setPadding(3, 3, 3, 3);
 		view.setImageDrawable(drawable);
+		view.setScaleType(ScaleType.FIT_XY);
 		view.setContentDescription("new");// 表示是新图片
 		photoLinearLyaout.addView(view);
 		view.setOnClickListener(photoLis);

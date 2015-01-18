@@ -67,10 +67,10 @@ public class RegisterActivity extends Activity {
 		registerBtn.setOnClickListener(registerLis);
 		backBtn.setOnClickListener(backLis);
 		
-		//temp
-		phoneText.setText("18511110008");
-		pwdText.setText("qqqq");
-		pwd2Text.setText("qqqq");
+//		//temp
+//		phoneText.setText("18511110008");
+//		pwdText.setText("qqqq");
+//		pwd2Text.setText("qqqq");
 	}
 
 	public void getComponents() {

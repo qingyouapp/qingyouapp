@@ -15,7 +15,6 @@ import android.widget.Toast;
 
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
-import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.assist.FailReason;
 import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
@@ -34,12 +33,16 @@ public class ImagePagerFragment extends BaseFragment {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		PhotoHandler photoHandler = new PhotoHandler(getActivity());
 
+		String[] photoNames = ThisApp.PHOTO_NAME_ARRAY;
 		int userId = ThisApp.USER_ID_SELECTED;
 
-		PhotoHandler photoHandler = new PhotoHandler(getActivity());
+		imageUrls = new String[photoNames.length];
 		String url = photoHandler.getLocalAbsolutePath(userId, ImageType.Album);
-		imageUrls = photoHandler.getLocalBitmapPathsArr(url);
+		for (int i = 0; i < imageUrls.length; i++) {
+			imageUrls[i] = url + photoNames[i];
+		}
 
 		options = new DisplayImageOptions.Builder().showImageForEmptyUri(R.drawable.ic_empty)
 				.showImageOnFail(R.drawable.ic_error).resetViewBeforeLoading(true)

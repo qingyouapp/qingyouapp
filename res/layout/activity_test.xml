@@ -1,12 +1,71 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/grey_bgcolor" >
+    style="@style/main_bottom_item" >
 
-    <ImageView
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:id="@+id/bottomList"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:contentDescription="@string/desc"
-        android:src="@drawable/drop_down_btn" />
+        android:layout_alignParentBottom="true"
+        android:orientation="horizontal" >
+
+        <RelativeLayout
+            android:id="@+id/bottomItemCurrentBg1"
+            style="@style/main_bottom_item" >
+
+            <RadioButton
+                android:id="@+id/recommand_history"
+                style="@style/footbar"
+                android:background="@drawable/layout_selector"
+                android:drawableTop="@drawable/history_down"
+                android:paddingBottom="3dp"
+                android:paddingTop="5dp"
+                android:text="@string/recommand_history"
+                android:textColor="@color/down_color" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentTop="true"
+                android:layout_marginRight="40dp"
+                android:background="@drawable/red_ball"
+                android:contentDescription="@string/desc"
+                android:gravity="center"
+                android:text="@string/new_message_num"
+                android:textColor="@color/white"
+                android:textSize="@dimen/font_16" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/bottomItemCurrentBg2"
+            style="@style/main_bottom_item" >
+
+            <RadioButton
+                android:id="@+id/chat_history"
+                style="@style/footbar"
+                android:background="@drawable/layout_selector"
+                android:drawableTop="@drawable/chat_normal"
+                android:paddingBottom="3dp"
+                android:paddingTop="5dp"
+                android:text="@string/chat_history"
+                android:textColor="@color/normal_color" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/bottomItemCurrentBg3"
+            style="@style/main_bottom_item" >
+
+            <RadioButton
+                android:id="@+id/self_page"
+                style="@style/footbar"
+                android:background="@drawable/layout_selector"
+                android:drawableTop="@drawable/homepage_normal"
+                android:paddingBottom="3dp"
+                android:paddingTop="5dp"
+                android:text="@string/self_page"
+                android:textColor="@color/normal_color" />
+        </RelativeLayout>
+    </LinearLayout>
 
 </RelativeLayout>

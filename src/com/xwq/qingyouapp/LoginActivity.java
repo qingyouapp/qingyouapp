@@ -24,7 +24,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.gson.Gson;
-import com.nostra13.universalimageloader.core.ImageLoader;
 import com.xwq.qingyouapp.bean.UserMetadata;
 import com.xwq.qingyouapp.command.CommandCallback;
 import com.xwq.qingyouapp.command.ConnectionDetector;
@@ -52,7 +51,6 @@ public class LoginActivity extends Activity {
 	private LocalStorage localStorage;
 	private UserMetadata user;
 	private boolean isOldUser = false;
-	private ImageLoader imageLoader;
 	private PhotoHandler photoHandler;
 
 	@Override
@@ -64,7 +62,6 @@ public class LoginActivity extends Activity {
 		ThisApp.clearActivities();
 		ThisApp.addActivity(this);
 		localStorage = new LocalStorage(this);
-		imageLoader = ThisApp.imageLoader;
 		photoHandler = new PhotoHandler(this);
 
 		getComponents();
@@ -199,7 +196,9 @@ public class LoginActivity extends Activity {
 				for (String photoName : photoNames) {
 					// 如果图片不存在则开始下载
 					if (!photoHandler.isExisted(localUrl, photoName)) {
-						photoHandler.downloadImageFromServer(user.getUserid(), photoName, false);
+						boolean isHeadPic = photoName.equals(user.getHeadPortrait());
+						photoHandler
+								.downloadImageFromServer(user.getUserid(), photoName, isHeadPic);
 					}
 				}
 			}
