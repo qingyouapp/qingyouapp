@@ -17,7 +17,8 @@ public class ThisApp extends Application {
 	// 浏览图片时使用的全局变量
 	public static int USER_ID_SELECTED = 0;
 	public static int PHOTOS_SELECTED_ITEM = 0;
-
+	public static String[] PHOTO_NAME_ARRAY;
+	
 	public static int SHOW_USER_ID = 0;
 	public static ImageLoader imageLoader;
 

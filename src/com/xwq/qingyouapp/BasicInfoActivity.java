@@ -1,16 +1,36 @@
 package com.xwq.qingyouapp;
 
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.HashSet;
 
 import org.json.JSONException;
-
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.DatePickerDialog.OnDateSetListener;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.Bitmap.Config;
+import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.graphics.Paint;
+import android.graphics.PorterDuff.Mode;
+import android.graphics.PorterDuffXfermode;
+import android.graphics.Rect;
+import android.graphics.RectF;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
+import android.media.ThumbnailUtils;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
+import android.provider.MediaStore;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.Menu;
@@ -21,12 +41,12 @@ import android.view.Window;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.google.gson.Gson;
 import com.xwq.qingyouapp.bean.Discipline;
 import com.xwq.qingyouapp.bean.Grade;
@@ -39,8 +59,10 @@ import com.xwq.qingyouapp.util.EditTextListener;
 import com.xwq.qingyouapp.util.JsonHandler;
 import com.xwq.qingyouapp.util.KeyValue;
 import com.xwq.qingyouapp.util.LocalStorage;
+import com.xwq.qingyouapp.util.PhotoHandler;
 import com.xwq.qingyouapp.util.StringHandler;
 import com.xwq.qingyouapp.util.ThisApp;
+import com.xwq.qingyouapp.util.PhotoHandler.ImageType;
 
 @SuppressLint("ShowToast")
 public class BasicInfoActivity extends Activity {
@@ -48,16 +70,19 @@ public class BasicInfoActivity extends Activity {
 	private EditText nameText, nicknameText;
 	private TextView birthdayText;
 	private Button registerBtn;
+	private ImageView photoView;
 
 	private Spinner heightSpin, schoolSpin, discipSpin, gradeSpin;
 	private RadioGroup radioGroup;
-	private RadioButton maleRadio, femaleRadio;
-	// private ArrayAdapter heightAda, schoolAda, discipAda, gradeAda;
 
 	private boolean nameOK = false;
 	private boolean nicknameOK = false;
+	private boolean photoOK = false;
+	private Bitmap photoBitmap;
+	private String photoName;
 	private LocalStorage localStorage;
 	private JsonHandler jsonHandler;
+	private PhotoHandler photoHandler;
 
 	// 获取提交数据
 	private String nameStr, nicknameStr;
@@ -70,7 +95,6 @@ public class BasicInfoActivity extends Activity {
 	private Processor processor;
 	private UserMetadata user;
 
-	@SuppressWarnings("deprecation")
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -81,30 +105,36 @@ public class BasicInfoActivity extends Activity {
 
 		getComponents();
 		localStorage = new LocalStorage(this);
+		photoHandler = new PhotoHandler(this);
 		try {
 			jsonHandler = new JsonHandler(this);
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}
 
-		// // temp
-		// nameText.setText("夏俊");
-		// nameOK = true;
-		// nicknameText.setText("Kevin");
-		// nicknameOK = true;
-		// responseToInput();
-
 		heightSpin.setSelection(30, true);
 		schoolSpin.setSelection(0, true);
 		discipSpin.setSelection(7, true);
 		gradeSpin.setSelection(4, true);
+
+		// 圆角头像
+		Drawable drawable = getResources().getDrawable(R.drawable.head_default);
+		Bitmap bitmap = ((BitmapDrawable) drawable).getBitmap();
+		photoView.setImageBitmap(toRoundCorner(bitmap));
 
 		// set listeners
 		nameText.addTextChangedListener(nameLis);
 		nicknameText.addTextChangedListener(nicknameLis);
 		birthdayText.setOnClickListener(birthdayLis);
 		registerBtn.setOnClickListener(registerLis);
+		photoView.setOnClickListener(photoLis);
 
+		// temp
+//		nameText.setText("夏俊");
+//		nameOK = true;
+//		nicknameText.setText("Kevin");
+//		nicknameOK = true;
+//		responseToInput();
 	}
 
 	private void getComponents() {
@@ -117,8 +147,125 @@ public class BasicInfoActivity extends Activity {
 		gradeSpin = (Spinner) this.findViewById(R.id.grade);
 		registerBtn = (Button) this.findViewById(R.id.register_button);
 		radioGroup = (RadioGroup) this.findViewById(R.id.radioGroup);
-		maleRadio = (RadioButton) this.findViewById(R.id.radioMale);
-		femaleRadio = (RadioButton) this.findViewById(R.id.radioFemale);
+		photoView = (ImageView) this.findViewById(R.id.photo_upload);
+	}
+
+	OnClickListener photoLis = new OnClickListener() {
+		@Override
+		public void onClick(View arg0) {
+			showPhotoSelectDialog();
+		}
+	};
+
+	private void showPhotoSelectDialog() {
+		new AlertDialog.Builder(this)
+				.setTitle(null)
+				.setItems(ImageUploadActivity.items, new DialogInterface.OnClickListener() {
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						switch (which) {
+						case 0:
+							Intent intentFromGallery = new Intent();
+							intentFromGallery.setType("image/*"); // 设置文件类型
+							intentFromGallery.setAction(Intent.ACTION_GET_CONTENT);
+							startActivityForResult(intentFromGallery,
+									ImageUploadActivity.IMAGE_REQUEST_CODE);
+							break;
+						case 1:
+							Intent intentFromCapture = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+							// 判断存储卡是否可以用，可用进行存储
+							if (ImageUploadActivity.hasSdcard()) {
+								intentFromCapture.putExtra(MediaStore.EXTRA_OUTPUT, Uri
+										.fromFile(new File(Environment
+												.getExternalStorageDirectory(),
+												ImageUploadActivity.IMAGE_FILE_NAME)));
+							}
+							startActivityForResult(intentFromCapture,
+									ImageUploadActivity.CAMERA_REQUEST_CODE);
+							break;
+						}
+					}
+				})
+				.setNegativeButton(getResources().getString(R.string.cancel),
+						new DialogInterface.OnClickListener() {
+							@Override
+							public void onClick(DialogInterface dialog, int which) {
+								dialog.dismiss();
+							}
+						}).show();
+
+	}
+
+	/**
+	 * 保存裁剪之后的图片数据
+	 * 
+	 * @param picdata
+	 */
+	private void getImageToView() {
+		photoBitmap = decodeUriAsBitmap(EditInfoActivity.IMAGE_URL);
+		photoView.setImageBitmap(toRoundCorner(photoBitmap));
+		photoOK = true;
+		responseToInput();
+	}
+
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		if (resultCode != RESULT_CANCELED)
+			switch (requestCode) {
+			// 处理上传图片的回传结果
+			case ImageUploadActivity.IMAGE_REQUEST_CODE:
+				startPhotoZoom(data.getData());
+				break;
+			case ImageUploadActivity.CAMERA_REQUEST_CODE:
+				if (ImageUploadActivity.hasSdcard()) {
+					File tempFile = new File(Environment.getExternalStorageDirectory() + "/"
+							+ ImageUploadActivity.IMAGE_FILE_NAME);
+					startPhotoZoom(Uri.fromFile(tempFile));
+				} else {
+					Toast.makeText(BasicInfoActivity.this, "未找到存储卡，无法存储照片！", Toast.LENGTH_LONG)
+							.show();
+				}
+				break;
+			case ImageUploadActivity.RESULT_REQUEST_CODE:
+				getImageToView();
+				break;
+			}
+
+		super.onActivityResult(requestCode, resultCode, data);
+	}
+
+	/**
+	 * 裁剪图片方法实现
+	 * 
+	 * @param uri
+	 */
+	public void startPhotoZoom(Uri uri) {
+		Intent intent = new Intent("com.android.camera.action.CROP");
+		intent.setDataAndType(uri, "image/*");
+		// 设置裁剪
+		intent.putExtra("crop", "true");
+		// aspectX aspectY 控制宽高的比例
+		intent.putExtra("aspectX", 1);
+		intent.putExtra("aspectY", 1);
+		// outputX outputY 是裁剪图片宽高
+		intent.putExtra("outputX", 720);
+		intent.putExtra("outputY", 720);
+		intent.putExtra("return-data", false);
+		intent.putExtra(MediaStore.EXTRA_OUTPUT, EditInfoActivity.IMAGE_URL);
+		intent.putExtra("outputFormat", Bitmap.CompressFormat.PNG.toString());
+		intent.putExtra("noFaceDetection", true); // no face detection
+		startActivityForResult(intent, ImageUploadActivity.RESULT_REQUEST_CODE);
+	}
+
+	public Bitmap decodeUriAsBitmap(Uri uri) {
+		Bitmap bitmap = null;
+		try {
+			bitmap = BitmapFactory.decodeStream(getContentResolver().openInputStream(uri));
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+			return null;
+		}
+		return bitmap;
 	}
 
 	OnClickListener registerLis = new OnClickListener() {
@@ -126,10 +273,13 @@ public class BasicInfoActivity extends Activity {
 		public void onClick(View arg0) {
 
 			user = getSubmitInfos();
+			// 提前传入头像名称，命名为.0_开头，而不是用userid
+			photoName = ".0_" + Calendar.getInstance().getTimeInMillis() + ".png";
+			user.setHeadPortrait(photoName);
+			user.setPhotoAlbum(photoName);
 
 			String url = getResources().getString(R.string.url_base)
 					+ getResources().getString(R.string.url_register);
-
 			try {
 				processor = Processor.instance(BasicInfoActivity.this);
 				processor.runCommand(url, StringHandler.userToJsonString(user), registerCallback);
@@ -143,15 +293,15 @@ public class BasicInfoActivity extends Activity {
 		@SuppressLint("ShowToast")
 		@Override
 		public void excute(String jb) {
-			// 注册成功之后，执行登录操作，更新User数据（带有id）
-			if ("valid".equals(jb)) {
-				try {
-					String url = getResources().getString(R.string.url_base)
-							+ getResources().getString(R.string.url_login);
-					processor.runCommand(url, StringHandler.userToJsonString(user), loginCallback);
-				} catch (JSONException e) {
-					e.printStackTrace();
-				}
+			//注册成功，返回user对象
+			if (jb.indexOf("username") >= 0) {
+				user = new Gson().fromJson(jb, UserMetadata.class);
+				photoHandler.saveBitmaps(user.getUserid(), photoName, photoBitmap, true);
+				// 上传图片至服务器
+				String path = photoHandler.getLocalAbsolutePath(user.getUserid(), ImageType.Album) + photoName;
+				HashSet<String> paths = new HashSet<String>();
+				paths.add(path);
+				processor.refreshPhoto(paths, "", user, photoCallback);
 			} else {
 				Toast.makeText(getApplicationContext(),
 						getResources().getString(R.string.server_exception), Toast.LENGTH_SHORT)
@@ -160,19 +310,18 @@ public class BasicInfoActivity extends Activity {
 		}
 	};
 
-	CommandCallback loginCallback = new CommandCallback() {
+	CommandCallback photoCallback = new CommandCallback() {
 		@SuppressLint("ShowToast")
 		@Override
 		public void excute(String jb) {
-			if (jb.indexOf("username") >= 0) {
-				Gson gson = new Gson();
-				user = gson.fromJson(jb, UserMetadata.class);
+			// 注册成功之后，执行登录操作，更新User数据（带有id）
+			if ("200".equals(jb.trim())) {
 				setLocalStorage();
 				Intent intent = new Intent(BasicInfoActivity.this, IdentifyActivity.class);
 				startActivity(intent);
 			} else {
-				Toast.makeText(getApplication(),
-						getResources().getString(R.string.network_exception), Toast.LENGTH_SHORT)
+				Toast.makeText(getApplicationContext(),
+						getResources().getString(R.string.server_exception), Toast.LENGTH_SHORT)
 						.show();
 			}
 		}
@@ -232,7 +381,7 @@ public class BasicInfoActivity extends Activity {
 	};
 
 	public void responseToInput() {
-		if (nameOK && nicknameOK) {
+		if (nameOK && nicknameOK && photoOK) {
 			registerBtn.setBackgroundResource(R.drawable.btn_normal);
 			registerBtn.setEnabled(true);
 		} else {
@@ -241,6 +390,7 @@ public class BasicInfoActivity extends Activity {
 		}
 	}
 
+	@SuppressWarnings("deprecation")
 	public UserMetadata getSubmitInfos() {
 		RadioButton box = (RadioButton) BasicInfoActivity.this.findViewById(radioGroup
 				.getCheckedRadioButtonId());
@@ -285,6 +435,22 @@ public class BasicInfoActivity extends Activity {
 		user.setVersion(0);
 
 		return user;
+	}
+
+	// 获取圆角图片
+	public Bitmap toRoundCorner(Bitmap bitmap) {
+		Bitmap output = Bitmap
+				.createBitmap(bitmap.getWidth(), bitmap.getHeight(), Config.ARGB_8888);
+		Canvas canvas = new Canvas(output);
+		Paint paint = new Paint();
+		Rect rect = new Rect(0, 0, bitmap.getWidth(), bitmap.getHeight());
+		RectF rectF = new RectF(rect);
+		// 参数0.1定义了圆角占图片的比例
+		float roundPx = (float) (bitmap.getWidth() * 0.1);
+		canvas.drawRoundRect(rectF, roundPx, roundPx, paint);
+		paint.setXfermode(new PorterDuffXfermode(Mode.SRC_IN));
+		canvas.drawBitmap(bitmap, rect, rect, paint);
+		return output;
 	}
 
 	@Override

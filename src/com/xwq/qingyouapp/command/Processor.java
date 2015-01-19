@@ -167,6 +167,7 @@ public class Processor {
 
 	/**
 	 * 上传图片
+	 * 
 	 * @param paths
 	 * @param deletes
 	 * @param user
@@ -175,6 +176,8 @@ public class Processor {
 	public int photoPost(HashSet<String> paths, String deletes, UserMetadata user) {
 		HttpClient httpclient = new DefaultHttpClient();
 		int statusCode = 0;
+		deletes = deletes == null ? "" : deletes;
+		
 		try {
 			JSONObject jo = new JSONObject();
 			jo.put("key", "60528a45-af9c-439c-805e-2e607b0a1331");

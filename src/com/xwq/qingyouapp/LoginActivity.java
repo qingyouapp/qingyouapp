@@ -32,10 +32,8 @@ import com.gotye.api.GotyeAPI;
 import com.gotye.api.GotyeStatusCode;
 import com.gotye.api.GotyeUser;
 import com.gotye.api.listener.LoginListener;
-import com.nostra13.universalimageloader.core.ImageLoader;
 import com.xwq.qingyouapp.bean.UserMetadata;
 import com.xwq.qingyouapp.chat.GotyeService;
-import com.xwq.qingyouapp.chat.util.ProgressDialogUtil;
 import com.xwq.qingyouapp.command.CommandCallback;
 import com.xwq.qingyouapp.command.ConnectionDetector;
 import com.xwq.qingyouapp.command.Processor;
@@ -62,7 +60,6 @@ public class LoginActivity extends Activity implements LoginListener{
 	private LocalStorage localStorage;
 	private UserMetadata user;
 	private boolean isOldUser = false;
-	private ImageLoader imageLoader;
 	private PhotoHandler photoHandler;
 
 	@Override
@@ -74,7 +71,6 @@ public class LoginActivity extends Activity implements LoginListener{
 		ThisApp.clearActivities();
 		ThisApp.addActivity(this);
 		localStorage = new LocalStorage(this);
-		imageLoader = ThisApp.imageLoader;
 		photoHandler = new PhotoHandler(this);
 
 		getComponents();
@@ -239,7 +235,9 @@ public class LoginActivity extends Activity implements LoginListener{
 				for (String photoName : photoNames) {
 					// 如果图片不存在则开始下载
 					if (!photoHandler.isExisted(localUrl, photoName)) {
-						photoHandler.downloadImageFromServer(user.getUserid(), photoName, false);
+						boolean isHeadPic = photoName.equals(user.getHeadPortrait());
+						photoHandler
+								.downloadImageFromServer(user.getUserid(), photoName, isHeadPic);
 					}
 				}
 			}

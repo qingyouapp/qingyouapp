@@ -19,70 +19,88 @@
         android:layout_centerHorizontal="true"
         android:layout_marginLeft="@dimen/margin_left"
         android:layout_marginRight="@dimen/margin_right"
-        android:layout_marginTop="16dp"
-        android:background="@drawable/shape_rectangle"
-        android:orientation="vertical" >
+        android:layout_marginTop="16dp" >
 
-        <TextView
-            android:id="@+id/textview01"
-            android:layout_width="@dimen/basic_name_width"
-            android:layout_height="@dimen/basic_name_height"
-            android:layout_marginLeft="@dimen/basic_name_margin"
-            android:gravity="center_vertical"
-            android:includeFontPadding="false"
-            android:text="@string/name"
-            android:textColor="@color/font_color"
-            android:textSize="@dimen/font_28" />
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="10dp"
+            android:layout_toLeftOf="@+id/photo_upload"
+            android:background="@drawable/shape_rectangle"
+            android:orientation="vertical" >
 
-        <EditText
-            android:id="@+id/name"
-            android:layout_width="@dimen/basic_hint_width"
-            android:layout_height="@dimen/basic_hint_height"
-            android:layout_alignBaseline="@+id/textview01"
-            android:layout_alignBottom="@+id/textview01"
-            android:layout_marginLeft="@dimen/basic_hint_margin"
-            android:layout_toRightOf="@+id/textview01"
-            android:background="@color/white"
-            android:gravity="center_vertical"
-            android:hint="@string/name_hint"
-            android:includeFontPadding="false"
-            android:textColorHint="@color/hint_color"
-            android:textSize="@dimen/font_28" />
+            <TextView
+                android:id="@+id/textview01"
+                android:layout_width="@dimen/basic_name_width"
+                android:layout_height="@dimen/basic_name_height"
+                android:layout_marginLeft="@dimen/basic_name_margin"
+                android:gravity="center_vertical"
+                android:includeFontPadding="false"
+                android:text="@string/name"
+                android:textColor="@color/font_color"
+                android:textSize="@dimen/font_28" />
+
+            <EditText
+                android:id="@+id/name"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/basic_hint_height"
+                android:layout_alignBaseline="@+id/textview01"
+                android:layout_alignBottom="@+id/textview01"
+                android:layout_marginLeft="@dimen/basic_hint_margin"
+                android:layout_marginRight="5dp"
+                android:layout_toRightOf="@+id/textview01"
+                android:background="@color/white"
+                android:gravity="center_vertical"
+                android:hint="@string/name_hint"
+                android:includeFontPadding="false"
+                android:textColorHint="@color/hint_color"
+                android:textSize="@dimen/font_28" />
+
+            <ImageView
+                android:id="@+id/line01"
+                android:layout_width="fill_parent"
+                android:layout_height="2dp"
+                android:layout_below="@+id/textview01"
+                android:contentDescription="@string/desc"
+                android:src="@drawable/shape_line" />
+
+            <TextView
+                android:id="@+id/textview02"
+                android:layout_width="@dimen/basic_name_width"
+                android:layout_height="@dimen/basic_name_height"
+                android:layout_below="@+id/line01"
+                android:layout_marginLeft="@dimen/basic_name_margin"
+                android:gravity="center_vertical"
+                android:includeFontPadding="false"
+                android:text="@string/nickname"
+                android:textColor="@color/font_color"
+                android:textSize="@dimen/font_28" />
+
+            <EditText
+                android:id="@+id/nickname"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/basic_hint_height"
+                android:layout_alignBaseline="@+id/textview02"
+                android:layout_alignBottom="@+id/textview02"
+                android:layout_marginLeft="@dimen/basic_hint_margin"
+                android:layout_marginRight="5dp"
+                android:layout_toRightOf="@+id/textview02"
+                android:background="@color/white"
+                android:gravity="center_vertical"
+                android:hint="@string/nickname_hint"
+                android:includeFontPadding="false"
+                android:textColorHint="@color/hint_color"
+                android:textSize="@dimen/font_28" />
+        </RelativeLayout>
 
         <ImageView
-            android:id="@+id/line01"
-            android:layout_width="fill_parent"
-            android:layout_height="2dp"
-            android:layout_below="@+id/textview01"
+            android:id="@+id/photo_upload"
+            android:layout_width="92dp"
+            android:layout_height="92dp"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
             android:contentDescription="@string/desc"
-            android:src="@drawable/shape_line" />
-
-        <TextView
-            android:id="@+id/textview02"
-            android:layout_width="@dimen/basic_name_width"
-            android:layout_height="@dimen/basic_name_height"
-            android:layout_below="@+id/line01"
-            android:layout_marginLeft="@dimen/basic_name_margin"
-            android:gravity="center_vertical"
-            android:includeFontPadding="false"
-            android:text="@string/nickname"
-            android:textColor="@color/font_color"
-            android:textSize="@dimen/font_28" />
-
-        <EditText
-            android:id="@+id/nickname"
-            android:layout_width="@dimen/basic_hint_width"
-            android:layout_height="@dimen/basic_hint_height"
-            android:layout_alignBaseline="@+id/textview02"
-            android:layout_alignBottom="@+id/textview02"
-            android:layout_marginLeft="@dimen/basic_hint_margin"
-            android:layout_toRightOf="@+id/textview02"
-            android:background="@color/white"
-            android:gravity="center_vertical"
-            android:hint="@string/nickname_hint"
-            android:includeFontPadding="false"
-            android:textColorHint="@color/hint_color"
-            android:textSize="@dimen/font_28" />
+            android:src="@drawable/head_default" />
     </RelativeLayout>
 
     <RelativeLayout
@@ -161,12 +179,12 @@
 
         <Spinner
             android:id="@+id/height"
-            android:layout_width="@dimen/basic_hint_width"
+            android:layout_width="@dimen/spinner_width"
             android:layout_height="@dimen/basic_hint_height"
             android:layout_below="@+id/line02"
             android:layout_marginLeft="@dimen/spinner_margin"
             android:layout_toRightOf="@+id/textview04"
-            android:background="@null"
+            android:background="@drawable/layout_selector"
             android:entries="@array/height"
             android:gravity="center_vertical"
             android:prompt="@string/height_hint"
@@ -234,11 +252,11 @@
 
         <Spinner
             android:id="@+id/school"
-            android:layout_width="@dimen/basic_hint_width"
+            android:layout_width="@dimen/spinner_width"
             android:layout_height="@dimen/basic_hint_height"
             android:layout_marginLeft="@dimen/spinner_margin"
             android:layout_toRightOf="@+id/textview06"
-            android:background="@null"
+            android:background="@drawable/layout_selector"
             android:entries="@array/school"
             android:gravity="center_vertical"
             android:prompt="@string/school_hint"
@@ -266,12 +284,12 @@
 
         <Spinner
             android:id="@+id/discipline"
-            android:layout_width="@dimen/basic_hint_width"
+            android:layout_width="@dimen/spinner_width"
             android:layout_height="@dimen/basic_hint_height"
             android:layout_below="@+id/line04"
             android:layout_marginLeft="@dimen/spinner_margin"
             android:layout_toRightOf="@+id/textview07"
-            android:background="@null"
+            android:background="@drawable/layout_selector"
             android:entries="@array/discipline"
             android:gravity="center_vertical"
             android:prompt="@string/discipline_hint"
@@ -299,12 +317,12 @@
 
         <Spinner
             android:id="@+id/grade"
-            android:layout_width="@dimen/basic_hint_width"
+            android:layout_width="@dimen/spinner_width"
             android:layout_height="@dimen/basic_hint_height"
             android:layout_below="@+id/line05"
             android:layout_marginLeft="@dimen/spinner_margin"
             android:layout_toRightOf="@+id/textview08"
-            android:background="@null"
+            android:background="@drawable/layout_selector"
             android:entries="@array/grade"
             android:gravity="center_vertical"
             android:prompt="@string/grade_hint"

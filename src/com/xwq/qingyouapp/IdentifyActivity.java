@@ -70,8 +70,9 @@ public class IdentifyActivity extends Activity {
 		passBtn.setOnClickListener(passBtnLis);
 
 		initComponents(IDENTITY_TYPE.Email);
+		
 		// temp
-		emailText.setText("136872734@qq.com");
+//		emailText.setText("136872734@qq.com");
 	}
 
 	public void getComponents() {

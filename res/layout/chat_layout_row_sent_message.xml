@@ -15,6 +15,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:gravity="center"
         android:layout_marginTop="@dimen/chat_margin_chat_activity" >
 
         <ImageView
@@ -29,7 +30,7 @@
             android:id="@+id/tv_chatcontent"
             style="@style/chat_content_date_style"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="40dp"
             android:layout_marginRight="@dimen/chat_margin_chat_activity"
             android:layout_toLeftOf="@id/iv_userhead"
             android:autoLink="web"

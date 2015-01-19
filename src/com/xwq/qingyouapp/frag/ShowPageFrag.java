@@ -20,11 +20,13 @@ import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.ImageView.ScaleType;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
+import com.nostra13.universalimageloader.core.ImageLoader;
 import com.xwq.qingyouapp.EditInfoActivity;
 import com.xwq.qingyouapp.EditInfoActivity.TAG_TYPE;
 import com.xwq.qingyouapp.PhotoShowActivity;
@@ -51,10 +53,14 @@ public class ShowPageFrag extends Fragment {
 	private String hobbyStr;
 	private String personalStr;
 	private LineBreakLayout hobbyLBR, personalLBL;
-	private LocalStorage localStorage;
-	private JsonHandler jsonHandler;
 	private LinearLayout photoLinearLayout;
 	private UserMetadata user;
+
+	private LocalStorage localStorage;
+	private JsonHandler jsonHandler;
+	private ImageLoader imageLoader;
+	private PhotoHandler ph;
+	private String[] photoNames;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -82,10 +88,11 @@ public class ShowPageFrag extends Fragment {
 		} catch (JSONException e1) {
 			e1.printStackTrace();
 		}
-
-		// 本地存储
 		localStorage = new LocalStorage(getActivity());
-		//通过SHOW_USER_ID获取需要显示的用户信息
+		imageLoader = ThisApp.imageLoader;
+		ph = new PhotoHandler(getActivity());
+
+		// 通过SHOW_USER_ID获取需要显示的用户信息
 		user = localStorage.getUserById(ThisApp.SHOW_USER_ID);
 		try {
 			pullInLocalStorage(user);
@@ -147,11 +154,12 @@ public class ShowPageFrag extends Fragment {
 		titleView.setText(user.getNickname());
 		sexAgeView.setText(sex + age);
 		constellationView.setText(constellation);
-
 		heightView.setText(height + "cm");
 		eduView.setText(schoolStr + "-" + disciplineStr + gradeStr);
+
 		// 非基本信息，值可能为空
-		shuoshuoView.setText(user.getSignature());
+		if (!StringHandler.isNull(user.getSignature()))
+			shuoshuoView.setText(user.getSignature());
 
 		// tag标签 LinearBreakLayout
 		hobbyStr = user.getInterests();
@@ -163,14 +171,38 @@ public class ShowPageFrag extends Fragment {
 
 		// 加载相册信息
 		photoLinearLayout.removeAllViews();
-		PhotoHandler ph = new PhotoHandler(getActivity());
-		String url = ph.getLocalAbsolutePath(user.getUserid(), ImageType.Album);
-		ArrayList<Bitmap> list = ph.getLocalBitmap(url);
-		if (list != null && list.size() > 0) {
-			addPhotoListToLayout(list);
+		photoNames = user.getPhotoAlbum().trim().split(",");
+		ImageView[] views = addImageViewsToLayout(photoNames.length);// 创建ImageView
+		// 将头像放在最前面
+		for (int i = 0; i < photoNames.length; i++) {
+			if (photoNames[i].equals(user.getHeadPortrait())) {
+				String s = photoNames[i];
+				photoNames[i] = photoNames[0];
+				photoNames[0] = s;
+			}
 		}
+		
+		// 显示在UI
+		String url = ph.getLocalAbsolutePath(user.getUserid(), ImageType.AlbumThumbnail);
+		for (int i = 0; i < photoNames.length; i++) {
+			if (ph.isExisted(url, photoNames[i])) {
+				imageLoader.displayImage("file:///mnt" + url + photoNames[i], views[i]);
+			} else {
+				imageLoader.displayImage(ph.getServerPath(user.getUserid()) + photoNames[i],
+						views[i]);
+				boolean bool = (i == 0);
+				ph.downloadImageFromServer(user.getUserid(), photoNames[i], bool);
+			}
+		}
+		// 显示在UI
+		// ArrayList<Bitmap> list = ph.getLocalBitmaps(user.getUserid(),
+		// ImageType.AlbumThumbnail);
+		// if (list != null && list.size() > 0) {
+		// addPhotoListToLayout(list);
+		// }
 	}
 
+	@SuppressLint("ResourceAsColor")
 	public void addPhotoListToLayout(ArrayList<Bitmap> list) {
 		if (list != null)
 			for (int i = 0; i < list.size(); i++) {
@@ -181,11 +213,28 @@ public class ShowPageFrag extends Fragment {
 				ImageView view = new ImageView(getActivity());
 				view.setLayoutParams(new LayoutParams(240, 240));
 				view.setPadding(3, 3, 3, 3);
+				view.setScaleType(ScaleType.FIT_XY);
 				view.setImageDrawable(drawable);
 				view.setContentDescription(i + "");// 将图片的位置下标作为参数传入ContentDescription
 				photoLinearLayout.addView(view);
 				view.setOnClickListener(photoLis);
 			}
+	}
+
+	@SuppressLint("ResourceAsColor")
+	public ImageView[] addImageViewsToLayout(int size) {
+		ImageView[] views = new ImageView[size];
+		for (int i = 0; i < size; i++) {
+			ImageView view = new ImageView(getActivity());
+			view.setLayoutParams(new LayoutParams(240, 240));
+			view.setPadding(3, 3, 3, 3);
+			view.setScaleType(ScaleType.FIT_XY);
+			view.setContentDescription(i + "");// 将图片的位置下标作为参数传入ContentDescription
+			photoLinearLayout.addView(view);
+			view.setOnClickListener(photoLis);
+			views[i] = view;
+		}
+		return views;
 	}
 
 	OnClickListener photoLis = new OnClickListener() {
@@ -195,6 +244,7 @@ public class ShowPageFrag extends Fragment {
 			ThisApp.USER_ID_SELECTED = user.getUserid();
 			ThisApp.PHOTOS_SELECTED_ITEM = Integer
 					.parseInt(view.getContentDescription().toString());
+			ThisApp.PHOTO_NAME_ARRAY = photoNames;
 			Intent intent = new Intent(getActivity(), PhotoShowActivity.class);
 			startActivity(intent);
 		}
