@@ -571,7 +571,6 @@ public class EditInfoActivity extends Activity {
 		String url = photoHandler.getLocalAbsolutePath(user.getUserid(), ImageType.Album);
 		allPhotos = photoHandler.getLocalBitmapNames(url);
 
-		user = localStorage.getUser();
 		user.setNickname(nickname);
 		user.setSignature(shuoshuo);
 		user.setBirthday(DateHandler.stringToDate(birthday).getTime());
@@ -797,7 +796,8 @@ public class EditInfoActivity extends Activity {
 				photoLinearLyaout.addView(view);
 
 				if (i == 0) {
-					view.setImageDrawable(getResources().getDrawable(R.drawable.avatar_circle));
+					Drawable headFlag = getResources().getDrawable(R.drawable.avatar_circle);
+					view.setImageDrawable(headFlag);
 				} else
 					view.setOnClickListener(photoLis);
 			}
@@ -821,7 +821,11 @@ public class EditInfoActivity extends Activity {
 										view.setBackground(headView.getBackground());
 										headView.setBackground(drawable);
 										// headPic Changed
-
+										String name = photoHandler.getBitmapName(user.getUserid(),
+												((BitmapDrawable) drawable).getBitmap(),
+												ImageType.AlbumThumbnail);
+										user.setHeadPortrait(name);
+										System.out.println("1111:" + name);
 										break;
 									case 1:
 										String conDes = view.getContentDescription().toString();

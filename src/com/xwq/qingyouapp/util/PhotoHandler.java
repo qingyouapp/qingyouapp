@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -56,6 +57,24 @@ public class PhotoHandler {
 			bitmap = BitmapFactory.decodeFile(url + photoName);
 		}
 		return bitmap;
+	}
+
+	@SuppressLint("NewApi")
+	public String getBitmapName(int userId, Bitmap bitmap, ImageType type) {
+		String url = getLocalAbsolutePath(userId, type);
+		checkFolder(url);
+
+		File album = new File(url);
+		File[] files = album.listFiles();
+
+		if (files != null) {
+			for (File file : files) {
+				Bitmap bit = BitmapFactory.decodeFile(file.getAbsolutePath());
+				if (bitmap.sameAs(bit))
+					return file.getName();
+			}
+		}
+		return null;
 	}
 
 	/**
@@ -201,7 +220,7 @@ public class PhotoHandler {
 	public void saveBitmaps(Integer userId, String imageName, Bitmap bitmap) {
 		String albumUrl = localBase + userId + "/" + lacalAlbum;
 		String albumThumbnailUrl = localBase + userId + "/" + localAlbumThubmnail;
-		
+
 		saveBitmap(albumUrl, imageName, bitmap);
 		saveBitmap(albumThumbnailUrl, imageName, ThumbnailUtils.extractThumbnail(bitmap, 240, 240));
 	}
