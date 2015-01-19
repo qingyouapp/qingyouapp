@@ -296,7 +296,7 @@ public class BasicInfoActivity extends Activity {
 			//注册成功，返回user对象
 			if (jb.indexOf("username") >= 0) {
 				user = new Gson().fromJson(jb, UserMetadata.class);
-				photoHandler.saveBitmaps(user.getUserid(), photoName, photoBitmap, true);
+				photoHandler.saveBitmaps(user.getUserid(), photoName, photoBitmap);
 				// 上传图片至服务器
 				String path = photoHandler.getLocalAbsolutePath(user.getUserid(), ImageType.Album) + photoName;
 				HashSet<String> paths = new HashSet<String>();

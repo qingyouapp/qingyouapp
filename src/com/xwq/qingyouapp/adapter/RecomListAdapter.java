@@ -86,17 +86,18 @@ public class RecomListAdapter extends BaseAdapter {
 		UserMetadata user = list.get(position);
 		// 获取头像
 		Bitmap bitmap = null;
-		boolean photoExist = photoHandler.isExisted(
-				photoHandler.getLocalAbsolutePath(user.getUserid(), ImageType.Headportrait),
-				user.getHeadPortrait());
-		if (photoExist) {
-			bitmap = photoHandler.getUserHeadPortrait(user.getUserid());
+		String photoUrl = photoHandler.getLocalAbsolutePath(user.getUserid(),
+				ImageType.AlbumThumbnail);
+		boolean headPicExist = photoHandler.isExisted(photoUrl, user.getHeadPortrait());
+		if (headPicExist) {
+			bitmap = photoHandler.getPhoto(user.getUserid(), user.getHeadPortrait(),
+					ImageType.AlbumThumbnail);
 			holder.photo.setImageBitmap(bitmap);
 		} else {
 			// 如果头像不存在，则立即加载
 			String url = photoHandler.getServerPath(user.getUserid()) + user.getHeadPortrait();
 			imageloader.displayImage(url, holder.photo);
-			photoHandler.downloadImageFromServer(user.getUserid(), user.getHeadPortrait(), true);
+			photoHandler.downloadImageFromServer(user.getUserid(), user.getHeadPortrait());
 		}
 		holder.nickname.setText(user.getNickname());
 		holder.latestShuoshuo.setText(user.getSignature());
@@ -115,8 +116,8 @@ public class RecomListAdapter extends BaseAdapter {
 		// holder.hotNum2.setText(user.getHotNum2());
 		// holder.date.setText(user.getDate());
 
-		//将userid传入view,这样在ListView中可以唯一标识user和行的对应关系
-		itemView.setContentDescription(user.getUserid()+"");
+		// 将userid传入view,这样在ListView中可以唯一标识user和行的对应关系
+		itemView.setContentDescription(user.getUserid() + "");
 		return itemView;
 	}
 

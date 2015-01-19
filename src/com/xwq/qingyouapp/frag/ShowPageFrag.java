@@ -1,6 +1,7 @@
 package com.xwq.qingyouapp.frag;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 
 import org.json.JSONException;
@@ -174,6 +175,7 @@ public class ShowPageFrag extends Fragment {
 		photoNames = user.getPhotoAlbum().trim().split(",");
 		ImageView[] views = addImageViewsToLayout(photoNames.length);// 创建ImageView
 		// 将头像放在最前面
+		Arrays.sort(photoNames);
 		for (int i = 0; i < photoNames.length; i++) {
 			if (photoNames[i].equals(user.getHeadPortrait())) {
 				String s = photoNames[i];
@@ -190,8 +192,7 @@ public class ShowPageFrag extends Fragment {
 			} else {
 				imageLoader.displayImage(ph.getServerPath(user.getUserid()) + photoNames[i],
 						views[i]);
-				boolean bool = (i == 0);
-				ph.downloadImageFromServer(user.getUserid(), photoNames[i], bool);
+				ph.downloadImageFromServer(user.getUserid(), photoNames[i]);
 			}
 		}
 		// 显示在UI

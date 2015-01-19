@@ -18,6 +18,5 @@
     <string name="local_base">/sdcard/qingyou/.pic/</string>
     <string name="local_album">album/</string>
     <string name="local_album_thumbnail">album_thumbnail/</string>
-    <string name="local_headportrait">headportrait/</string>
     
 </resources>
