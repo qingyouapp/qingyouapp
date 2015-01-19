@@ -48,8 +48,8 @@
                         android:id="@+id/upload_image"
                         android:layout_width="@dimen/photo_width"
                         android:layout_height="@dimen/photo_width"
+                        android:layout_margin="2dp"
                         android:contentDescription="@string/desc"
-                        android:padding="2dp"
                         android:src="@drawable/upload_image" />
                 </LinearLayout>
             </HorizontalScrollView>

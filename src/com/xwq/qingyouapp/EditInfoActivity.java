@@ -178,7 +178,6 @@ public class EditInfoActivity extends Activity {
 		}
 
 		// photos
-
 		String url = photoHandler.getLocalAbsolutePath(user.getUserid(), ImageType.Album);
 		photoPathsBegin = photoHandler.getLocalBitmapPaths(url);
 
@@ -353,7 +352,7 @@ public class EditInfoActivity extends Activity {
 		}
 		// 加载相册
 		ArrayList<Bitmap> list = photoHandler.getLocalBitmaps(user.getUserid(),
-				ImageType.AlbumThumbnail);
+				user.getHeadPortrait(), ImageType.AlbumThumbnail);
 		if (list != null && list.size() > 0)
 			addPhotoListToLayout(list);
 	}
@@ -409,7 +408,6 @@ public class EditInfoActivity extends Activity {
 		@Override
 		public void onRangeSeekBarValuesChanged(RangeSeekBar<?> bar, Integer minValue,
 				Integer maxValue) {
-			// TODO Auto-generated method stub
 			ageMin.setText(minValue.toString());
 			ageMax.setText(maxValue.toString());
 		}
@@ -419,7 +417,6 @@ public class EditInfoActivity extends Activity {
 		@Override
 		public void onRangeSeekBarValuesChanged(RangeSeekBar<?> bar, Integer minValue,
 				Integer maxValue) {
-			// TODO Auto-generated method stub
 			heightMin.setText(minValue.toString());
 			heightMax.setText(maxValue.toString());
 		}
@@ -429,7 +426,6 @@ public class EditInfoActivity extends Activity {
 		@Override
 		public void onRangeSeekBarValuesChanged(RangeSeekBar<?> bar, Integer minValue,
 				Integer maxValue) {
-			// TODO Auto-generated method stub
 			weightMin.setText(minValue.toString());
 			weightMax.setText(maxValue.toString());
 		}
@@ -483,7 +479,7 @@ public class EditInfoActivity extends Activity {
 				// 分别保存原图和缩略图
 				String imageName = "." + user.getUserid() + "_"
 						+ Calendar.getInstance().getTimeInMillis() + ".png";
-				photoHandler.saveBitmaps(user.getUserid(), imageName, bitmap, false);
+				photoHandler.saveBitmaps(user.getUserid(), imageName, bitmap);
 			}
 		}
 		// 图片有改动时提交,否则直接更新基本信息
@@ -785,6 +781,7 @@ public class EditInfoActivity extends Activity {
 	}
 
 	// 将图片放入UI中
+	@SuppressWarnings("deprecation")
 	public void addPhotoListToLayout(ArrayList<Bitmap> list) {
 		if (list != null)
 			for (int i = 0; i < list.size(); i++) {
@@ -792,12 +789,17 @@ public class EditInfoActivity extends Activity {
 				@SuppressWarnings("deprecation")
 				Drawable drawable = new BitmapDrawable(bitmap);
 				ImageView view = new ImageView(this);
-				view.setLayoutParams(new LayoutParams(240, 240));
-				view.setPadding(3, 3, 3, 3);
-				view.setImageDrawable(drawable);
+				LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(240, 240);
+				lp.setMargins(3, 3, 3, 3);
+				view.setLayoutParams(lp);
+				view.setBackgroundDrawable(drawable);
 				view.setContentDescription(i + "");// 将图片的位置下标作为参数传入ContentDescription
 				photoLinearLyaout.addView(view);
-				view.setOnClickListener(photoLis);
+
+				if (i == 0) {
+					view.setImageDrawable(getResources().getDrawable(R.drawable.avatar_circle));
+				} else
+					view.setOnClickListener(photoLis);
 			}
 	}
 
@@ -808,10 +810,18 @@ public class EditInfoActivity extends Activity {
 					.setTitle(null)
 					.setItems(new String[] { "设为头像", "删除照片" },
 							new DialogInterface.OnClickListener() {
+								@SuppressLint("NewApi")
 								@Override
 								public void onClick(DialogInterface dialog, int which) {
 									switch (which) {
 									case 0:
+										ImageView headView = (ImageView) photoLinearLyaout
+												.getChildAt(0);
+										Drawable drawable = view.getBackground();
+										view.setBackground(headView.getBackground());
+										headView.setBackground(drawable);
+										// headPic Changed
+
 										break;
 									case 1:
 										String conDes = view.getContentDescription().toString();

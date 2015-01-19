@@ -196,9 +196,7 @@ public class LoginActivity extends Activity {
 				for (String photoName : photoNames) {
 					// 如果图片不存在则开始下载
 					if (!photoHandler.isExisted(localUrl, photoName)) {
-						boolean isHeadPic = photoName.equals(user.getHeadPortrait());
-						photoHandler
-								.downloadImageFromServer(user.getUserid(), photoName, isHeadPic);
+						photoHandler.downloadImageFromServer(user.getUserid(), photoName);
 					}
 				}
 			}

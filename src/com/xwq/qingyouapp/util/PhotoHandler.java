@@ -13,7 +13,6 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.media.ThumbnailUtils;
 import android.view.View;
-
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
 import com.xwq.qingyouapp.R;
@@ -23,19 +22,17 @@ public class PhotoHandler {
 	private String localBase;
 	private String lacalAlbum;
 	private String localAlbumThubmnail;
-	private String localHeadPortrait;
 	private String photoBase;
 	private ImageLoader imageLoader;
 
 	public static enum ImageType {
-		Album, AlbumThumbnail, Headportrait
+		Album, AlbumThumbnail
 	}
 
 	public PhotoHandler(Context context) {
 		localBase = context.getResources().getString(R.string.local_base);
 		lacalAlbum = context.getResources().getString(R.string.local_album);
 		localAlbumThubmnail = context.getResources().getString(R.string.local_album_thumbnail);
-		localHeadPortrait = context.getResources().getString(R.string.local_headportrait);
 		photoBase = context.getResources().getString(R.string.photo_base);
 		imageLoader = ThisApp.imageLoader;
 	}
@@ -47,31 +44,18 @@ public class PhotoHandler {
 		}
 	}
 
-	public Bitmap getUserHeadPortrait(int userId) {
+	public Bitmap getPhoto(int userId, String photoName, ImageType type) {
 		Bitmap bitmap = null;
-		String url = getLocalAbsolutePath(userId, ImageType.AlbumThumbnail);
+		String url = getLocalAbsolutePath(userId, type);
 		checkFolder(url);
 
 		File album = new File(url);
 		File[] files = album.listFiles();
 
 		if (files != null) {
-			bitmap = BitmapFactory.decodeFile(files[0].getAbsolutePath());
+			bitmap = BitmapFactory.decodeFile(url + photoName);
 		}
 		return bitmap;
-	}
-
-	public String getUserHeadPortraitName(int userId) {
-		String url = getLocalAbsolutePath(userId, ImageType.AlbumThumbnail);
-		checkFolder(url);
-		String name = "";
-		File album = new File(url);
-		File[] files = album.listFiles();
-
-		if (files != null) {
-			name = files[0].getName();
-		}
-		return name;
 	}
 
 	/**
@@ -80,14 +64,13 @@ public class PhotoHandler {
 	 * @param url
 	 * @param userId
 	 */
-	public void downloadImageFromServer(final int userId, final String imageName,
-			final boolean isHeadPic) {
+	public void downloadImageFromServer(final int userId, final String imageName) {
 		String url = getServerPath(userId) + imageName;
 		imageLoader.loadImage(url, new SimpleImageLoadingListener() {
 			@Override
 			public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
 
-				saveBitmaps(userId, imageName, loadedImage, isHeadPic);
+				saveBitmaps(userId, imageName, loadedImage);
 				super.onLoadingComplete(imageUri, view, loadedImage);
 			}
 		});
@@ -123,7 +106,7 @@ public class PhotoHandler {
 	}
 
 	// 返回有序的图片集合，头像在第一张的位置
-	public ArrayList<Bitmap> getLocalBitmaps(Integer userId, ImageType type) {
+	public ArrayList<Bitmap> getLocalBitmaps(Integer userId, String headPicName, ImageType type) {
 		String url = getLocalAbsolutePath(userId, type);
 		checkFolder(url);
 
@@ -136,7 +119,7 @@ public class PhotoHandler {
 			Arrays.sort(names);
 			// 再次排序
 			for (int i = 0; i < names.length; i++) {
-				if (names[i].equals(getUserHeadPortraitName(userId))) {
+				if (names[i].equals(headPicName)) {
 					String s = names[i];
 					names[i] = names[0];
 					names[0] = s;
@@ -152,7 +135,7 @@ public class PhotoHandler {
 	}
 
 	// 返回有序的路径集合，头像在第一张的位置
-	public String[] getLocalBitmapPathsArr(Integer userId, ImageType type) {
+	public String[] getLocalBitmapPathsArr(Integer userId, String headPicName, ImageType type) {
 		String url = getLocalAbsolutePath(userId, type);
 		checkFolder(url);
 
@@ -165,7 +148,7 @@ public class PhotoHandler {
 			Arrays.sort(names);
 			// 再次排序
 			for (int i = 0; i < names.length; i++) {
-				if (names[i].equals(getUserHeadPortraitName(userId))) {
+				if (names[i].equals(headPicName)) {
 					String s = names[i];
 					names[i] = names[0];
 					names[0] = s;
@@ -215,17 +198,12 @@ public class PhotoHandler {
 		}
 	}
 
-	public void saveBitmaps(Integer userId, String imageName, Bitmap bitmap, boolean isHeadPic) {
+	public void saveBitmaps(Integer userId, String imageName, Bitmap bitmap) {
 		String albumUrl = localBase + userId + "/" + lacalAlbum;
 		String albumThumbnailUrl = localBase + userId + "/" + localAlbumThubmnail;
-
+		
 		saveBitmap(albumUrl, imageName, bitmap);
 		saveBitmap(albumThumbnailUrl, imageName, ThumbnailUtils.extractThumbnail(bitmap, 240, 240));
-		if (isHeadPic) {
-			String headPortraitUrl = localBase + userId + "/" + localHeadPortrait;
-			saveBitmap(headPortraitUrl, imageName,
-					ThumbnailUtils.extractThumbnail(bitmap, 240, 240));
-		}
 	}
 
 	public String getLocalAbsolutePath(Integer userId, ImageType type) {
@@ -236,9 +214,6 @@ public class PhotoHandler {
 			break;
 		case AlbumThumbnail:
 			str = localAlbumThubmnail;
-			break;
-		case Headportrait:
-			str = localHeadPortrait;
 			break;
 		}
 		return localBase + userId + "/" + str;
@@ -257,13 +232,11 @@ public class PhotoHandler {
 		return newSet;
 	}
 
-	public void deleteLocalBitmap(String url, int position) {
-		checkFolder(url);
-
-		File album = new File(url);
-		File[] files = album.listFiles();
-		if (files.length > position)
-			files[position].delete();
+	public void clearFolder(String url) {
+		File temp = new File(url);
+		if (temp.exists()) {
+			temp.delete();
+		}
 	}
 
 }
