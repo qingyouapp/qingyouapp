@@ -84,6 +84,7 @@ public class ChatPage extends BaseActivity implements OnClickListener {
 	public static final int REALTIMEFROM_OTHER = 2;
 	public static final int REALTIMEFROM_SELF = 1;
 	public static final int REALTIMEFROM_NO = 0;
+	private static final int REQUEST_PIC_Kitkat = 3;
 	private static final int REQUEST_PIC = 1;
 	private static final int REQUEST_CAMERA = 2;
 	private static final int TEXT_MAX_LEN = 150;
@@ -408,7 +409,14 @@ public class ChatPage extends BaseActivity implements OnClickListener {
 		pullListView.setAdapter(chatMessageAdapter);
 		scrollToBottom();
 		setListViewInfo();
+		handler.postDelayed(refreshChatMessageAdapterRunnable, 3000);
 	}
+	Runnable refreshChatMessageAdapterRunnable=new Runnable() {
+		@Override
+		public void run() {
+			chatMessageAdapter.notifyDataSetChanged();
+		}
+	};
 	private void pressVoice(){
 		pressToVoice.setBackgroundResource(R.drawable.gotye_btn_send_voice_pressed);
 		pressToVoice.setText(R.string.gotye_record_up);
@@ -872,15 +880,20 @@ public class ChatPage extends BaseActivity implements OnClickListener {
 	}
 
 	private void takePic() {
-		Intent intent;
-		intent = new Intent(Intent.ACTION_PICK,
-				android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-		intent.setType("image/jpeg");
-		startActivityForResult(intent, REQUEST_PIC);
+		//		Intent intent;
+		//		intent = new Intent(Intent.ACTION_PICK,
+		//				android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+		//		intent.setType("image/jpeg");
+		//		startActivityForResult(intent, REQUEST_PIC);
 
-		// Intent intent = new Intent(Intent.ACTION_GET_CONTENT, null);
-		// intent.setType("image/*");
-		// startActivityForResult(intent, REQUEST_PIC);
+		Intent intent = new Intent(Intent.ACTION_GET_CONTENT, null);
+		intent.setType("image/*");
+
+		if(android.os.Build.VERSION.SDK_INT>=android.os.Build.VERSION_CODES.KITKAT){                  
+			startActivityForResult(intent, REQUEST_PIC_Kitkat);    
+		}else{                
+			startActivityForResult(intent, REQUEST_PIC);   
+		}  
 	}
 
 	private void takePhoto() {
@@ -906,6 +919,7 @@ public class ChatPage extends BaseActivity implements OnClickListener {
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		// 选取图片的返回值
+
 		if (requestCode == REQUEST_PIC) {
 			if (data != null) {
 				Uri selectedImage = data.getData();
@@ -915,7 +929,15 @@ public class ChatPage extends BaseActivity implements OnClickListener {
 				}
 			}
 
-		} else if (requestCode == REQUEST_CAMERA) {
+		}else if(requestCode == REQUEST_PIC_Kitkat){
+			if (data != null) {
+				Uri selectedImage = data.getData();
+				if (selectedImage != null) {
+					String path = URIUtil.getPath(this, selectedImage);
+					sendPicture(path);
+				}
+			}
+		}else if (requestCode == REQUEST_CAMERA) {
 			if (resultCode == RESULT_OK) {
 
 				if (cameraFile != null && cameraFile.exists())
@@ -1110,6 +1132,9 @@ public class ChatPage extends BaseActivity implements OnClickListener {
 		}
 		if(pannelWindow != null){
 			pannelWindow.update();
+		}
+		if(message.getType() == GotyeMessageType.GotyeMessageTypeImage){
+			handler.postDelayed(refreshChatMessageAdapterRunnable, 2000);
 		}
 		scrollToBottom();
 	}

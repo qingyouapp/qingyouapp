@@ -10,7 +10,10 @@ import java.io.IOException;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 
+import com.gotye.api.GotyeAPI;
+import com.gotye.api.GotyeMessage;
 import com.gotye.api.PathUtil;
+import com.xwq.qingyouapp.R;
 
 public class BitmapUtil {
 	public static final int IMAGE_MAX_SIZE_LIMIT = 100;
@@ -135,8 +138,51 @@ public class BitmapUtil {
 	}
 
 	public static String toJPG(File absoluteFile) {
-		 
+
 		return null;
+	}
+
+	public static Bitmap getSendBitmap(GotyeMessage msg, float reqWidth, GotyeAPI api) {
+		final BitmapFactory.Options options = new BitmapFactory.Options();
+		options.inJustDecodeBounds = true;
+		BitmapFactory.decodeFile(msg.getMedia().getPath_ex(), options);
+
+		final int width = options.outWidth;
+		int inSampleSize = 1;
+
+		if ( width > reqWidth) {
+			final int widthRatio = Math.round((float) width / (float) reqWidth);
+			inSampleSize = widthRatio;
+		}
+		options.inSampleSize = inSampleSize;
+		options.inJustDecodeBounds = false;
+		Bitmap bitmap =  BitmapFactory.decodeFile(msg.getMedia().getPath_ex(), options);
+		if(bitmap==null){
+			api.downloadMessage(msg);
+			return null;
+		}
+		while(bitmap==null){
+			try {
+				Thread.sleep(500);
+			} catch (InterruptedException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			bitmap =  BitmapFactory.decodeFile(msg.getMedia().getPath_ex(), options);
+		}
+		int dot = msg.getMedia().getPath_ex()	.lastIndexOf(".");
+		File file = new File(msg.getMedia().getPath_ex().substring(0,dot)+R.string.suffix+msg.getMedia().getPath_ex().substring(dot));
+
+		try {
+			BufferedOutputStream bos = new BufferedOutputStream(
+					new FileOutputStream(file));
+			bitmap.compress(Bitmap.CompressFormat.JPEG, 100, bos);
+			bos.flush();
+			bos.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return bitmap;
 	}
 
 }

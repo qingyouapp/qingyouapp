@@ -12,9 +12,9 @@ import android.net.Uri;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.WindowManager;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -351,11 +351,11 @@ public class ChatMessageAdapter extends BaseAdapter {
 		Drawable[] leftRight = holder.iv.getCompoundDrawables();
 		AnimationDrawable left = (AnimationDrawable) leftRight[0];
 		AnimationDrawable right = (AnimationDrawable) leftRight[2];
-		
+
 		int time = (int) (message.getMedia().getDuration() / 1000f);
-		
+
 		if(isPlaying(message)){
-//			time = (int) (curPlayTime / 1000f);
+			//			time = (int) (curPlayTime / 1000f);
 			if(left != null){
 				left.start();
 			}else if(right != null){
@@ -373,31 +373,31 @@ public class ChatMessageAdapter extends BaseAdapter {
 		if(time == 0){
 			time = 1;
 		}
-		
+
 		holder.iv.setText((int)time + "''");
 		int voiceWidth = chatPage.getResources().getDimensionPixelSize(R.dimen.gotye_message_voice_len) + (int) (width / 2f * (time / 60f));
 		holder.iv.setWidth(voiceWidth);
-		
-		
+
+
 		holder.iv.setOnClickListener(new GotyeVoicePlayClickPlayListener(message,
 				holder.iv, this, chatPage));
-//		boolean isPlaying = isPlaying(message);
-//		if (isPlaying) {
-//			AnimationDrawable voiceAnimation;
-//			if (getDirect(message) == MESSAGE_DIRECT_RECEIVE) {
-//				holder.iv.setImageResource(R.anim.voice_from_icon);
-//			} else {
-//				holder.iv.setImageResource(R.anim.voice_to_icon);
-//			}
-//			voiceAnimation = (AnimationDrawable) holder.iv.getDrawable();
-//			voiceAnimation.start();
-//		} else {
-//			if (getDirect(message) == MESSAGE_DIRECT_RECEIVE) {
-//				holder.iv.setImageResource(R.drawable.chat_chatfrom_voice_playing);
-//			} else {
-//				holder.iv.setImageResource(R.drawable.chat_chatto_voice_playing);
-//			}
-//		}
+		//		boolean isPlaying = isPlaying(message);
+		//		if (isPlaying) {
+		//			AnimationDrawable voiceAnimation;
+		//			if (getDirect(message) == MESSAGE_DIRECT_RECEIVE) {
+		//				holder.iv.setImageResource(R.anim.voice_from_icon);
+		//			} else {
+		//				holder.iv.setImageResource(R.anim.voice_to_icon);
+		//			}
+		//			voiceAnimation = (AnimationDrawable) holder.iv.getDrawable();
+		//			voiceAnimation.start();
+		//		} else {
+		//			if (getDirect(message) == MESSAGE_DIRECT_RECEIVE) {
+		//				holder.iv.setImageResource(R.drawable.chat_chatfrom_voice_playing);
+		//			} else {
+		//				holder.iv.setImageResource(R.drawable.chat_chatto_voice_playing);
+		//			}
+		//		}
 
 
 		if(holder.extra_data!=null){
@@ -534,12 +534,27 @@ public class ChatMessageAdapter extends BaseAdapter {
 			msgImageView.setImageBitmap(cacheBm);
 			holder.pb.setVisibility(View.GONE);
 		} else if (msg.getMedia().getPath() != null) {
-			Bitmap bm = BitmapUtil.getBitmap(msg.getMedia().getPath());
+			Bitmap bm;
+			//= BitmapUtil.getBitmap(msg.getMedia().getPath());
+
+			int dot = -1;
+			if(msg!=null&&msg.getMedia()!=null&&msg.getMedia().getPath_ex()!=null){
+				dot = msg.getMedia().getPath_ex().lastIndexOf(".");
+			}
+			if(dot>0){
+				bm = BitmapUtil.getBitmap(msg.getMedia().getPath_ex().substring(0,dot)
+						+R.string.suffix+msg.getMedia().getPath_ex().substring(dot));
+				if(bm==null){
+					bm = BitmapUtil.getSendBitmap(msg, width/4, api);
+				}
+			}else{
+				bm = BitmapUtil.getBitmap(msg.getMedia().getPath());
+			}
 			if (bm != null) {
 				msgImageView.setImageBitmap(bm);
 				cache.put(msg.getMedia().getPath(), bm);
+				holder.pb.setVisibility(View.GONE);
 			}
-			holder.pb.setVisibility(View.GONE);
 		}
 		msgImageView.setOnClickListener(new OnClickListener() {
 			@Override
@@ -557,7 +572,6 @@ public class ChatMessageAdapter extends BaseAdapter {
 					api.downloadMessage(msg);
 					return;
 				}
-
 			}
 		});
 		// holder.pb.setVisibility(View.VISIBLE);

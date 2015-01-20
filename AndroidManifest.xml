@@ -70,10 +70,6 @@
             android:label="@string/title_activity_main" >
         </activity>
         <activity
-            android:name=".TestActivity"
-            android:label="@string/title_activity_test" >
-        </activity>
-        <activity
             android:name=".SysMainActivity"
             android:label="@string/title_activity_sys_main" >
         </activity>

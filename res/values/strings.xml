@@ -185,5 +185,6 @@
     <string name="no_recom_alert">暂时没有新推荐\n请耐心等待</string>
     <string name="no_message_alert">暂时没有新消息</string>
     <string name="new_message_num">1</string>
+    <string name="suffix">suffix</string>
 
 </resources>

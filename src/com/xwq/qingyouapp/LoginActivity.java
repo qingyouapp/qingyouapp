@@ -322,7 +322,7 @@ public class LoginActivity extends Activity implements LoginListener{
 	}
 
 	//chat module
-	public static final String CONFIG = "login_config";
+	public static final String CONFIG = "chat_login_config";
 
 	public void saveUser(String name, String password) {
 		if (TextUtils.isEmpty(name)) {

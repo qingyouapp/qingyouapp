@@ -69,11 +69,10 @@ public class SysMainActivity extends BaseActivity{
 	 * 初始化首个Fragment
 	 */
 	private void initFragment() {
-		FragmentTransaction ft = fMgr.beginTransaction();
+		FragmentTransaction ft =  fMgr.beginTransaction();
 		RecomHistoryFrag recomHistoryFrag = new RecomHistoryFrag();
 		ft.add(R.id.fragmentRoot, recomHistoryFrag, "recomHistoryFrag");
 		ft.addToBackStack("recomHistoryFrag");
-
 		ft.commit();
 	}
 
@@ -108,7 +107,7 @@ public class SysMainActivity extends BaseActivity{
 	}
 
 	/**
-	 * 处理底部点击事件
+	 * 处理底部点击事件O
 	 */
 	private void dealBottomButtonsClickEvent() {
 		recomHistory.setOnClickListener(new OnClickListener() {
@@ -116,11 +115,27 @@ public class SysMainActivity extends BaseActivity{
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				if (fMgr.findFragmentByTag("recomHistoryFrag") != null
+				FragmentTransaction ft =  fMgr.beginTransaction();
+				if(fMgr.findFragmentByTag("chatHistoryFrag")!=null){
+					ft.hide(fMgr.findFragmentByTag("chatHistoryFrag"));
+				}
+				if(fMgr.findFragmentByTag("selfPageFrag")!=null){
+					ft.hide(fMgr.findFragmentByTag("selfPageFrag"));
+				}
+				if(fMgr.findFragmentByTag("recomHistoryFrag")==null){
+					RecomHistoryFrag recomHistoryFrag = new RecomHistoryFrag();
+					ft.add(R.id.fragmentRoot, recomHistoryFrag, "recomHistoryFrag");
+					ft.addToBackStack("recomHistoryFrag");
+				}else if (fMgr.findFragmentByTag("recomHistoryFrag") != null
 						&& fMgr.findFragmentByTag("recomHistoryFrag").isVisible()) {
 					return;
+				}else if(fMgr.findFragmentByTag("recomHistoryFrag") != null
+						&& !fMgr.findFragmentByTag("recomHistoryFrag").isVisible()){
+					ft.show( fMgr.findFragmentByTag("recomHistoryFrag"));
 				}
-				popAllFragmentsExceptTheBottomOne();
+
+				ft.commit();
+				//				popAllFragmentsExceptTheBottomOne();
 				ChooseItem(ITEM.RecomHistory);
 			}
 		});
@@ -129,30 +144,59 @@ public class SysMainActivity extends BaseActivity{
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				popAllFragmentsExceptTheBottomOne();
-				FragmentTransaction ft = fMgr.beginTransaction();
-				ft.hide(fMgr.findFragmentByTag("recomHistoryFrag"));
-				chatHistoryFrag = new ChatHistoryFrag();
-				ft.add(R.id.fragmentRoot, chatHistoryFrag, "chatHistoryFrag");
-				ft.addToBackStack("chatHistoryFrag");
+				//				popAllFragmentsExceptTheBottomOne();
+				FragmentTransaction ft =  fMgr.beginTransaction();
+				if(fMgr.findFragmentByTag("recomHistoryFrag")!=null){
+					ft.hide(fMgr.findFragmentByTag("recomHistoryFrag"));
+				}
+				if(fMgr.findFragmentByTag("selfPageFrag")!=null){
+					ft.hide(fMgr.findFragmentByTag("selfPageFrag"));
+				}
+				if(fMgr.findFragmentByTag("chatHistoryFrag")==null){
+					chatHistoryFrag = new ChatHistoryFrag();
+					ft.add(R.id.fragmentRoot, chatHistoryFrag, "chatHistoryFrag");
+					ft.addToBackStack("chatHistoryFrag");
+				}else if (fMgr.findFragmentByTag("chatHistoryFrag") != null
+						&& fMgr.findFragmentByTag("chatHistoryFrag").isVisible()) {
+					return;
+				}else if(fMgr.findFragmentByTag("chatHistoryFrag") != null
+						&& !fMgr.findFragmentByTag("chatHistoryFrag").isVisible()){
+					ft.show( fMgr.findFragmentByTag("chatHistoryFrag"));
+				}
+
 				ft.commit();
 				ChooseItem(ITEM.ChatHistory);
 			}
 		});
 		selfPage.setOnClickListener(new OnClickListener() {
 
+
 			@Override
 			public void onClick(View v) {
 				//告诉ShowPageFrag显示哪个User的信息
 				ThisApp.SHOW_USER_ID = localStorage.getUser().getUserid();
-
-				popAllFragmentsExceptTheBottomOne();
-				FragmentTransaction ft = fMgr.beginTransaction();
-				ft.hide(fMgr.findFragmentByTag("recomHistoryFrag"));
-				ShowPageFrag showPageFrag = new ShowPageFrag();
-				ft.add(R.id.fragmentRoot, showPageFrag, "selfPageFrag");
-				ft.addToBackStack("selfPageFrag");
+				FragmentTransaction ft =  fMgr.beginTransaction();
+				if(fMgr.findFragmentByTag("recomHistoryFrag")!=null){
+					ft.hide(fMgr.findFragmentByTag("recomHistoryFrag"));
+				}
+				if(fMgr.findFragmentByTag("chatHistoryFrag")!=null){
+					ft.hide(fMgr.findFragmentByTag("chatHistoryFrag"));
+				}
+				if(fMgr.findFragmentByTag("selfPageFrag")==null){
+					ShowPageFrag showPageFrag = new ShowPageFrag();
+					ft.add(R.id.fragmentRoot, showPageFrag, "selfPageFrag");
+					ft.addToBackStack("selfPageFrag");
+				}else if (fMgr.findFragmentByTag("selfPageFrag") != null
+						&& fMgr.findFragmentByTag("selfPageFrag").isVisible()) {
+					return;
+				}else if(fMgr.findFragmentByTag("selfPageFrag") != null
+						&& !fMgr.findFragmentByTag("selfPageFrag").isVisible()){
+					ft.show( fMgr.findFragmentByTag("selfPageFrag"));
+				}
+				
 				ft.commit();
+				//				popAllFragmentsExceptTheBottomOne();
+
 				ChooseItem(ITEM.SelfPage);
 			}
 		});
@@ -161,11 +205,11 @@ public class SysMainActivity extends BaseActivity{
 	/**
 	 * 从back stack弹出所有的fragment，保留首页的那个
 	 */
-	public static void popAllFragmentsExceptTheBottomOne() {
-		for (int i = 0, count = fMgr.getBackStackEntryCount() - 1; i < count; i++) {
-			fMgr.popBackStack();
-		}
-	}
+	//	public static void popAllFragmentsExceptTheBottomOne() {
+	//		for (int i = 0, count = fMgr.getBackStackEntryCount() - 1; i < count; i++) {
+	//			fMgr.popBackStack();
+	//		}
+	//	}
 
 	@SuppressLint("ResourceAsColor")
 	public void ChooseItem(ITEM item) {
@@ -408,6 +452,11 @@ public class SysMainActivity extends BaseActivity{
 		// toService.setAction(GotyeService.ACTION_RUN_BACKGROUND);
 		// startService(toService);
 		super.onDestroy();
+	}
+	@Override
+	public void onBackPressed() {
+		// TODO Auto-generated method stub
+		this.finish();
 	}
 
 }
