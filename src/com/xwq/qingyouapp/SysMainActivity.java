@@ -175,8 +175,5 @@ public class SysMainActivity extends FragmentActivity {
 	public void onBackPressed() {
 		SysMainActivity.this.finish();
 	}
-	
-
-
-	
+		
 }

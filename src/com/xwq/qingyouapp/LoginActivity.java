@@ -43,9 +43,9 @@ public class LoginActivity extends Activity {
 
 	private EditText accountText, pwdText;
 	private Button loginBtn;
-	private TextView registerText, loginQuesText;
+	private TextView registerText;
 
-	private String accountStr, pwdStr, idStr;
+	private String accountStr;
 	private Processor processor;
 	private Animation shake;
 	private LocalStorage localStorage;
@@ -94,7 +94,7 @@ public class LoginActivity extends Activity {
 		pwdText = (EditText) this.findViewById(R.id.editText2);
 		loginBtn = (Button) this.findViewById(R.id.button1);
 		registerText = (TextView) this.findViewById(R.id.textView1);
-		loginQuesText = (TextView) this.findViewById(R.id.textView2);
+		// loginQuesText = (TextView) this.findViewById(R.id.textView2);
 		loginBtn.setClickable(false);
 
 		shake = AnimationUtils.loadAnimation(LoginActivity.this, R.anim.shake);
@@ -109,7 +109,6 @@ public class LoginActivity extends Activity {
 
 	public void login() {
 		accountStr = accountText.getText().toString();
-		pwdStr = pwdText.getText().toString();
 		UserMetadata user;
 
 		if (!(StringHandler.isEmail(accountStr)) && !(StringHandler.isMobile(accountStr))) {

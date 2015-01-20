@@ -4,11 +4,11 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Collections;
 import java.util.Date;
 import java.util.HashSet;
 
 import org.json.JSONException;
+
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -45,6 +45,7 @@ import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import com.google.gson.Gson;
 import com.xwq.qingyouapp.bean.AgeBT;
 import com.xwq.qingyouapp.bean.Discipline;
@@ -58,13 +59,12 @@ import com.xwq.qingyouapp.bean.WeightBT;
 import com.xwq.qingyouapp.command.CommandCallback;
 import com.xwq.qingyouapp.command.Processor;
 import com.xwq.qingyouapp.util.DateHandler;
-import com.xwq.qingyouapp.util.GraphicsUtil;
 import com.xwq.qingyouapp.util.JsonHandler;
 import com.xwq.qingyouapp.util.LocalStorage;
 import com.xwq.qingyouapp.util.PhotoHandler;
-import com.xwq.qingyouapp.util.ThisApp;
 import com.xwq.qingyouapp.util.PhotoHandler.ImageType;
 import com.xwq.qingyouapp.util.StringHandler;
+import com.xwq.qingyouapp.util.ThisApp;
 import com.xwq.qingyouapp.view.LineBreakLayout;
 import com.xwq.qingyouapp.view.RangeSeekBar;
 import com.xwq.qingyouapp.view.RangeSeekBar.OnRangeSeekBarChangeListener;
@@ -78,12 +78,16 @@ public class EditInfoActivity extends Activity {
 	private String nickname, shuoshuo, birthday, height, weight, school, discipline, grade,
 			hobbyStr, personalStr, taPersonalStr;
 	private int prov_city;
+	private Date birthdayDate;
 	private EditText nicknameEdit, shuoshuoEdit;
 	private FriendStandards fs;
 	private Spinner heightSpin, weightSpin, schoolSpin, discipSpin, gradeSpin, provinceSpin,
 			citySpin;
 	private ArrayAdapter<String> provinceAdapter, cityAdapter;
 	private String[] provinceArr, cityArr;
+	private int yearInt = 1990;
+	private int monthInt = 5;
+	private int dayInt = 15;
 
 	// friend standards
 	private RadioGroup radioGroup;
@@ -272,13 +276,19 @@ public class EditInfoActivity extends Activity {
 	public void pullInLocalStorage() throws JSONException {
 		// 获取基本数据
 		int height = user.getHeight();
-		String birth = DateHandler.dateToString(new Date(user.getBirthday()));
+		birthdayDate = new Date(user.getBirthday());
+		String birth = DateHandler.dateToString(birthdayDate);
 		Object school = jsonHandler.getBeanById(user.getUniversity(), JsonHandler.TYPE_SCHOOL);
 		Object discipline = jsonHandler.getBeanById(user.getMajor(), JsonHandler.TYPE_DISCIPLINE);
 		Object grade = jsonHandler.getBeanById(user.getGrade(), JsonHandler.TYPE_GRADE);
 		int schoolInt = ((School) school).getId();
 		short disciplineSrt = ((Discipline) discipline).getId();
 		short gradeSrt = ((Grade) grade).getId();
+		birthdayDate = new Date(user.getBirthday());
+		String[] birthArr = DateHandler.dateToString(birthdayDate).split("-");
+		yearInt = Integer.parseInt(birthArr[0]);
+		monthInt = Integer.parseInt(birthArr[1]);
+		dayInt = Integer.parseInt(birthArr[2]);
 
 		// 更新UI
 		nicknameEdit.setText(user.getNickname());
@@ -466,7 +476,6 @@ public class EditInfoActivity extends Activity {
 		// 获取基本的输入值
 		nickname = nicknameEdit.getText().toString();
 		shuoshuo = shuoshuoEdit.getText().toString();
-		birthday = birthdayText.getText().toString();
 		height = heightSpin.getSelectedItem().toString();
 		weight = weightSpin.getSelectedItem().toString();
 		school = schoolSpin.getSelectedItemId() + "";
@@ -475,6 +484,8 @@ public class EditInfoActivity extends Activity {
 		long p = provinceSpin.getSelectedItemId();
 		long c = citySpin.getSelectedItemId();
 		prov_city = StringHandler.longToInt(p, c);
+		int age = new Date().getYear() + 1900 - yearInt;
+		int constallation = DateHandler.getConstellationInt(monthInt + 1, dayInt);
 		// !important 放在最后，因为要用到上面的值
 		fs = getFriendStandards();
 		String url = photoHandler.getLocalAbsolutePath(user.getUserid(), ImageType.Album);
@@ -482,7 +493,9 @@ public class EditInfoActivity extends Activity {
 
 		user.setNickname(nickname);
 		user.setSignature(shuoshuo);
-		user.setBirthday(DateHandler.stringToDate(birthday).getTime());
+		user.setBirthday(birthdayDate.getTime());
+		user.setAge(age);
+		user.setConstellation((short) constallation);
 		user.setHeight((short) Integer.parseInt(height));
 		user.setWeight((short) Integer.parseInt(weight));
 		user.setUniversity(Integer.parseInt(school));
@@ -540,7 +553,7 @@ public class EditInfoActivity extends Activity {
 		@Override
 		public void onClick(View arg0) {
 			DatePickerDialog datePicker = new DatePickerDialog(EditInfoActivity.this, dateSetLis,
-					1990, 5, 15);
+					yearInt, monthInt, dayInt);
 			datePicker.show();
 		}
 	};
@@ -549,6 +562,10 @@ public class EditInfoActivity extends Activity {
 		@Override
 		public void onDateSet(DatePicker view, int year, int month, int day) {
 			birthdayText.setText(year + "-" + (month + 1) + "-" + day);
+			birthdayDate = new Date(year - 1900, month, day);
+			yearInt = year;
+			monthInt = month;
+			dayInt = day;
 		}
 	};
 
@@ -826,7 +843,8 @@ public class EditInfoActivity extends Activity {
 									switch (which) {
 									case 0:
 										// 去掉当前头像的标识戳
-										ImageView firstView =(ImageView) photoLinearLyaout.getChildAt(0); 
+										ImageView firstView = (ImageView) photoLinearLyaout
+												.getChildAt(0);
 										firstView.setImageDrawable(null);
 										firstView.setOnClickListener(photoLis);
 										// 将新头像放在第一个位置
