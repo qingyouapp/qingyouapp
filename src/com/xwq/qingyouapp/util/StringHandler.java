@@ -3,6 +3,7 @@ package com.xwq.qingyouapp.util;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -13,6 +14,23 @@ import com.google.gson.Gson;
 import com.xwq.qingyouapp.bean.UserMetadata;
 
 public class StringHandler {
+	
+	public static String listToString(List<String> stringList){
+        if (stringList==null) {
+            return null;
+        }
+        StringBuilder result=new StringBuilder();
+        boolean flag=false;
+        for (String string : stringList) {
+            if (flag) {
+                result.append(",");
+            }else {
+                flag=true;
+            }
+            result.append(string);
+        }
+        return result.toString();
+    }
 
 	// 把省份和城市编号变成存储的ID
 	public static int longToInt(long proid, long cityid) {

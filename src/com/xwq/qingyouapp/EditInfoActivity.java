@@ -4,7 +4,6 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Collections;
 import java.util.Date;
 import java.util.HashSet;
 
@@ -22,6 +21,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.media.ThumbnailUtils;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -38,7 +38,6 @@ import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.ImageView.ScaleType;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -65,6 +64,7 @@ import com.xwq.qingyouapp.util.LocalStorage;
 import com.xwq.qingyouapp.util.PhotoHandler;
 import com.xwq.qingyouapp.util.PhotoHandler.ImageType;
 import com.xwq.qingyouapp.util.StringHandler;
+import com.xwq.qingyouapp.util.ThisApp;
 import com.xwq.qingyouapp.view.LineBreakLayout;
 import com.xwq.qingyouapp.view.RangeSeekBar;
 import com.xwq.qingyouapp.view.RangeSeekBar.OnRangeSeekBarChangeListener;
@@ -78,12 +78,16 @@ public class EditInfoActivity extends Activity {
 	private String nickname, shuoshuo, birthday, height, weight, school, discipline, grade,
 			hobbyStr, personalStr, taPersonalStr;
 	private int prov_city;
+	private Date birthdayDate;
 	private EditText nicknameEdit, shuoshuoEdit;
 	private FriendStandards fs;
 	private Spinner heightSpin, weightSpin, schoolSpin, discipSpin, gradeSpin, provinceSpin,
 			citySpin;
 	private ArrayAdapter<String> provinceAdapter, cityAdapter;
 	private String[] provinceArr, cityArr;
+	private int yearInt = 1990;
+	private int monthInt = 5;
+	private int dayInt = 15;
 
 	// friend standards
 	private RadioGroup radioGroup;
@@ -104,9 +108,11 @@ public class EditInfoActivity extends Activity {
 	private HashSet<String> photoPathsBegin = new HashSet<String>();
 	private HashSet<String> photoPathsNow = new HashSet<String>();
 	private HashSet<String> photoPathsNew = new HashSet<String>();
-	private ArrayList<Integer> deletesPhotoList = new ArrayList<Integer>();
+	private ArrayList<String> deletesPhotoList = new ArrayList<String>();
 	private String deletesPhotos = "";
 	private String allPhotos = "";
+	private boolean headPicChanged = false;
+	private Bitmap headPicBitmap = null;
 
 	// The Uri to store the big bitmap
 	@SuppressLint("SdCardPath")
@@ -270,13 +276,19 @@ public class EditInfoActivity extends Activity {
 	public void pullInLocalStorage() throws JSONException {
 		// 获取基本数据
 		int height = user.getHeight();
-		String birth = DateHandler.dateToString(new Date(user.getBirthday()));
+		birthdayDate = new Date(user.getBirthday());
+		String birth = DateHandler.dateToString(birthdayDate);
 		Object school = jsonHandler.getBeanById(user.getUniversity(), JsonHandler.TYPE_SCHOOL);
 		Object discipline = jsonHandler.getBeanById(user.getMajor(), JsonHandler.TYPE_DISCIPLINE);
 		Object grade = jsonHandler.getBeanById(user.getGrade(), JsonHandler.TYPE_GRADE);
 		int schoolInt = ((School) school).getId();
 		short disciplineSrt = ((Discipline) discipline).getId();
 		short gradeSrt = ((Grade) grade).getId();
+		birthdayDate = new Date(user.getBirthday());
+		String[] birthArr = DateHandler.dateToString(birthdayDate).split("-");
+		yearInt = Integer.parseInt(birthArr[0]);
+		monthInt = Integer.parseInt(birthArr[1]);
+		dayInt = Integer.parseInt(birthArr[2]);
 
 		// 更新UI
 		nicknameEdit.setText(user.getNickname());
@@ -351,10 +363,159 @@ public class EditInfoActivity extends Activity {
 			initRangeSeekBar(weightBar, weightS, weightE, weightL, weightR);
 		}
 		// 加载相册
-		ArrayList<Bitmap> list = photoHandler.getLocalBitmaps(user.getUserid(),
-				user.getHeadPortrait(), ImageType.AlbumThumbnail);
+		ArrayList<Bitmap> list = photoHandler.getLocalBitmaps(user, ImageType.AlbumThumbnail);
 		if (list != null && list.size() > 0)
 			addPhotoListToLayout(list);
+	}
+
+	OnClickListener submitLis = new OnClickListener() {
+		@Override
+		public void onClick(View arg0) {
+			// 首先update图片，更新图片目录，然后再提交基本信息（包含了最新的图片路径信息）
+			try {
+				processor = Processor.instance(EditInfoActivity.this);
+				refreshPhotos();
+			} catch (JSONException e) {
+				e.printStackTrace();
+			}
+		}
+	};
+
+	public void refreshPhotos() throws JSONException {
+		// 处理图片删除
+		if (deletesPhotoList.size() > 0) {
+			photosChanged = true;
+			deleteLocalBitmap(deletesPhotoList);
+		}
+		// 处理图片添加
+		int count = photoLinearLyaout.getChildCount();
+		for (int i = 0; i < count; i++) {
+			ImageView view = (ImageView) photoLinearLyaout.getChildAt(i);
+			if ("new".equals(view.getContentDescription().toString())) {
+				photosChanged = true;
+				BitmapDrawable drawable = (BitmapDrawable) view.getBackground();
+				Bitmap bitmap = drawable.getBitmap();
+				// 分别保存原图和缩略图
+				String imageName = "." + user.getUserid() + "_"
+						+ Calendar.getInstance().getTimeInMillis() + ".png";
+				photoHandler.saveBitmaps(user.getUserid(), imageName, bitmap);
+			}
+		}
+		// 图片有改动时提交,否则直接更新基本信息
+		if (photosChanged) {
+			String url = photoHandler.getLocalAbsolutePath(user.getUserid(), ImageType.Album);
+			photoPathsNow = photoHandler.getLocalBitmapPaths(url);
+			photoPathsNew = photoHandler.getNewPhotosPath(photoPathsBegin, photoPathsNow);
+			processor.refreshPhoto(photoPathsNew, deletesPhotos, user, photoCallback);
+		} else {
+			updateBasicInfo();
+		}
+	}
+
+	CommandCallback photoCallback = new CommandCallback() {
+		@SuppressLint("ShowToast")
+		@Override
+		public void excute(String jb) {
+			if ("200".equals(jb.trim())) {
+				try {
+					updateBasicInfo();
+				} catch (JSONException e) {
+					e.printStackTrace();
+				}
+			} else {
+				Toast.makeText(getApplication(),
+						getResources().getString(R.string.server_exception), Toast.LENGTH_SHORT)
+						.show();
+			}
+		}
+	};
+
+	public void updateBasicInfo() throws JSONException {
+		user = getSubmitUser();
+		String url = getResources().getString(R.string.url_base)
+				+ getResources().getString(R.string.url_update);
+		processor.runCommand(url, StringHandler.userToJsonString(user), updateCallback);
+	}
+
+	CommandCallback updateCallback = new CommandCallback() {
+		@SuppressLint("ShowToast")
+		@Override
+		public void excute(String jb) {
+			if ("valid".equals(jb.trim())) {
+				saveSucceedAndBack();
+			} else {
+				Toast.makeText(getApplication(),
+						getResources().getString(R.string.server_exception), Toast.LENGTH_SHORT)
+						.show();
+			}
+		}
+	};
+
+	// 保存成功
+	public void saveSucceedAndBack() {
+		localStorage.setUser(user);
+		Intent intent = new Intent();
+		Gson gson = new Gson();
+		intent.putExtra("user", gson.toJson(user));
+		setResult(1, intent);
+		EditInfoActivity.this.finish();
+		Toast.makeText(getApplication(), getResources().getString(R.string.submit_success),
+				Toast.LENGTH_SHORT).show();
+	}
+
+	// 取消更改
+	public void backWithoutSave() {
+		Intent intent = new Intent();
+		intent.putExtra("user", "cancelled");
+		setResult(1, intent);
+		EditInfoActivity.this.finish();
+	}
+
+	// 获取提交的USER信息
+	public UserMetadata getSubmitUser() throws JSONException {
+		// 获取基本的输入值
+		nickname = nicknameEdit.getText().toString();
+		shuoshuo = shuoshuoEdit.getText().toString();
+		height = heightSpin.getSelectedItem().toString();
+		weight = weightSpin.getSelectedItem().toString();
+		school = schoolSpin.getSelectedItemId() + "";
+		discipline = discipSpin.getSelectedItemId() + "";
+		grade = gradeSpin.getSelectedItemId() + "";
+		long p = provinceSpin.getSelectedItemId();
+		long c = citySpin.getSelectedItemId();
+		prov_city = StringHandler.longToInt(p, c);
+		int age = new Date().getYear() + 1900 - yearInt;
+		int constallation = DateHandler.getConstellationInt(monthInt + 1, dayInt);
+		// !important 放在最后，因为要用到上面的值
+		fs = getFriendStandards();
+		String url = photoHandler.getLocalAbsolutePath(user.getUserid(), ImageType.Album);
+		allPhotos = photoHandler.getLocalBitmapNames(url);
+
+		user.setNickname(nickname);
+		user.setSignature(shuoshuo);
+		user.setBirthday(birthdayDate.getTime());
+		user.setAge(age);
+		user.setConstellation((short) constallation);
+		user.setHeight((short) Integer.parseInt(height));
+		user.setWeight((short) Integer.parseInt(weight));
+		user.setUniversity(Integer.parseInt(school));
+		user.setMajor((short) Integer.parseInt(discipline));
+		user.setGrade((short) Integer.parseInt(grade));
+		user.setInterests(hobbyStr);// hobbyStr, personalStr, taPersonalStr可直接使用
+		user.setSelfValue(personalStr);
+		user.setHometownCity(prov_city);
+		user.setFriendStandards(StringHandler.objectToJsonString(fs));
+		user.setPhotoAlbum(allPhotos);
+
+		// 处理头像更改
+		if (headPicChanged) {
+			String name = photoHandler.getBitmapName(user.getUserid(), headPicBitmap,
+					ImageType.AlbumThumbnail);
+			System.out.println("22222:" + name);
+			user.setHeadPortrait(name);
+		}
+
+		return user;
 	}
 
 	@SuppressLint("NewApi")
@@ -392,7 +553,7 @@ public class EditInfoActivity extends Activity {
 		@Override
 		public void onClick(View arg0) {
 			DatePickerDialog datePicker = new DatePickerDialog(EditInfoActivity.this, dateSetLis,
-					1990, 5, 15);
+					yearInt, monthInt, dayInt);
 			datePicker.show();
 		}
 	};
@@ -401,6 +562,10 @@ public class EditInfoActivity extends Activity {
 		@Override
 		public void onDateSet(DatePicker view, int year, int month, int day) {
 			birthdayText.setText(year + "-" + (month + 1) + "-" + day);
+			birthdayDate = new Date(year - 1900, month, day);
+			yearInt = year;
+			monthInt = month;
+			dayInt = day;
 		}
 	};
 
@@ -444,150 +609,6 @@ public class EditInfoActivity extends Activity {
 			showPhotoSelectDialog();
 		}
 	};
-
-	OnClickListener submitLis = new OnClickListener() {
-		@Override
-		public void onClick(View arg0) {
-			// 首先update图片，更新图片目录，然后再提交基本信息（包含了最新的图片路径信息）
-			try {
-				processor = Processor.instance(EditInfoActivity.this);
-				refreshPhotos();
-			} catch (JSONException e) {
-				e.printStackTrace();
-			}
-		}
-	};
-
-	public void refreshPhotos() throws JSONException {
-		// 处理图片删除
-		if (deletesPhotoList.size() > 0) {
-			photosChanged = true;
-			Collections.sort(deletesPhotoList);
-			int l = deletesPhotoList.size();
-			for (int i = l - 1; i >= 0; i--) {
-				deleteLocalBitmap(deletesPhotoList.get(i));
-			}
-		}
-		// 处理图片添加
-		int count = photoLinearLyaout.getChildCount();
-		for (int i = 0; i < count; i++) {
-			ImageView view = (ImageView) photoLinearLyaout.getChildAt(i);
-			if ("new".equals(view.getContentDescription().toString())) {
-				photosChanged = true;
-				BitmapDrawable drawable = (BitmapDrawable) view.getDrawable();
-				Bitmap bitmap = drawable.getBitmap();
-				// 分别保存原图和缩略图
-				String imageName = "." + user.getUserid() + "_"
-						+ Calendar.getInstance().getTimeInMillis() + ".png";
-				photoHandler.saveBitmaps(user.getUserid(), imageName, bitmap);
-			}
-		}
-		// 图片有改动时提交,否则直接更新基本信息
-		if (photosChanged) {
-			String url = photoHandler.getLocalAbsolutePath(user.getUserid(), ImageType.Album);
-			photoPathsNow = photoHandler.getLocalBitmapPaths(url);
-			photoPathsNew = photoHandler.getNewPhotosPath(photoPathsBegin, photoPathsNow);
-			processor.refreshPhoto(photoPathsNew, deletesPhotos, user, photoCallback);
-		} else {
-			updateBasicInfo();
-		}
-	}
-
-	public void updateBasicInfo() throws JSONException {
-		user = getSubmitUser();
-		String url = getResources().getString(R.string.url_base)
-				+ getResources().getString(R.string.url_update);
-		processor.runCommand(url, StringHandler.userToJsonString(user), updateCallback);
-	}
-
-	CommandCallback photoCallback = new CommandCallback() {
-		@SuppressLint("ShowToast")
-		@Override
-		public void excute(String jb) {
-			if ("200".equals(jb.trim())) {
-				try {
-					updateBasicInfo();
-				} catch (JSONException e) {
-					e.printStackTrace();
-				}
-			} else {
-				Toast.makeText(getApplication(),
-						getResources().getString(R.string.server_exception), Toast.LENGTH_SHORT)
-						.show();
-			}
-		}
-	};
-
-	CommandCallback updateCallback = new CommandCallback() {
-		@SuppressLint("ShowToast")
-		@Override
-		public void excute(String jb) {
-			if ("valid".equals(jb.trim())) {
-				saveSucceedAndBack();
-			} else {
-				Toast.makeText(getApplication(),
-						getResources().getString(R.string.server_exception), Toast.LENGTH_SHORT)
-						.show();
-			}
-		}
-	};
-
-	// 保存成功
-	public void saveSucceedAndBack() {
-		localStorage.setUser(user);
-		Intent intent = new Intent();
-		Gson gson = new Gson();
-		intent.putExtra("user", gson.toJson(user));
-		setResult(1, intent);
-		EditInfoActivity.this.finish();
-		Toast.makeText(getApplication(), getResources().getString(R.string.submit_success),
-				Toast.LENGTH_SHORT).show();
-	}
-
-	// 取消更改
-	public void backWithoutSave() {
-		Intent intent = new Intent();
-		intent.putExtra("user", "cancelled");
-		setResult(1, intent);
-		EditInfoActivity.this.finish();
-	}
-
-	// 获取提交的USER信息
-	public UserMetadata getSubmitUser() throws JSONException {
-		// 获取基本的输入值
-		nickname = nicknameEdit.getText().toString();
-		shuoshuo = shuoshuoEdit.getText().toString();
-		birthday = birthdayText.getText().toString();
-		height = heightSpin.getSelectedItem().toString();
-		weight = weightSpin.getSelectedItem().toString();
-		school = schoolSpin.getSelectedItemId() + "";
-		discipline = discipSpin.getSelectedItemId() + "";
-		grade = gradeSpin.getSelectedItemId() + "";
-		long p = provinceSpin.getSelectedItemId();
-		long c = citySpin.getSelectedItemId();
-		prov_city = StringHandler.longToInt(p, c);
-		// !important 放在最后，因为要用到上面的值
-		fs = getFriendStandards();
-		String url = photoHandler.getLocalAbsolutePath(user.getUserid(), ImageType.Album);
-		allPhotos = photoHandler.getLocalBitmapNames(url);
-
-		user = localStorage.getUser();
-		user.setNickname(nickname);
-		user.setSignature(shuoshuo);
-		user.setBirthday(DateHandler.stringToDate(birthday).getTime());
-		user.setHeight((short) Integer.parseInt(height));
-		user.setWeight((short) Integer.parseInt(weight));
-		user.setUniversity(Integer.parseInt(school));
-		user.setMajor((short) Integer.parseInt(discipline));
-		user.setGrade((short) Integer.parseInt(grade));
-		user.setInterests(hobbyStr);// hobbyStr, personalStr, taPersonalStr可直接使用
-		user.setSelfValue(personalStr);
-		user.setHometownCity(prov_city);
-		user.setFriendStandards(StringHandler.objectToJsonString(fs));
-		user.setPhotoAlbum(allPhotos);
-
-		return user;
-	}
 
 	// 提取交友标准
 	public FriendStandards getFriendStandards() {
@@ -750,31 +771,38 @@ public class EditInfoActivity extends Activity {
 		return bitmap;
 	}
 
-	public void deleteLocalBitmap(int position) {
+	@SuppressLint("NewApi")
+	public void deleteLocalBitmap(ArrayList<String> bitmapNameList) {
+		// 得到删除的字符串
+		deletesPhotos = StringHandler.listToString(bitmapNameList);
+		// 删除原图
 		String url = photoHandler.getLocalAbsolutePath(user.getUserid(), ImageType.Album);
 		File album = new File(url);
 		File[] files = album.listFiles();
+		for (File file : files) {
+			if (deletesPhotos.indexOf(file.getName()) >= 0)
+				file.delete();
+		}
+		// 删除缩略图
 		String thumbUrl = photoHandler.getLocalAbsolutePath(user.getUserid(),
 				ImageType.AlbumThumbnail);
 		File albumThumb = new File(thumbUrl);
 		File[] filesThumb = albumThumb.listFiles();
-
-		if (deletesPhotos.equals("")) {
-			deletesPhotos = files[position].getName();
-		} else
-			deletesPhotos += "," + files[position].getName();
-		// 分别删除原图和缩略图
-		files[position].delete();
-		filesThumb[position].delete();
+		for (File file : filesThumb) {
+			if (deletesPhotos.indexOf(file.getName()) >= 0)
+				file.delete();
+		}
 	}
 
 	// 将图片放入UI中
+	@SuppressWarnings("deprecation")
 	public void addPhotoToLayout(Drawable drawable) {
 		ImageView view = new ImageView(this);
-		view.setLayoutParams(new LayoutParams(240, 240));
-		view.setPadding(3, 3, 3, 3);
-		view.setImageDrawable(drawable);
-		view.setScaleType(ScaleType.FIT_XY);
+		LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(ThisApp.Thumb_Width,
+				ThisApp.Thumb_Width);
+		lp.setMargins(3, 3, 3, 3);
+		view.setLayoutParams(lp);
+		view.setBackgroundDrawable(drawable);
 		view.setContentDescription("new");// 表示是新图片
 		photoLinearLyaout.addView(view);
 		view.setOnClickListener(photoLis);
@@ -786,19 +814,19 @@ public class EditInfoActivity extends Activity {
 		if (list != null)
 			for (int i = 0; i < list.size(); i++) {
 				Bitmap bitmap = list.get(i);
-				@SuppressWarnings("deprecation")
 				Drawable drawable = new BitmapDrawable(bitmap);
 				ImageView view = new ImageView(this);
-				LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(240, 240);
+				LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(ThisApp.Thumb_Width,
+						ThisApp.Thumb_Width);
 				lp.setMargins(3, 3, 3, 3);
 				view.setLayoutParams(lp);
 				view.setBackgroundDrawable(drawable);
 				view.setContentDescription(i + "");// 将图片的位置下标作为参数传入ContentDescription
 				photoLinearLyaout.addView(view);
 
-				if (i == 0) {
-					view.setImageDrawable(getResources().getDrawable(R.drawable.avatar_circle));
-				} else
+				if (i == 0)
+					view.setImageDrawable(getResources().getDrawable(R.drawable.head_pic_flag));
+				else
 					view.setOnClickListener(photoLis);
 			}
 	}
@@ -810,23 +838,41 @@ public class EditInfoActivity extends Activity {
 					.setTitle(null)
 					.setItems(new String[] { "设为头像", "删除照片" },
 							new DialogInterface.OnClickListener() {
-								@SuppressLint("NewApi")
 								@Override
 								public void onClick(DialogInterface dialog, int which) {
 									switch (which) {
 									case 0:
-										ImageView headView = (ImageView) photoLinearLyaout
+										// 去掉当前头像的标识戳
+										ImageView firstView = (ImageView) photoLinearLyaout
 												.getChildAt(0);
+										firstView.setImageDrawable(null);
+										firstView.setOnClickListener(photoLis);
+										// 将新头像放在第一个位置
+										view.setOnClickListener(null);
+										((ImageView) view).setImageDrawable(getResources()
+												.getDrawable(R.drawable.head_pic_flag));
+										photoLinearLyaout.removeView(view);
+										photoLinearLyaout.addView(view, 0);
+										// 保存头像信息，缩略图被再次压缩的话，得到的还是原图
 										Drawable drawable = view.getBackground();
-										view.setBackground(headView.getBackground());
-										headView.setBackground(drawable);
-										// headPic Changed
-
+										headPicBitmap = ThumbnailUtils.extractThumbnail(
+												((BitmapDrawable) drawable).getBitmap(),
+												ThisApp.Thumb_Width, ThisApp.Thumb_Width);
+										headPicChanged = true;
 										break;
 									case 1:
+										// 获取被删除的bitmap
 										String conDes = view.getContentDescription().toString();
+										Drawable drawable1 = view.getBackground();
+										Bitmap currBitmap = ThumbnailUtils.extractThumbnail(
+												((BitmapDrawable) drawable1).getBitmap(),
+												ThisApp.Thumb_Width, ThisApp.Thumb_Width);
+										// 如果是旧照片，则删除本地
 										if (!"new".equals(conDes)) {
-											deletesPhotoList.add(Integer.parseInt(conDes));
+											String name = photoHandler.getBitmapName(
+													user.getUserid(), currBitmap,
+													ImageType.AlbumThumbnail);
+											deletesPhotoList.add(name);
 										}
 										photoLinearLyaout.removeView(view);
 										break;
@@ -857,8 +903,8 @@ public class EditInfoActivity extends Activity {
 		intent.putExtra("aspectX", 1);
 		intent.putExtra("aspectY", 1);
 		// outputX outputY 是裁剪图片宽高
-		intent.putExtra("outputX", 720);
-		intent.putExtra("outputY", 720);
+		intent.putExtra("outputX", 1080);
+		intent.putExtra("outputY", 1080);
 		intent.putExtra("return-data", false);
 		intent.putExtra(MediaStore.EXTRA_OUTPUT, IMAGE_URL);
 		intent.putExtra("outputFormat", Bitmap.CompressFormat.PNG.toString());

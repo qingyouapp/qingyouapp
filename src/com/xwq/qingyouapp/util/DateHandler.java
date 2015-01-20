@@ -37,17 +37,8 @@ public class DateHandler {
 
 	// 1990-6-15
 	public static String dateToString(Date date) {
-		int year = date.getYear() + 1900;
-		int month = date.getMonth() + 1;
-		int day = date.getDay();
-		return year + "-" + month + "-" + day;
-	}
-
-	// Nov 7, 3:01 PM
-	public static String getFormatedDate(Date date) {
-		SimpleDateFormat sdf = new SimpleDateFormat(" dd, hh:mm ");
-		return date.toString().substring(4, 7) + sdf.format(date)
-				+ (date.getHours() > 11 ? "PM" : "AM");
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		return sdf.format(date);
 	}
 
 	public static boolean isToday(Date date) throws ParseException {

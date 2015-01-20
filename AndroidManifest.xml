@@ -59,7 +59,8 @@
         </activity>
         <activity
             android:name=".IdentifyActivity"
-            android:label="@string/title_activity_identify" >
+            android:label="@string/title_activity_identify"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden"  >
         </activity>
         <activity
             android:name=".ImageUploadActivity"

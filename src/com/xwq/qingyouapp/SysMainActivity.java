@@ -458,5 +458,4 @@ public class SysMainActivity extends BaseActivity{
 		// TODO Auto-generated method stub
 		this.finish();
 	}
-
 }

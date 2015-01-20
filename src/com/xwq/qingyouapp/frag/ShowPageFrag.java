@@ -38,6 +38,7 @@ import com.xwq.qingyouapp.bean.Grade;
 import com.xwq.qingyouapp.bean.School;
 import com.xwq.qingyouapp.bean.UserMetadata;
 import com.xwq.qingyouapp.util.DateHandler;
+import com.xwq.qingyouapp.util.GraphicsUtil;
 import com.xwq.qingyouapp.util.JsonHandler;
 import com.xwq.qingyouapp.util.LocalStorage;
 import com.xwq.qingyouapp.util.PhotoHandler;
@@ -183,7 +184,7 @@ public class ShowPageFrag extends Fragment {
 				photoNames[0] = s;
 			}
 		}
-		
+
 		// 显示在UI
 		String url = ph.getLocalAbsolutePath(user.getUserid(), ImageType.AlbumThumbnail);
 		for (int i = 0; i < photoNames.length; i++) {
@@ -195,31 +196,6 @@ public class ShowPageFrag extends Fragment {
 				ph.downloadImageFromServer(user.getUserid(), photoNames[i]);
 			}
 		}
-		// 显示在UI
-		// ArrayList<Bitmap> list = ph.getLocalBitmaps(user.getUserid(),
-		// ImageType.AlbumThumbnail);
-		// if (list != null && list.size() > 0) {
-		// addPhotoListToLayout(list);
-		// }
-	}
-
-	@SuppressLint("ResourceAsColor")
-	public void addPhotoListToLayout(ArrayList<Bitmap> list) {
-		if (list != null)
-			for (int i = 0; i < list.size(); i++) {
-				Bitmap bitmap = list.get(i);
-				bitmap = ThumbnailUtils.extractThumbnail(bitmap, 240, 240);
-				@SuppressWarnings("deprecation")
-				Drawable drawable = new BitmapDrawable(bitmap);
-				ImageView view = new ImageView(getActivity());
-				view.setLayoutParams(new LayoutParams(240, 240));
-				view.setPadding(3, 3, 3, 3);
-				view.setScaleType(ScaleType.FIT_XY);
-				view.setImageDrawable(drawable);
-				view.setContentDescription(i + "");// 将图片的位置下标作为参数传入ContentDescription
-				photoLinearLayout.addView(view);
-				view.setOnClickListener(photoLis);
-			}
 	}
 
 	@SuppressLint("ResourceAsColor")
@@ -227,7 +203,7 @@ public class ShowPageFrag extends Fragment {
 		ImageView[] views = new ImageView[size];
 		for (int i = 0; i < size; i++) {
 			ImageView view = new ImageView(getActivity());
-			view.setLayoutParams(new LayoutParams(240, 240));
+			view.setLayoutParams(new LayoutParams(ThisApp.Thumb_Width, ThisApp.Thumb_Width));
 			view.setPadding(3, 3, 3, 3);
 			view.setScaleType(ScaleType.FIT_XY);
 			view.setContentDescription(i + "");// 将图片的位置下标作为参数传入ContentDescription
