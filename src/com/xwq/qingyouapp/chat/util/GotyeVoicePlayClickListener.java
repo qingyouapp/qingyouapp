@@ -65,9 +65,9 @@ public class GotyeVoicePlayClickListener implements View.OnClickListener {
 	public void stopPlayVoice() {
 		voiceAnimation.stop();
 		if (getDirect(message) == ChatMessageAdapter.MESSAGE_DIRECT_RECEIVE) {
-			voiceIconView.setImageResource(R.drawable.chat_chatfrom_voice_playing);
+			voiceIconView.setImageResource(R.drawable.gotye_anim_voice_3);
 		} else {
-			voiceIconView.setImageResource(R.drawable.chat_chatto_voice_playing);
+			voiceIconView.setImageResource(R.drawable.gotye_anim_voice_right_3);
 		}
 		// stop play voice
 		if (mediaPlayer != null) {
@@ -126,9 +126,9 @@ public class GotyeVoicePlayClickListener implements View.OnClickListener {
 	private void showAnimation() {
 		// play voice, and start animation
 		if (getDirect(message) == ChatMessageAdapter.MESSAGE_DIRECT_RECEIVE) {
-			voiceIconView.setImageResource(R.anim.voice_from_icon);
+			voiceIconView.setImageResource(R.anim.gotye_anim_voice);
 		} else {
-			voiceIconView.setImageResource(R.anim.voice_to_icon);
+			voiceIconView.setImageResource(R.anim.gotye_anim_voice_right);
 		}
 		voiceAnimation = (AnimationDrawable) voiceIconView.getDrawable();
 		voiceAnimation.start();

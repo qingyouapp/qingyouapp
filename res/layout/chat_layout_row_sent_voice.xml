@@ -34,7 +34,7 @@
             android:layout_toLeftOf="@id/iv_userhead"
             android:background="@drawable/gotye_bg_msg_voice_right_selector"
             android:drawablePadding="5dip"
-            android:drawableRight="@drawable/gotye_anim_voice_right"
+            android:drawableRight="@anim/gotye_anim_voice_right"
             android:gravity="left|center_vertical"
             android:singleLine="true"
             android:text="3&apos;&apos;"
