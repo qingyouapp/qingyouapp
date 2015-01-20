@@ -8,7 +8,8 @@
     <dimen name="bar_height">50dp</dimen>
     <dimen name="margin_left">14dp</dimen>
     <dimen name="margin_right">14dp</dimen>
-    <dimen name="margin_top">16dp</dimen>
+    <dimen name="margin_top">14dp</dimen>
+    <dimen name="margin_bottom">50dp</dimen>
     <dimen name="basic_name_width">45dp</dimen>
     <dimen name="basic_name_height">45dp</dimen>
     <dimen name="basic_name_margin">20dp</dimen>
@@ -19,12 +20,13 @@
     <dimen name="basic_hint_height">43dp</dimen>
     <dimen name="basic_hint_margin">20dp</dimen>
     <dimen name="spinner_margin">13dp</dimen>
-    <dimen name="photo_width">240px</dimen>
+    <dimen name="photo_width">120dp</dimen>
     <dimen name="photo_padding">1dp</dimen>
     <dimen name="font_left_right">6dp</dimen>
     <dimen name="font_top_buttom">2dp</dimen>
     <dimen name="table_row_height">50dp</dimen>
     <dimen name="table_column1_width">65dp</dimen>
+    
 
     <!-- font size -->
     <dimen name="font_16">9sp</dimen>
