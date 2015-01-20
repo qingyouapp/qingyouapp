@@ -55,7 +55,7 @@
     <string name="woman_num">1</string>
     <string name="man_woman">都行</string>
     <string name="all_num">2</string>
-    <string name="pls_input_info">完善资料后才能获得推荐哦</string>
+    <string name="pls_input_info">完善资料</string>
 
     <!-- identify -->
     <string name="title_activity_identify">IdentifyActivity</string>

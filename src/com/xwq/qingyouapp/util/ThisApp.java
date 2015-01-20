@@ -11,14 +11,17 @@ import android.app.Application;
 
 public class ThisApp extends Application {
 
+	// 缩略图的像素点
+	public static int Thumb_Width = GraphicsUtil.dipToPixel(120);
+
 	// 浏览图片时使用的全局变量
 	public static int USER_ID_SELECTED = 0;
 	public static int PHOTOS_SELECTED_ITEM = 0;
 	public static String[] PHOTO_NAME_ARRAY;
-	
-	//查看主页时存储的UserId
+
+	// 查看主页时存储的UserId
 	public static int SHOW_USER_ID = 0;
-	
+
 	public static ImageLoader imageLoader;
 
 	private static List<Activity> activityList = new ArrayList<Activity>();
