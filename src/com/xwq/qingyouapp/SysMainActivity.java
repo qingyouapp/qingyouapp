@@ -1,16 +1,10 @@
 package com.xwq.qingyouapp;
 
-import java.io.File;
-import java.io.IOException;
-
 import android.annotation.SuppressLint;
 import android.app.NotificationManager;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
-import android.net.Uri;
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.view.View;
@@ -24,12 +18,9 @@ import com.gotye.api.GotyeMessage;
 import com.gotye.api.GotyeNotify;
 import com.gotye.api.GotyeStatusCode;
 import com.gotye.api.GotyeUser;
-import com.gotye.api.PathUtil;
 import com.xwq.qingyouapp.chat.LoginPage;
 import com.xwq.qingyouapp.chat.base.BaseActivity;
 import com.xwq.qingyouapp.chat.util.BeepManager;
-import com.xwq.qingyouapp.chat.util.BitmapUtil;
-import com.xwq.qingyouapp.chat.util.URIUtil;
 import com.xwq.qingyouapp.frag.ChatHistoryFrag;
 import com.xwq.qingyouapp.frag.RecomHistoryFrag;
 import com.xwq.qingyouapp.frag.ShowPageFrag;
