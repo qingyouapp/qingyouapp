@@ -5,6 +5,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.view.Window;
 import com.xwq.qingyouapp.frag.ImagePagerFragment;
+import com.xwq.qingyouapp.util.ThisApp;
 
 public class PhotoShowActivity extends FragmentActivity {
 	@Override
@@ -12,7 +13,7 @@ public class PhotoShowActivity extends FragmentActivity {
 		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_photo_show);
-
+		
 		Fragment fr;
 		String tag = ImagePagerFragment.class.getSimpleName();
 		fr = getSupportFragmentManager().findFragmentByTag(tag);
@@ -23,6 +24,11 @@ public class PhotoShowActivity extends FragmentActivity {
 		getSupportFragmentManager().beginTransaction().replace(android.R.id.content, fr, tag)
 				.commit();
 
+	}
+	
+	@Override
+	public void onBackPressed() {
+		this.finish();
 	}
 
 }

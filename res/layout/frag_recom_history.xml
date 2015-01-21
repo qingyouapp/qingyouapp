@@ -13,7 +13,6 @@
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:layout_below="@+id/include2"
-        android:layout_marginBottom="50dp"
         android:cacheColorHint="#00000000"
         android:divider="@null"
         android:fadingEdge="none"
@@ -25,8 +24,7 @@
         android:id="@+id/no_recom_view"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:layout_below="@+id/include2"
-        android:layout_marginBottom="50dp" >
+        android:layout_below="@+id/include2">
 
         <TextView
             android:id="@+id/textView1"

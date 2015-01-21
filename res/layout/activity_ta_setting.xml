@@ -81,7 +81,8 @@
         android:layout_width="fill_parent"
         android:layout_height="@dimen/table_row_height"
         android:layout_marginTop="@dimen/margin_top"
-        android:background="@color/white"
+        android:background="@drawable/layout_selector"
+        android:clickable="true"
         android:gravity="center_vertical"
         android:paddingLeft="@dimen/margin_left"
         android:text="@string/clear_chat_history"
@@ -98,17 +99,12 @@
         android:layout_width="fill_parent"
         android:layout_height="@dimen/table_row_height"
         android:layout_marginTop="@dimen/margin_top"
-        android:background="@color/white"
+        android:background="@drawable/layout_selector"
+        android:clickable="true"
         android:gravity="center_vertical"
         android:paddingLeft="@dimen/margin_left"
         android:text="@string/complaint"
         android:textColor="@color/color_000000"
         android:textSize="@dimen/font_28" />
-
-    <ImageView
-        android:layout_width="fill_parent"
-        android:layout_height="2dp"
-        android:contentDescription="@string/desc"
-        android:src="@drawable/shape_line" />
 
 </LinearLayout>

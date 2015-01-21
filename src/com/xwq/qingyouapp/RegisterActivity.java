@@ -220,6 +220,11 @@ public class RegisterActivity extends Activity {
 		// list.add(pwd);
 		// localStorage.addData(list);
 	}
+	
+	@Override
+	public void onBackPressed() {
+		this.finish();
+	}
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {

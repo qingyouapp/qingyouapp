@@ -18,7 +18,7 @@ public class TaSettingActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.activity_ta_setting);
-
+		
 		getComponents();
 		backBtn.setOnClickListener(backLis);
 	}
@@ -34,6 +34,11 @@ public class TaSettingActivity extends Activity {
 			TaSettingActivity.this.finish();
 		}
 	};
+	
+	@Override
+	public void onBackPressed() {
+		this.finish();
+	}
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {

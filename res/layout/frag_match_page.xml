@@ -17,7 +17,7 @@
                 android:id="@+id/table01"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="14dp"
+                android:layout_marginTop="@dimen/margin_top"
                 android:background="@drawable/write_bg"
                 android:visibility="visible" >
 
@@ -159,7 +159,7 @@
                 android:id="@+id/table02"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="14dp"
+                android:layout_marginTop="@dimen/margin_top"
                 android:background="@drawable/write_bg"
                 android:visibility="visible" >
 

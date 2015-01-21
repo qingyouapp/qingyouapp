@@ -3,17 +3,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
 
-    <include
-        android:id="@+id/showpage_title"
-        layout="@layout/bar_homepage"
-        android:visibility="visible" />
-
     <ScrollView
         android:id="@+id/showpage_scrollView"
         android:layout_width="fill_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@+id/showpage_title"
-        android:layout_marginBottom="50dp" >
+        android:layout_height="match_parent" >
 
         <RelativeLayout
             android:layout_width="fill_parent"
@@ -27,6 +20,7 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
+                android:background="@color/white"
                 android:scrollbars="@null" >
 
                 <LinearLayout
@@ -43,7 +37,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/photo_row"
                 android:layout_centerHorizontal="true"
-                android:layout_marginTop="4dp"
+                android:layout_marginTop="@dimen/margin_top"
                 android:background="@drawable/write_bg" >
 
                 <TableRow
@@ -151,7 +145,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/table01"
                 android:layout_centerHorizontal="true"
-                android:layout_marginTop="14dp"
+                android:layout_marginTop="@dimen/margin_top"
                 android:background="@drawable/write_bg" >
 
                 <TableRow
@@ -269,6 +263,7 @@
                     android:id="@+id/tableRow6"
                     android:layout_width="fill_parent"
                     android:layout_height="@dimen/table_row_height"
+                    android:layout_marginBottom="@dimen/margin_bottom"
                     android:background="@drawable/layout_selector"
                     android:clickable="true" >
 

@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <string name="hello_world">Hello world! </string>
+
     <!-- login -->
     <string name="app_name">青柚</string>
-    <string name="hello_world">Hello world! </string>
-    <string name="action_settings">Settings</string>
+    <string name="action_settings">设置</string>
     <string name="desc">desc</string>
     <string name="login">登录</string>
     <string name="register">注册</string>
@@ -13,8 +14,8 @@
     <string name="login_hint">Email/手机号</string>
     <string name="pwd_hint">密码</string>
     <string name="login_quest">登录遇到问题？</string>
-    <string name="title_activity_main">MainActivity</string>
-    <string name="title_activity_register">RegisterActivity</string>
+    <string name="title_activity_main">青柚</string>
+    <string name="title_activity_register">青柚</string>
     <string name="pls_phone">请输入手机号</string>
     <string name="pls_pwd">请输入密码</string>
     <string name="pls_pwd_2">请重复密码</string>
@@ -26,7 +27,7 @@
     <string name="account_illegal">Email/手机号输入有误</string>
     <string name="phone_is_illegal">请输入正确的手机号</string>
     <string name="pwd_not_match">重复密码输入有误</string>
-    <string name="title_activity_basic_info">BasicInfoActivity</string>
+    <string name="title_activity_basic_info">青柚</string>
     <string name="name">姓名</string>
     <string name="nickname">昵称</string>
     <string name="nickname2">交友昵称</string>
@@ -58,7 +59,7 @@
     <string name="pls_input_info">完善资料</string>
 
     <!-- identify -->
-    <string name="title_activity_identify">IdentifyActivity</string>
+    <string name="title_activity_identify">青柚</string>
     <string name="pls_identify">身份认证</string>
     <string name="pass">跳过</string>
     <string name="identify_intro">为了保证交友环境，所有用户都必须通过学生身份的认证，您可以从以下三种方式中选择一种进行认证：</string>
@@ -80,6 +81,7 @@
     <string name="recommand_today">今日推荐</string>
     <string name="recommand_history">推荐</string>
     <string name="self_page">主页</string>
+    <string name="me">我</string>
     <string name="chat_history">聊天</string>
     <string name="nickname_value">企鹅</string>
     <string name="star">星座</string>
@@ -91,11 +93,11 @@
     <string name="center"></string>
     <string name="hot_num_1">21</string>
     <string name="hot_num_2">37</string>
-    <string name="title_activity_test">TestActivity</string>
-    <string name="title_activity_sys_main">SysMainActivity</string>
-    <string name="title_activity_reco_today_frag">RecoTodayFrag</string>
-    <string name="title_activity_reco_history_frag">RecoHistoryFrag</string>
-    <string name="title_activity_self_page_frag">SelfPageFrag</string>
+    <string name="title_activity_test">青柚</string>
+    <string name="title_activity_sys_main">青柚</string>
+    <string name="title_activity_reco_today_frag">青柚</string>
+    <string name="title_activity_reco_history_frag">青柚</string>
+    <string name="title_activity_self_page_frag">青柚</string>
 
     <!-- recommand history -->
     <string name="today_noon">今天中午</string>
@@ -103,7 +105,7 @@
     <string name="yester_noon">昨天中午</string>
     <string name="yester_night">昨天晚上</string>
     <string name="match_num">91</string>
-    <string name="title_activity_homepage">HomepageActivity</string>
+    <string name="title_activity_homepage">青柚</string>
 
     <!-- homepage -->
     <string name="basic_info">基本信息</string>
@@ -134,8 +136,12 @@
     <string name="datetime">中午12:26</string>
     <string name="title_activity_edit_info">编辑页面</string>
     <string name="edit_info">资料编辑</string>
+    <string name="ideal_setting">理想的TA</string>
     <string name="weight">体重kg</string>
     <string name="ideal_ta">理想的TA</string>
+    <string name="my_hometown">我的主页</string>
+    <string name="sys_setting">设置</string>
+    <string name="sys_exit">退出账号</string>
     <string name="ideal_tag">TA的标签</string>
     <string name="age_min">16</string>
     <string name="age_max">30</string>
@@ -157,14 +163,14 @@
     <string name="me_for_ta">我对TA</string>
     <string name="hot_desc">状态说明</string>
     <string name="hot_desc_value">亲密指数过低，都达到60才能公开彼此相册等信息哦，试试和TA聊天吧，加油~</string>
-    <string name="title_activity_ta_setting">TaSettingActivity</string>
-    <string name="title_activity_chat">ChatActivity</string>
+    <string name="title_activity_ta_setting">青柚</string>
+    <string name="title_activity_chat">青柚</string>
     <string name="ta_permission_set">权限设置</string>
     <string name="addto_black_list">加入黑名单</string>
     <string name="no_disturb_mode">开启免打扰模式</string>
     <string name="clear_chat_history">清空聊天记录</string>
     <string name="complaint">投诉举报</string>
-    <string name="title_activity_tags_edit">TagsEditActivity</string>
+    <string name="title_activity_tags_edit">青柚</string>
     <string name="tags_edit_title_1">兴趣爱好</string>
     <string name="tags_edit_title_2">自我评价</string>
     <string name="tags_edit_title_3">TA的标签</string>
@@ -181,9 +187,12 @@
     <string name="shuoshuo_hint">对TA说点什么吧</string>
     <string name="hometown_hint">您来自于哪里呢</string>
     <string name="mail_sent_alert">身份认证邮件已发送，请登录邮箱激活账号</string>
-    <string name="title_activity_photo_show">PhotoShowActivity</string>
+    <string name="title_activity_photo_show">青柚</string>
     <string name="no_recom_alert">暂时没有新推荐\n请耐心等待</string>
     <string name="no_message_alert">暂时没有新消息</string>
     <string name="new_message_num">1</string>
+    <string name="title_activity_ideal_ta">青柚</string>
+    <string name="title_activity_ideal_setting">青柚</string>
+    <string name="title_activity_my_show">MyShowActivity</string>
 
 </resources>

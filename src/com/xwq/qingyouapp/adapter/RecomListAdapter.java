@@ -85,13 +85,8 @@ public class RecomListAdapter extends BaseAdapter {
 
 		UserMetadata user = list.get(position);
 		// 获取头像
-		Bitmap bitmap = null;
-		String photoUrl = photoHandler.getLocalAbsolutePath(user.getUserid(),
-				ImageType.AlbumThumbnail);
-		boolean headPicExist = photoHandler.isExisted(photoUrl, user.getHeadPortrait());
-		if (headPicExist) {
-			bitmap = photoHandler.getPhoto(user.getUserid(), user.getHeadPortrait(),
-					ImageType.AlbumThumbnail);
+		Bitmap bitmap = photoHandler.getHeadPortrait(user);
+		if (bitmap != null) {
 			holder.photo.setImageBitmap(bitmap);
 		} else {
 			// 如果头像不存在，则立即加载

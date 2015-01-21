@@ -1,6 +1,9 @@
 package com.xwq.qingyouapp;
 
 import java.io.File;
+
+import com.xwq.qingyouapp.util.ThisApp;
+
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -43,7 +46,7 @@ public class ImageUploadActivity extends Activity {
 		// no title setting
 		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.activity_image_upload);
-
+		
 		uploadImage = (ImageView) this.findViewById(R.id.upload_image);
 		back = (ImageButton) this.findViewById(R.id.iden_back);
 		finishBtn = (Button) this.findViewById(R.id.finish_button);
@@ -206,6 +209,11 @@ public class ImageUploadActivity extends Activity {
 		} else {
 			return false;
 		}
+	}
+	
+	@Override
+	public void onBackPressed() {
+		this.finish();
 	}
 
 	@Override

@@ -42,7 +42,6 @@ public class RecomHistoryFrag extends Fragment {
 	private Processor processor;
 	private LocalStorage localStorage;
 	private ArrayList<UserMetadata> list;
-	private PhotoHandler photoHandler;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -56,7 +55,6 @@ public class RecomHistoryFrag extends Fragment {
 		processor = Processor.instance(getActivity());
 		localStorage = new LocalStorage(getActivity());
 		list = new ArrayList<UserMetadata>();
-		photoHandler = new PhotoHandler(getActivity());
 
 		title = (TextView) this.getView().findViewById(R.id.toolbar_title);
 		title.setText(getResources().getString(R.string.recommand_history));

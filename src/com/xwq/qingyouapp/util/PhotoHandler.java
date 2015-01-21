@@ -222,6 +222,16 @@ public class PhotoHandler {
 				ThumbnailUtils.extractThumbnail(bitmap, ThisApp.Thumb_Width, ThisApp.Thumb_Width));
 	}
 
+	public Bitmap getHeadPortrait(UserMetadata user) {
+		String photoUrl = getLocalAbsolutePath(user.getUserid(), ImageType.AlbumThumbnail);
+		boolean headPicExist = isExisted(photoUrl, user.getHeadPortrait());
+		
+		if (headPicExist)
+			return getPhoto(user.getUserid(), user.getHeadPortrait(), ImageType.AlbumThumbnail);
+		else
+			return null;
+	}
+
 	public String getLocalAbsolutePath(Integer userId, ImageType type) {
 		String str = "";
 		switch (type) {

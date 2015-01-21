@@ -6,6 +6,7 @@ import java.util.List;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.Application;
 
@@ -26,8 +27,10 @@ public class ThisApp extends Application {
 
 	private static List<Activity> activityList = new ArrayList<Activity>();
 
+	@SuppressLint("NewApi")
 	public static void clearActivities() {
 		for (Activity acti : activityList) {
+			activityList.remove(acti);
 			acti.finish();
 		}
 	}

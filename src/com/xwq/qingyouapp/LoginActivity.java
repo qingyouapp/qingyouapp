@@ -59,8 +59,8 @@ public class LoginActivity extends Activity {
 		// no title setting
 		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.activity_login);
-		ThisApp.clearActivities();
 		ThisApp.addActivity(this);
+
 		localStorage = new LocalStorage(this);
 		photoHandler = new PhotoHandler(this);
 
@@ -78,11 +78,11 @@ public class LoginActivity extends Activity {
 		String loginAccount = localStorage.getData("my_loginAccount");
 		String pwd = localStorage.getData("my_pwd");
 
-		if (loginAccount != null) {
+		if (!StringHandler.isNull(loginAccount)) {
 			StringBuilder sb = new StringBuilder(loginAccount);
 			accountText.setText(sb.toString());
 		}
-		if (loginAccount != null && pwd != null) {
+		if (!StringHandler.isNull(loginAccount) && !StringHandler.isNull(pwd)) {
 			pwdText.setText(pwd == null ? "" : pwd);
 			isOldUser = true;
 			login();
@@ -259,6 +259,11 @@ public class LoginActivity extends Activity {
 
 	public boolean textsAreNull() {
 		return adNull || paNull;
+	}
+
+	@Override
+	public void onBackPressed() {
+		this.finish();
 	}
 
 	@Override

@@ -1,5 +1,7 @@
 package com.xwq.qingyouapp;
 
+import com.xwq.qingyouapp.util.ThisApp;
+
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -11,10 +13,10 @@ public class MainActivity extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-
 		// no title setting
 		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.activity_main);
+		ThisApp.addActivity(this);
 	}
 
 	@Override

@@ -21,6 +21,7 @@ import android.widget.TextView;
 import com.xwq.qingyouapp.EditInfoActivity.TAG_TYPE;
 import com.xwq.qingyouapp.adapter.TagsGirdAdapter;
 import com.xwq.qingyouapp.util.StringHandler;
+import com.xwq.qingyouapp.util.ThisApp;
 
 public class TagsEditActivity extends Activity {
 
@@ -42,6 +43,7 @@ public class TagsEditActivity extends Activity {
 		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.activity_tags_edit);
 		getComponents();
+		
 		bundle = getIntent().getExtras();
 		tagString = bundle.getString("tag_string");
 		editText.setText(tagString);
@@ -123,11 +125,8 @@ public class TagsEditActivity extends Activity {
 	};
 
 	@Override
-	public boolean onKeyDown(int keyCode, KeyEvent event) {
-		if (keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0) {
-			backToEditInfoActivity();
-		}
-		return false;
+	public void onBackPressed() {
+		backToEditInfoActivity();
 	}
 
 	@Override

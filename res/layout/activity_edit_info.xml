@@ -29,6 +29,7 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
+                android:background="@color/white"
                 android:scrollbars="@null"
                 android:visibility="visible" >
 
@@ -60,7 +61,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/photo_row_edit"
                 android:layout_centerHorizontal="true"
-                android:layout_marginTop="4dp"
+                android:layout_marginTop="@dimen/margin_top"
                 android:background="@drawable/write_bg"
                 android:visibility="visible" >
 
@@ -138,7 +139,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/table01"
                 android:layout_centerHorizontal="true"
-                android:layout_marginTop="14dp"
+                android:layout_marginTop="@dimen/margin_top"
                 android:background="@drawable/write_bg"
                 android:visibility="visible" >
 
@@ -251,7 +252,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/table02"
                 android:layout_centerHorizontal="true"
-                android:layout_marginTop="14dp"
+                android:layout_marginTop="@dimen/margin_top"
                 android:background="@drawable/write_bg"
                 android:visibility="visible" >
 
@@ -426,7 +427,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/table03"
                 android:layout_centerHorizontal="true"
-                android:layout_marginTop="14dp"
+                android:layout_marginTop="@dimen/margin_top"
                 android:background="@drawable/write_bg" >
 
                 <TableRow
@@ -468,7 +469,8 @@
                 <TableRow
                     android:id="@+id/tableRow11"
                     android:layout_width="fill_parent"
-                    android:layout_height="@dimen/table_row_height" >
+                    android:layout_height="@dimen/table_row_height"
+                    android:layout_marginBottom="@dimen/margin_bottom" >
 
                     <TextView
                         android:id="@+id/personal_tag"
@@ -483,278 +485,6 @@
 
                     <com.xwq.qingyouapp.view.LineBreakLayout
                         android:id="@+id/persoanl_break_layout"
-                        android:layout_width="@dimen/rangebar_width"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:layout_marginBottom="13dp"
-                        android:layout_marginLeft="@dimen/basic_name_margin"
-                        android:layout_marginRight="@dimen/margin_right"
-                        android:layout_marginTop="13dp"
-                        android:background="@drawable/layout_selector"
-                        android:gravity="center_vertical" />
-                </TableRow>
-
-                <TableRow
-                    android:id="@+id/tableRow12"
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@color/grey_bgcolor"
-                    android:gravity="bottom" >
-
-                    <TextView
-                        android:id="@+id/ideal_ta"
-                        android:layout_width="@dimen/table_column1_width"
-                        android:layout_height="42dp"
-                        android:layout_marginLeft="@dimen/margin_left"
-                        android:gravity="center_vertical"
-                        android:includeFontPadding="false"
-                        android:paddingTop="14dp"
-                        android:text="@string/ideal_ta"
-                        android:textColor="@color/grey_font_color_1"
-                        android:textSize="@dimen/font_28" />
-                </TableRow>
-
-                <TableRow
-                    android:id="@+id/tableRow13"
-                    android:layout_width="fill_parent"
-                    android:layout_height="@dimen/table_row_height" >
-
-                    <TextView
-                        android:id="@+id/gender"
-                        android:layout_width="@dimen/table_column1_width"
-                        android:layout_height="@dimen/table_row_height"
-                        android:layout_marginLeft="@dimen/margin_left"
-                        android:gravity="center_vertical"
-                        android:includeFontPadding="false"
-                        android:text="@string/gender"
-                        android:textColor="@color/grey_font_color_2"
-                        android:textSize="@dimen/font_28" />
-
-                    <RadioGroup
-                        android:id="@+id/radioGroup"
-                        android:layout_width="@dimen/rangebar_width"
-                        android:layout_height="fill_parent"
-                        android:layout_marginLeft="@dimen/basic_name_margin"
-                        android:layout_marginRight="@dimen/margin_right"
-                        android:contentDescription="@string/desc"
-                        android:gravity="center_vertical"
-                        android:orientation="horizontal"
-                        android:textSize="@dimen/font_28" >
-
-                        <RadioButton
-                            android:id="@+id/radioMale"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:button="@drawable/radiobutton"
-                            android:checked="true"
-                            android:hint="@string/man_num"
-                            android:paddingLeft="@dimen/radio_btn_padding"
-                            android:text="@string/man"
-                            android:textColor="@color/hint_color" />
-
-                        <RadioButton
-                            android:id="@+id/radioFemale"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="20dp"
-                            android:button="@drawable/radiobutton"
-                            android:hint="@string/woman_num"
-                            android:paddingLeft="@dimen/radio_btn_padding"
-                            android:text="@string/woman"
-                            android:textColor="@color/hint_color" />
-
-                        <RadioButton
-                            android:id="@+id/radioAll"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="20dp"
-                            android:button="@drawable/radiobutton"
-                            android:hint="@string/all_num"
-                            android:paddingLeft="@dimen/radio_btn_padding"
-                            android:text="@string/man_woman"
-                            android:textColor="@color/hint_color" />
-                    </RadioGroup>
-                </TableRow>
-
-                <ImageView
-                    android:id="@+id/line08"
-                    android:layout_width="fill_parent"
-                    android:layout_height="2dp"
-                    android:contentDescription="@string/desc"
-                    android:src="@drawable/shape_line" />
-
-                <TableRow
-                    android:id="@+id/tableRow14"
-                    android:layout_width="fill_parent"
-                    android:layout_height="@dimen/table_row_height" >
-
-                    <TextView
-                        android:id="@+id/age_ta"
-                        android:layout_width="@dimen/table_column1_width"
-                        android:layout_height="@dimen/table_row_height"
-                        android:layout_marginLeft="@dimen/margin_left"
-                        android:gravity="center_vertical"
-                        android:includeFontPadding="false"
-                        android:text="@string/age"
-                        android:textColor="@color/grey_font_color_2"
-                        android:textSize="@dimen/font_28" />
-
-                    <LinearLayout
-                        android:layout_width="@dimen/rangebar_width"
-                        android:layout_height="fill_parent"
-                        android:layout_marginLeft="@dimen/basic_name_margin"
-                        android:layout_marginRight="@dimen/margin_right"
-                        android:contentDescription="@string/desc"
-                        android:gravity="center_vertical"
-                        android:orientation="horizontal" >
-
-                        <TextView
-                            android:id="@+id/age_min"
-                            android:layout_width="25dp"
-                            android:layout_height="wrap_content"
-                            android:text="@string/age_min"
-                            android:textColor="@color/grey_font_color_2" />
-
-                        <RelativeLayout
-                            android:id="@+id/age_layout"
-                            android:layout_width="@dimen/age_layout_width"
-                            android:layout_height="fill_parent"
-                            android:contentDescription="@string/desc"
-                            android:gravity="center_vertical"
-                            android:orientation="horizontal" />
-
-                        <TextView
-                            android:id="@+id/age_max"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/age_max"
-                            android:textColor="@color/grey_font_color_2" />
-                    </LinearLayout>
-                </TableRow>
-
-                <TableRow
-                    android:id="@+id/tableRow15"
-                    android:layout_width="fill_parent"
-                    android:layout_height="@dimen/table_row_height" >
-
-                    <TextView
-                        android:id="@+id/height_ta"
-                        android:layout_width="@dimen/table_column1_width"
-                        android:layout_height="@dimen/table_row_height"
-                        android:layout_marginLeft="@dimen/margin_left"
-                        android:gravity="center_vertical"
-                        android:includeFontPadding="false"
-                        android:text="@string/height"
-                        android:textColor="@color/grey_font_color_2"
-                        android:textSize="@dimen/font_28" />
-
-                    <LinearLayout
-                        android:layout_width="@dimen/rangebar_width"
-                        android:layout_height="fill_parent"
-                        android:layout_marginLeft="@dimen/basic_name_margin"
-                        android:layout_marginRight="@dimen/margin_right"
-                        android:contentDescription="@string/desc"
-                        android:gravity="center_vertical"
-                        android:orientation="horizontal" >
-
-                        <TextView
-                            android:id="@+id/height_min"
-                            android:layout_width="25dp"
-                            android:layout_height="wrap_content"
-                            android:text="@string/height_min"
-                            android:textColor="@color/grey_font_color_2" />
-
-                        <RelativeLayout
-                            android:id="@+id/height_layout"
-                            android:layout_width="@dimen/age_layout_width"
-                            android:layout_height="fill_parent"
-                            android:contentDescription="@string/desc"
-                            android:gravity="center_vertical"
-                            android:orientation="horizontal" />
-
-                        <TextView
-                            android:id="@+id/height_max"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/height_max"
-                            android:textColor="@color/grey_font_color_2" />
-                    </LinearLayout>
-                </TableRow>
-
-                <TableRow
-                    android:id="@+id/tableRow16"
-                    android:layout_width="fill_parent"
-                    android:layout_height="@dimen/table_row_height" >
-
-                    <TextView
-                        android:id="@+id/weight_ta"
-                        android:layout_width="@dimen/table_column1_width"
-                        android:layout_height="@dimen/table_row_height"
-                        android:layout_marginLeft="@dimen/margin_left"
-                        android:gravity="center_vertical"
-                        android:includeFontPadding="false"
-                        android:text="@string/weight"
-                        android:textColor="@color/grey_font_color_2"
-                        android:textSize="@dimen/font_28" />
-
-                    <LinearLayout
-                        android:layout_width="@dimen/rangebar_width"
-                        android:layout_height="fill_parent"
-                        android:layout_marginLeft="@dimen/basic_name_margin"
-                        android:layout_marginRight="@dimen/margin_right"
-                        android:contentDescription="@string/desc"
-                        android:gravity="center_vertical"
-                        android:orientation="horizontal" >
-
-                        <TextView
-                            android:id="@+id/weight_min"
-                            android:layout_width="25dp"
-                            android:layout_height="wrap_content"
-                            android:text="@string/weight_min"
-                            android:textColor="@color/grey_font_color_2" />
-
-                        <RelativeLayout
-                            android:id="@+id/weight_layout"
-                            android:layout_width="@dimen/age_layout_width"
-                            android:layout_height="fill_parent"
-                            android:contentDescription="@string/desc"
-                            android:gravity="center_vertical"
-                            android:orientation="horizontal" />
-
-                        <TextView
-                            android:id="@+id/weight_max"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/weight_max"
-                            android:textColor="@color/grey_font_color_2" />
-                    </LinearLayout>
-                </TableRow>
-
-                <ImageView
-                    android:id="@+id/line09"
-                    android:layout_width="fill_parent"
-                    android:layout_height="2dp"
-                    android:contentDescription="@string/desc"
-                    android:src="@drawable/shape_line" />
-
-                <TableRow
-                    android:id="@+id/tableRow17"
-                    android:layout_width="fill_parent"
-                    android:layout_height="@dimen/table_row_height"
-                    android:layout_marginBottom="50dp" >
-
-                    <TextView
-                        android:layout_width="@dimen/table_column1_width"
-                        android:layout_height="@dimen/table_row_height"
-                        android:layout_marginLeft="@dimen/margin_left"
-                        android:gravity="center_vertical"
-                        android:includeFontPadding="false"
-                        android:text="@string/ideal_tag"
-                        android:textColor="@color/grey_font_color_2"
-                        android:textSize="@dimen/font_28" />
-
-                    <com.xwq.qingyouapp.view.LineBreakLayout
-                        android:id="@+id/ta_persoanl_break_layout"
                         android:layout_width="@dimen/rangebar_width"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"

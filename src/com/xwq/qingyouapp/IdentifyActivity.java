@@ -51,12 +51,12 @@ public class IdentifyActivity extends Activity {
 		// no title setting
 		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.activity_identify);
-		// ThisApp.clearActivities();
+		ThisApp.clearActivities();
 		ThisApp.addActivity(this);
 
 		getComponents();
 		localStorage = new LocalStorage(this);
-	
+
 		emailRadio.setOnClickListener(emailLis);
 		photoRadio.setOnClickListener(photoLis);
 		friendRadio.setOnClickListener(friendLis);
@@ -70,9 +70,9 @@ public class IdentifyActivity extends Activity {
 		passBtn.setOnClickListener(passBtnLis);
 
 		initComponents(IDENTITY_TYPE.Email);
-		
+
 		// temp
-//		emailText.setText("136872734@qq.com");
+		// emailText.setText("136872734@qq.com");
 	}
 
 	public void getComponents() {

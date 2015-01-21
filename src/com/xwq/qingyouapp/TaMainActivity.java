@@ -43,7 +43,7 @@ public class TaMainActivity extends FragmentActivity {
 		super.onCreate(savedInstanceState);
 		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.activity_ta_main);
-
+		
 		fMgr = getSupportFragmentManager();
 		getComponents();
 		initFragment();
@@ -191,16 +191,15 @@ public class TaMainActivity extends FragmentActivity {
 		});
 	}
 
-	// 点击返回按钮
-	@Override
-	public void onBackPressed() {
-		this.finish();
-	}
-
 	public static void popAllFragmentsExceptTheBottomOne() {
 		for (int i = 0, count = fMgr.getBackStackEntryCount() - 1; i < count; i++) {
 			fMgr.popBackStack();
 		}
+	}
+	
+	@Override
+	public void onBackPressed() {
+		this.finish();
 	}
 
 	@Override

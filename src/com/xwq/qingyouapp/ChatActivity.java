@@ -6,8 +6,8 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.Window;
 import android.view.View.OnClickListener;
+import android.view.Window;
 import android.widget.ImageButton;
 
 public class ChatActivity extends Activity {
@@ -19,7 +19,7 @@ public class ChatActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.activity_chat);
-
+		
 		getComponents();
 		backBtn.setOnClickListener(backLis);
 		settingBtn.setOnClickListener(settingLis);
@@ -44,6 +44,11 @@ public class ChatActivity extends Activity {
 			startActivity(intent);
 		}
 	};
+
+	@Override
+	public void onBackPressed() {
+		this.finish();
+	}
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {

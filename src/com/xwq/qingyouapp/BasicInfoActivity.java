@@ -101,8 +101,7 @@ public class BasicInfoActivity extends Activity {
 		// no title setting
 		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.activity_basic_info);
-		ThisApp.addActivity(this);
-
+		
 		getComponents();
 		localStorage = new LocalStorage(this);
 		photoHandler = new PhotoHandler(this);
@@ -453,6 +452,11 @@ public class BasicInfoActivity extends Activity {
 		return output;
 	}
 
+	@Override
+	public void onBackPressed() {
+		this.finish();
+	}
+	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		getMenuInflater().inflate(R.menu.basic_info, menu);

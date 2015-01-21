@@ -12,15 +12,15 @@ import android.view.Window;
 import android.widget.RadioButton;
 
 import com.xwq.qingyouapp.frag.ChatHistoryFrag;
+import com.xwq.qingyouapp.frag.MyselfPageFrag;
 import com.xwq.qingyouapp.frag.RecomHistoryFrag;
-import com.xwq.qingyouapp.frag.ShowPageFrag;
 import com.xwq.qingyouapp.util.LocalStorage;
 import com.xwq.qingyouapp.util.ThisApp;
 
 public class SysMainActivity extends FragmentActivity {
 
 	public enum ITEM {
-		RecomHistory, ChatHistory, SelfPage
+		RecomHistory, ChatHistory, MyselfPage
 	};
 
 	private static FragmentManager fMgr;
@@ -34,6 +34,8 @@ public class SysMainActivity extends FragmentActivity {
 		super.onCreate(savedInstanceState);
 		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.activity_sys_main);
+		ThisApp.clearActivities();
+		
 		// 获取FragmentManager实例
 		fMgr = getSupportFragmentManager();
 		getComponents();
@@ -126,11 +128,11 @@ public class SysMainActivity extends FragmentActivity {
 				popAllFragmentsExceptTheBottomOne();
 				FragmentTransaction ft = fMgr.beginTransaction();
 				ft.hide(fMgr.findFragmentByTag("recomHistoryFrag"));
-				ShowPageFrag showPageFrag = new ShowPageFrag();
-				ft.add(R.id.fragmentRoot, showPageFrag, "selfPageFrag");
-				ft.addToBackStack("selfPageFrag");
+				MyselfPageFrag myselfFrag = new MyselfPageFrag();
+				ft.add(R.id.fragmentRoot, myselfFrag, "myselfFrag");
+				ft.addToBackStack("myselfFrag");
 				ft.commit();
-				ChooseItem(ITEM.SelfPage);
+				ChooseItem(ITEM.MyselfPage);
 			}
 		});
 	}
@@ -163,7 +165,7 @@ public class SysMainActivity extends FragmentActivity {
 			chatHistory.setTextColor(downColor);
 			chatHistory.setCompoundDrawables(null, item2d, null, null);
 			break;
-		case SelfPage:
+		case MyselfPage:
 			selfPage.setTextColor(downColor);
 			selfPage.setCompoundDrawables(null, item3d, null, null);
 			break;

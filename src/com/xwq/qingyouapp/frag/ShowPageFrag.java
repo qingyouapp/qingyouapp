@@ -1,6 +1,5 @@
 package com.xwq.qingyouapp.frag;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 
@@ -8,10 +7,6 @@ import org.json.JSONException;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
-import android.media.ThumbnailUtils;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -19,11 +14,9 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ImageView.ScaleType;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
@@ -32,25 +25,22 @@ import com.xwq.qingyouapp.EditInfoActivity;
 import com.xwq.qingyouapp.EditInfoActivity.TAG_TYPE;
 import com.xwq.qingyouapp.PhotoShowActivity;
 import com.xwq.qingyouapp.R;
-import com.xwq.qingyouapp.TaMainActivity;
 import com.xwq.qingyouapp.bean.Discipline;
 import com.xwq.qingyouapp.bean.Grade;
 import com.xwq.qingyouapp.bean.School;
 import com.xwq.qingyouapp.bean.UserMetadata;
 import com.xwq.qingyouapp.util.DateHandler;
-import com.xwq.qingyouapp.util.GraphicsUtil;
 import com.xwq.qingyouapp.util.JsonHandler;
 import com.xwq.qingyouapp.util.LocalStorage;
 import com.xwq.qingyouapp.util.PhotoHandler;
+import com.xwq.qingyouapp.util.PhotoHandler.ImageType;
 import com.xwq.qingyouapp.util.StringHandler;
 import com.xwq.qingyouapp.util.ThisApp;
-import com.xwq.qingyouapp.util.PhotoHandler.ImageType;
 import com.xwq.qingyouapp.view.LineBreakLayout;
 
 public class ShowPageFrag extends Fragment {
 
-	private ImageButton editBtn;
-	private TextView titleView, sexAgeView, constellationView, heightView, shuoshuoView,
+	private TextView sexAgeView, constellationView, heightView, shuoshuoView,
 			hometownView, eduView;
 	private String hobbyStr;
 	private String personalStr;
@@ -73,16 +63,7 @@ public class ShowPageFrag extends Fragment {
 	public void onActivityCreated(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onActivityCreated(savedInstanceState);
-		// 当showpage用于显示他人的信息时，隐藏title并更改margin设置，用于适应TaMain的总体布局
-		if (this.getActivity().getClass().equals(TaMainActivity.class)) {
-			getActivity().findViewById(R.id.showpage_title).setVisibility(View.GONE);
-			@SuppressWarnings("deprecation")
-			RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(
-					LinearLayout.LayoutParams.FILL_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
-			lp.setMargins(0, 0, 0, 0);
-			getActivity().findViewById(R.id.showpage_scrollView).setLayoutParams(lp);
-		}
-
+		
 		getComponents();
 
 		try {
@@ -102,12 +83,9 @@ public class ShowPageFrag extends Fragment {
 			e.printStackTrace();
 		}
 
-		editBtn.setOnClickListener(editBtnLis);
 	}
 
 	public void getComponents() {
-		titleView = (TextView) getActivity().findViewById(R.id.homepage_title);
-		editBtn = (ImageButton) getActivity().findViewById(R.id.edit_btn);
 		sexAgeView = (TextView) getActivity().findViewById(R.id.sex_age);
 		constellationView = (TextView) getActivity().findViewById(R.id.constellation);
 		heightView = (TextView) getActivity().findViewById(R.id.height_cm);
@@ -153,7 +131,6 @@ public class ShowPageFrag extends Fragment {
 			hometownView.setText(pro + "-" + city);
 		}
 		// 更新UI
-		titleView.setText(user.getNickname());
 		sexAgeView.setText(sex + age);
 		constellationView.setText(constellation);
 		heightView.setText(height + "cm");
