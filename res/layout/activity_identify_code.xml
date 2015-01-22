@@ -1,0 +1,75 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@color/grey_bgcolor"
+    android:orientation="vertical"
+    android:paddingBottom="0dp"
+    tools:context="com.xwq.qingyouapp.BasicInfoActivity" >
+
+    <include
+        android:id="@+id/include1"
+        layout="@layout/bar_identify_code" />
+
+    <TextView
+        android:id="@+id/textView1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/include1"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/margin_top"
+        android:text="@string/we_have_send"
+        android:textColor="@color/grey_font_color_2"
+        android:textSize="@dimen/font_28" />
+
+    <TextView
+        android:id="@+id/phone_number"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/textView1"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp"
+        android:text="@string/phone_number"
+        android:textSize="30sp" />
+
+    <EditText
+        android:id="@+id/identify_code"
+        android:layout_width="250dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/phone_number"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="25dp"
+        android:background="@drawable/shape_rectangle"
+        android:ems="10"
+        android:gravity="center"
+        android:hint="@string/identify_code"
+        android:inputType="number"
+        android:padding="10dp" />
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/identify_code"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="5dp"
+        android:text="@string/time_needed"
+        android:textColor="@color/grey_font_color_2"
+        android:textSize="@dimen/font_24" />
+
+    <Button
+        android:id="@+id/next_button"
+        android:layout_width="fill_parent"
+        android:layout_height="@dimen/input_box_height"
+        android:layout_below="@+id/textView3"
+        android:layout_centerHorizontal="true"
+        android:layout_marginLeft="@dimen/margin_left"
+        android:layout_marginRight="@dimen/margin_right"
+        android:layout_marginTop="30dp"
+        android:background="@drawable/login_btn_disable"
+        android:enabled="false"
+        android:text="@string/next_step"
+        android:textColor="@color/white"
+        android:textSize="@dimen/font_32" />
+
+</RelativeLayout>
