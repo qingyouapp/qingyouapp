@@ -51,8 +51,6 @@ public class IdentifyActivity extends Activity {
 		// no title setting
 		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.activity_identify);
-		ThisApp.clearActivities();
-		ThisApp.addActivity(this);
 
 		getComponents();
 		localStorage = new LocalStorage(this);
@@ -115,6 +113,7 @@ public class IdentifyActivity extends Activity {
 		public void onClick(View arg0) {
 			Intent intent = new Intent(IdentifyActivity.this, SysMainActivity.class);
 			startActivity(intent);
+			IdentifyActivity.this.finish();
 		}
 	};
 
@@ -238,6 +237,7 @@ public class IdentifyActivity extends Activity {
 						.show();
 				Intent intent = new Intent(IdentifyActivity.this, SysMainActivity.class);
 				startActivity(intent);
+				IdentifyActivity.this.finish();
 			} else
 				Toast.makeText(getApplicationContext(),
 						getResources().getString(R.string.server_exception), Toast.LENGTH_SHORT)

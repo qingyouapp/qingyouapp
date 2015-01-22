@@ -25,20 +25,6 @@ public class ThisApp extends Application {
 
 	public static ImageLoader imageLoader;
 
-	private static List<Activity> activityList = new ArrayList<Activity>();
-
-	@SuppressLint("NewApi")
-	public static void clearActivities() {
-		for (Activity acti : activityList) {
-			activityList.remove(acti);
-			acti.finish();
-		}
-	}
-
-	public static void addActivity(Activity activity) {
-		activityList.add(activity);
-	}
-
 	@Override
 	public void onCreate() {
 		super.onCreate();

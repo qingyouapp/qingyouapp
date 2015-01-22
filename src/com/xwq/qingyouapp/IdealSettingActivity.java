@@ -63,7 +63,7 @@ public class IdealSettingActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.activity_ideal_setting);
-		
+
 		getComponents();
 		localStorage = new LocalStorage(this);
 		processor = Processor.instance(this);
@@ -130,7 +130,7 @@ public class IdealSettingActivity extends Activity {
 				break;
 			}
 			// tags
-			taPersonalStr = fs.getTags();
+			taPersonalStr = StringHandler.isNull(fs.getTags()) ? "" : fs.getTags();
 			EditInfoActivity.addTagsToBreakLayout(taPersonalLBL, taPersonalStr,
 					TAG_TYPE.Ta_personal_tag, this);
 			// age, height, weight
@@ -294,7 +294,7 @@ public class IdealSettingActivity extends Activity {
 	public void onBackPressed() {
 		this.finish();
 	}
-	
+
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		getMenuInflater().inflate(R.menu.ideal_setting, menu);

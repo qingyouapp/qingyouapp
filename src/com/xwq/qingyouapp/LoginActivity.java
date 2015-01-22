@@ -59,7 +59,6 @@ public class LoginActivity extends Activity {
 		// no title setting
 		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.activity_login);
-		ThisApp.addActivity(this);
 
 		localStorage = new LocalStorage(this);
 		photoHandler = new PhotoHandler(this);
@@ -134,6 +133,7 @@ public class LoginActivity extends Activity {
 							Toast.LENGTH_SHORT).show();
 					Intent intent = new Intent(LoginActivity.this, IdentifyActivity.class);
 					startActivity(intent);
+					LoginActivity.this.finish();
 				} else {
 					// 无网络，且没登录过
 					Toast.makeText(
@@ -170,6 +170,7 @@ public class LoginActivity extends Activity {
 				else
 					intent = new Intent(LoginActivity.this, IdentifyActivity.class);
 				startActivity(intent);
+				LoginActivity.this.finish();
 			} else {
 				Toast.makeText(getApplication(),
 						getResources().getString(R.string.network_exception), Toast.LENGTH_SHORT)

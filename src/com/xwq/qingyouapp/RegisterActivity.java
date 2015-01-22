@@ -55,7 +55,6 @@ public class RegisterActivity extends Activity {
 		// no title setting
 		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.activity_register);
-		ThisApp.addActivity(this);
 
 		localStorage = new LocalStorage(this);
 		getComponents();

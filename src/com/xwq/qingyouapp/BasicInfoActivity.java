@@ -318,6 +318,7 @@ public class BasicInfoActivity extends Activity {
 				setLocalStorage();
 				Intent intent = new Intent(BasicInfoActivity.this, IdentifyActivity.class);
 				startActivity(intent);
+				BasicInfoActivity.this.finish();
 			} else {
 				Toast.makeText(getApplicationContext(),
 						getResources().getString(R.string.server_exception), Toast.LENGTH_SHORT)

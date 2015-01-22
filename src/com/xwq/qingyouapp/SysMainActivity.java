@@ -34,7 +34,6 @@ public class SysMainActivity extends FragmentActivity {
 		super.onCreate(savedInstanceState);
 		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.activity_sys_main);
-		ThisApp.clearActivities();
 		
 		// 获取FragmentManager实例
 		fMgr = getSupportFragmentManager();
