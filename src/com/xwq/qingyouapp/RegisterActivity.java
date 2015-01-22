@@ -1,12 +1,18 @@
 package com.xwq.qingyouapp;
 
+import java.util.ArrayList;
+import java.util.Random;
+
 import org.json.JSONException;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.text.Editable;
+import android.text.Html;
 import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -27,7 +33,9 @@ import android.widget.Toast;
 import com.xwq.qingyouapp.bean.UserMetadata;
 import com.xwq.qingyouapp.command.CommandCallback;
 import com.xwq.qingyouapp.command.Processor;
+import com.xwq.qingyouapp.sms.SmsHandler;
 import com.xwq.qingyouapp.util.EditTextListener;
+import com.xwq.qingyouapp.util.KeyValue;
 import com.xwq.qingyouapp.util.LocalStorage;
 import com.xwq.qingyouapp.util.StringHandler;
 import com.xwq.qingyouapp.util.ThisApp;
@@ -65,11 +73,11 @@ public class RegisterActivity extends Activity {
 
 		registerBtn.setOnClickListener(registerLis);
 		backBtn.setOnClickListener(backLis);
-		
-//		//temp
-//		phoneText.setText("18511110008");
-//		pwdText.setText("qqqq");
-//		pwd2Text.setText("qqqq");
+
+		// //temp
+		// phoneText.setText("18511110008");
+		// pwdText.setText("qqqq");
+		// pwd2Text.setText("qqqq");
 	}
 
 	public void getComponents() {
@@ -124,11 +132,14 @@ public class RegisterActivity extends Activity {
 		@Override
 		public void excute(String jb) {
 			System.out.println("post result--" + jb.length() + ":" + jb);
-			if ("valid".equals(jb.trim())) {
+			if ("valid".equals(jb.trim())) {// 账号未被注册过
+				// 验证手机号码
 				setLocalStorage();
-				Intent intent = new Intent(RegisterActivity.this, BasicInfoActivity.class);
-				startActivity(intent);
-			} else if ("invalid".equals(jb.trim())) {
+				new AlertDialog.Builder(RegisterActivity.this).setTitle(null)
+						.setMessage("确定将验证码发送到该号码吗？\n\n" + "+86 " + phoneStr + "\n")
+						.setPositiveButton("确定", sendMeaageLis).setNegativeButton("取消", null)
+						.show();
+			} else if ("invalid".equals(jb.trim())) {// 账号已经被注册过
 				Animation shake = AnimationUtils.loadAnimation(RegisterActivity.this, R.anim.shake);
 				phoneText.startAnimation(shake);
 				Toast.makeText(getApplicationContext(),
@@ -139,6 +150,21 @@ public class RegisterActivity extends Activity {
 						getResources().getString(R.string.server_exception), Toast.LENGTH_SHORT)
 						.show();
 			}
+		}
+	};
+
+	android.content.DialogInterface.OnClickListener sendMeaageLis = new android.content.DialogInterface.OnClickListener() {
+		@Override
+		public void onClick(DialogInterface arg0, int arg1) {
+			String s = new Random().nextFloat() + "";
+			String identifyCode = s.substring(2, 8);
+			String photoNum = phoneStr.replace(" ", "");
+			SmsHandler.sendMessage(photoNum, identifyCode);
+			// 跳转到登录页面
+			Intent intent = new Intent(RegisterActivity.this, IdentifyCodeActivity.class);
+			intent.putExtra("photoString", "+86 " + phoneStr);
+			intent.putExtra("codeString", identifyCode);
+			startActivity(intent);
 		}
 	};
 
@@ -210,16 +236,8 @@ public class RegisterActivity extends Activity {
 		user.setPhonenum(phoneStr.replace(" ", ""));
 		user.setPassword(pwdStr);
 		localStorage.setUser(user);
-
-		// ArrayList<KeyValue> list = new ArrayList<KeyValue>();
-		// KeyValue loginAccount = new KeyValue("my_loginAccount",
-		// phoneStr.replace(" ", ""));
-		// KeyValue pwd = new KeyValue("my_pwd", pwdStr);
-		// list.add(loginAccount);
-		// list.add(pwd);
-		// localStorage.addData(list);
 	}
-	
+
 	@Override
 	public void onBackPressed() {
 		this.finish();

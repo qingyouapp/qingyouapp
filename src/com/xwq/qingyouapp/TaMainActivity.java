@@ -16,7 +16,9 @@ import android.widget.ImageButton;
 import android.widget.RadioButton;
 import android.widget.TextView;
 
+import com.gotye.api.GotyeUser;
 import com.xwq.qingyouapp.bean.UserMetadata;
+import com.xwq.qingyouapp.chat.activity.ChatPage;
 import com.xwq.qingyouapp.frag.MatchPageFrag;
 import com.xwq.qingyouapp.frag.ShowPageFrag;
 import com.xwq.qingyouapp.util.LocalStorage;
@@ -43,7 +45,7 @@ public class TaMainActivity extends FragmentActivity {
 		super.onCreate(savedInstanceState);
 		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.activity_ta_main);
-		
+		localStorage = new LocalStorage(this);
 		fMgr = getSupportFragmentManager();
 		getComponents();
 		initFragment();
@@ -177,15 +179,19 @@ public class TaMainActivity extends FragmentActivity {
 			@Override
 			public void onClick(View v) {
 				// TODO Auto-generated method stub
-				// popAllFragmentsExceptTheBottomOne();
-				// FragmentTransaction ft = fMgr.beginTransaction();
-				// ft.hide(fMgr.findFragmentByTag("showPageFrag"));
-				// ChatPageFrag chatPageFrag = new ChatPageFrag();
-				// ft.add(R.id.fragmentRoot, chatPageFrag, "chatPageFrag");
-				// ft.addToBackStack("chatPageFrag");
-				// ft.commit();
-				// ChooseItem(ITEM.ChatPage);
-				Intent intent = new Intent(TaMainActivity.this, ChatActivity.class);
+//				popAllFragmentsExceptTheBottomOne();
+//				FragmentTransaction ft = fMgr.beginTransaction();
+//				ft.hide(fMgr.findFragmentByTag("showPageFrag"));
+//				ChatPageFrag chatPageFrag = new ChatPageFrag();
+//				ft.add(R.id.fragmentRoot, chatPageFrag, "chatPageFrag");
+//				ft.addToBackStack("chatPageFrag");
+//				ft.commit();
+//				ChooseItem(ITEM.ChatPage);
+				Intent intent = new Intent(TaMainActivity.this, ChatPage.class);
+				
+				intent.putExtra("user", new GotyeUser(""+ThisApp.SHOW_USER_ID));
+				
+
 				startActivity(intent);
 			}
 		});

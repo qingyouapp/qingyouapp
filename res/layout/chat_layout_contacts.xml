@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/chat_white"
+    android:orientation="vertical" >
+
+    <RelativeLayout
+        android:id="@+id/title_bar_layout"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:layout_alignParentTop="true"
+        android:background="@drawable/chat_title_bar_bg" >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="联系人"
+            android:textColor="@color/chat_white"
+            android:textSize="18sp" />
+
+        <ImageView
+            android:id="@+id/add"
+            android:layout_width="45dp"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:background="@drawable/chat_common_tab_bg"
+            android:clickable="true"
+            android:scaleType="centerInside"
+            android:src="@drawable/chat_add" />
+    </RelativeLayout>
+
+    <include
+        android:id="@+id/error_tip"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/title_bar_layout"
+        layout="@layout/chat_error_tip"
+        android:visibility="visible" />
+
+    <LinearLayout
+        android:id="@+id/serach_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/error_tip"
+        android:background="@color/chat_tab_bg_color"
+        android:orientation="vertical"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp" >
+
+        <EditText
+            android:id="@+id/contact_search_input"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/chat_input_bg"
+            android:drawableLeft="@drawable/chat_query_icon"
+            android:singleLine="true" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/tab_f_b"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/serach_layout"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:orientation="horizontal"
+        android:padding="5dp" >
+
+        <TextView
+            android:id="@+id/friend_tab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="我的好友"
+            android:textColor="@color/chat_app_color"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/block_tab"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="黑名单"
+            android:textSize="20sp" />
+    </LinearLayout>
+
+    <ListView
+        android:id="@+id/listview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/tab_f_b"
+        android:listSelector="@drawable/chat_contact_room_group_selector"
+        android:paddingRight="20dp"
+        android:scrollbars="none" >
+    </ListView>
+
+    <com.xwq.qingyouapp.chat.view.SideBar
+        android:id="@+id/sidrbar"
+        android:layout_width="18.0dip"
+        android:layout_height="fill_parent"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/title_bar_layout"
+        android:layout_gravity="right|center" />
+
+</RelativeLayout>

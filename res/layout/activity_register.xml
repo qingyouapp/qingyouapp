@@ -30,6 +30,7 @@
                 android:layout_marginTop="55dp"
                 android:background="@drawable/input_box"
                 android:hint="@string/pls_phone"
+                android:inputType="phone|text"
                 android:paddingLeft="20dp"
                 android:paddingRight="@dimen/activity_horizontal_margin"
                 android:textColorHint="@color/hint_color"

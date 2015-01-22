@@ -191,8 +191,16 @@
     <string name="no_recom_alert">暂时没有新推荐\n请耐心等待</string>
     <string name="no_message_alert">暂时没有新消息</string>
     <string name="new_message_num">1</string>
+    <string name="suffix">suffix</string>
     <string name="title_activity_ideal_ta">青柚</string>
     <string name="title_activity_ideal_setting">青柚</string>
-    <string name="title_activity_my_show">MyShowActivity</string>
+    <string name="title_activity_my_show">青柚</string>
+    <string name="title_activity_identify_code">青柚</string>
+    <string name="identify_phone">验证手机号</string>
+    <string name="we_have_send">我们已经发送了验证码到您的手机:</string>
+    <string name="phone_number">+86 185 1605 9269</string>
+    <string name="identify_code">验证码</string>
+    <string name="time_needed">接收过程大约需要15秒钟，请耐心等待</string>
+    
 
 </resources>

@@ -1,0 +1,163 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/gotye_chat_content"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@color/chat_tab_bg_color" >
+
+    <include
+        android:id="@+id/include_bar"
+        layout="@layout/bar_ta_main" />
+
+    <include
+        android:id="@+id/error_tip"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/include_bar"
+        layout="@layout/chat_error_tip"
+        android:visibility="visible" />
+
+    <RelativeLayout
+        android:id="@+id/real_time_talk_layout"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_below="@+id/error_tip"
+        android:background="@drawable/chat_title_bar_bg"
+        android:gravity="center_vertical"
+        android:visibility="gone" >
+
+        <TextView
+            android:id="@+id/real_talk_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:drawableRight="@anim/gotye_anim_voice"
+            android:gravity="center"
+            android:textColor="@color/chat_white"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/stop_real_talk"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="20dp"
+            android:drawableRight="@drawable/chat_stop_selector"
+            android:gravity="center"
+            android:text="停止"
+            android:textColor="@color/chat_white"
+            android:textSize="20sp" />
+    </RelativeLayout>
+
+    <com.xwq.qingyouapp.chat.view.RTPullListView
+        android:id="@+id/gotye_msg_listview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/bottom_layout"
+        android:layout_below="@+id/real_time_talk_layout"
+        android:cacheColorHint="@android:color/transparent"
+        android:divider="@android:color/transparent"
+        android:dividerHeight="0dp"
+        android:listSelector="@android:color/transparent"
+        android:visibility="visible" />
+
+    <LinearLayout
+        android:id="@+id/bottom_layout"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:orientation="vertical" >
+
+        <RelativeLayout
+            style="@style/GotyeContentPaddingStyle"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/gotye_bg_tab_bottom"
+            android:paddingBottom="5dip"
+            android:paddingTop="5dip" >
+
+            <ImageButton
+                android:id="@+id/send_voice"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:background="@android:color/transparent"
+                android:src="@drawable/gotye_btn_to_voice_selector" />
+
+            <ImageButton
+                android:id="@+id/more_type"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="7dip"
+                android:layout_toRightOf="@+id/send_voice"
+                android:background="@android:color/transparent"
+                android:src="@drawable/gotye_btn_chat_pannel_selector" />
+
+            <RelativeLayout
+                android:id="@+id/gotye_text_area"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="7dip"
+                android:layout_toRightOf="@+id/more_type" >
+
+                <EditText
+                    android:id="@+id/text_msg_input"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="7dip"
+                    android:layout_toLeftOf="@+id/send_message"
+                    android:background="@drawable/gotye_btn_chat_edit_normal"
+                    android:maxLength="500"
+                    android:singleLine="true" />
+
+                <TextView
+                    android:id="@+id/send_message"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:background="@drawable/gotye_btn_send_text_selector"
+                    android:gravity="center"
+                    android:text="发送"
+                    android:textColor="@color/gotye_color_send_selector"
+                    android:textSize="18sp"
+                    android:textStyle="normal"
+                    android:typeface="sans" />
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/press_to_voice_chat"
+                style="@style/GotyeTitleTextMiddleStyle"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@+id/send_voice"
+                android:layout_alignParentRight="true"
+                android:layout_alignTop="@+id/send_voice"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="7dip"
+                android:layout_toRightOf="@+id/more_type"
+                android:background="@drawable/gotye_btn_send_voice_selector"
+                android:gravity="center"
+                android:textSize="18sp"
+                android:textStyle="normal"
+                android:typeface="sans"
+                android:visibility="invisible" />
+        </RelativeLayout>
+
+        <GridView
+            android:id="@+id/emoti_list"
+            android:layout_width="fill_parent"
+            android:layout_height="200dip"
+            android:background="#ffffff"
+            android:columnWidth="40dp"
+            android:fadingEdge="none"
+            android:horizontalSpacing="5dip"
+            android:numColumns="auto_fit"
+            android:stretchMode="columnWidth"
+            android:verticalSpacing="5dip"
+            android:visibility="visible" />
+    </LinearLayout>
+
+</RelativeLayout>

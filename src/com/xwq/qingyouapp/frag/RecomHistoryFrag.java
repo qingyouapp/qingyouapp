@@ -18,7 +18,6 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -29,7 +28,6 @@ import com.xwq.qingyouapp.bean.UserMetadata;
 import com.xwq.qingyouapp.command.CommandCallback;
 import com.xwq.qingyouapp.command.Processor;
 import com.xwq.qingyouapp.util.LocalStorage;
-import com.xwq.qingyouapp.util.PhotoHandler;
 import com.xwq.qingyouapp.util.StringHandler;
 import com.xwq.qingyouapp.util.ThisApp;
 
