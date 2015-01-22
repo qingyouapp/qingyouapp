@@ -10,5 +10,8 @@
 	<classpathentry kind="lib" path="libs/httpclient-cache-4.3.6.jar"/>
 	<classpathentry kind="lib" path="libs/httpcore-4.3.3.jar"/>
 	<classpathentry kind="lib" path="libs/universal-image-loader-1.9.3-with-sources.jar"/>
+	<classpathentry kind="lib" path="libs/android-support-v4.jar"/>
+	<classpathentry kind="lib" path="libs/gotyeapi.jar"/>
+	<classpathentry kind="lib" path="libs/Msc.jar"/>
 	<classpathentry kind="output" path="bin/classes"/>
 </classpath>
