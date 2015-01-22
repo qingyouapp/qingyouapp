@@ -46,32 +46,6 @@ public class TestActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_test);
 
-		final TextView textView = (TextView) this.findViewById(R.id.textView1);
-
-		new AsyncTask<Object, Object, String>() {
-
-			@Override
-			protected String doInBackground(Object... arg0) {
-
-				InputStream is = getResources().openRawResource(R.raw.json);
-				String str = StringHandler.getStringFromInputStream(is);
-
-				try {
-					JSONObject jb = new JSONObject(str);
-					JSONArray schools = jb.getJSONArray("school");
-					Gson gson = new Gson();
-					ArrayList<School> schoolArr = gson.fromJson(schools.toString(),
-							new TypeToken<ArrayList<School>>() {
-							}.getType());
-
-					System.out.println(schoolArr.get(4).getName());
-				} catch (JSONException e) {
-					e.printStackTrace();
-				}
-
-				return null;
-			}
-		}.execute();
 
 	}
 
