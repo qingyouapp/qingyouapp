@@ -25,7 +25,6 @@ import com.gotye.api.GotyeRoom;
 import com.gotye.api.GotyeUser;
 import com.xwq.qingyouapp.R;
 import com.xwq.qingyouapp.chat.activity.ChatPage;
-import com.xwq.qingyouapp.chat.activity.NotifyListPage;
 import com.xwq.qingyouapp.chat.adapter.MessageListAdapter;
 import com.xwq.qingyouapp.chat.base.BaseFragment;
 import com.xwq.qingyouapp.chat.view.SwipeMenu;
@@ -39,7 +38,7 @@ public class ChatHistoryFrag extends BaseFragment {
 	private SwipeMenuListView listView;
 	private MessageListAdapter adapter;
 
-	public static final String fixName = "通知列表";
+//	public static final String fixName = "通知列表";
 	private GotyeAPI api = GotyeAPI.getInstance();
 
 	@Override
@@ -56,6 +55,8 @@ public class ChatHistoryFrag extends BaseFragment {
 	}
 
 	private void initView() {
+		TextView toolbar_title = (TextView) getView().findViewById(R.id.toolbar_title);
+		toolbar_title.setText("消息");
 		listView = (SwipeMenuListView) getView().findViewById(R.id.listview);
 		SwipeMenuCreator creator = new SwipeMenuCreator() {
 
@@ -111,10 +112,10 @@ public class ChatHistoryFrag extends BaseFragment {
 					long arg3) {
 				GotyeChatTarget target = (GotyeChatTarget) adapter
 						.getItem(arg2);
-				if (target.getName().equals(fixName)) {
-					Intent i = new Intent(getActivity(), NotifyListPage.class);
-					startActivity(i);
-				} else {
+//				if (target.getName().equals(fixName)) {
+//					Intent i = new Intent(getActivity(), NotifyListPage.class);
+//					startActivity(i);
+//				} else {
 					GotyeAPI.getInstance().markMeeagesAsread(target);
 					if (target.getType() == GotyeChatTargetType.GotyeChatTargetTypeUser) {
 						Intent toChat = new Intent(getActivity(),
@@ -136,7 +137,7 @@ public class ChatHistoryFrag extends BaseFragment {
 					}
 					refresh();
 				}
-			}
+//			}
 		});
 	}
 
@@ -144,15 +145,16 @@ public class ChatHistoryFrag extends BaseFragment {
 		List<GotyeChatTarget> sessions = api.getSessionList();
 		Log.d("offLine", "List--sessions" + sessions);
 
-		GotyeUser target = new GotyeUser();
-		target.setName(fixName);
+//		GotyeUser target = new GotyeUser();
+//		target.setName(fixName);
 
 		if (sessions == null) {
 			sessions = new ArrayList<GotyeChatTarget>();
-			sessions.add(target);
-		} else {
-			sessions.add(0, target);
-		}
+//			sessions.add(target);
+		} 
+//		else {
+//			sessions.add(0, target);
+//		}
 		if (adapter == null) {
 			adapter = new MessageListAdapter(ChatHistoryFrag.this, sessions);
 			listView.setAdapter(adapter);

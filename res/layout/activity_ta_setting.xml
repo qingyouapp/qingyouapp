@@ -30,7 +30,7 @@
             android:textSize="@dimen/font_28" />
 
         <com.xwq.qingyouapp.view.SwitchButton
-            android:id="@+id/switchButton1"
+            android:id="@+id/blacklist_switchButton"
             android:layout_width="68dp"
             android:layout_height="27dp"
             android:layout_alignParentRight="true"

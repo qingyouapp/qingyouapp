@@ -373,6 +373,7 @@ public class LoginActivity extends Activity implements LoginListener{
 			} else if (code == GotyeStatusCode.CODE_OK) {
 				Toast.makeText(this, "登录成功", Toast.LENGTH_SHORT).show();
 			}
+			GotyeAPI.getInstance().getLocalBlockedList();
 			//			this.finish();
 		} else {
 			// 失败,可根据code定位失败原因

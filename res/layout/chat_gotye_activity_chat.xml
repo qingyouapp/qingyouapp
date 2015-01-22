@@ -5,50 +5,15 @@
     android:layout_height="fill_parent"
     android:background="@color/chat_tab_bg_color" >
 
-    <RelativeLayout
-        android:id="@+id/title_bar"
-        android:layout_width="match_parent"
-        android:layout_height="45dp"
-        android:layout_alignParentTop="true"
-        android:background="@drawable/chat_title_bar_bg" >
-
-        <ImageView
-            android:id="@+id/back"
-            android:layout_width="45dp"
-            android:layout_height="match_parent"
-            android:layout_alignParentLeft="true"
-            android:layout_centerVertical="true"
-            android:background="@drawable/chat_common_tab_bg"
-            android:clickable="true"
-            android:scaleType="centerInside"
-            android:src="@drawable/chat_back" />
-
-        <TextView
-            android:id="@+id/title"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:textColor="@color/chat_white"
-            android:textSize="20sp" />
-
-        <ImageView
-            android:id="@+id/right_menu"
-            android:layout_width="45dp"
-            android:layout_height="match_parent"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:background="@drawable/chat_common_tab_bg"
-            android:clickable="true"
-            android:onClick="info"
-            android:scaleType="centerInside"
-            android:src="@drawable/chat_to_info_normal" />
-    </RelativeLayout>
+    <include
+        android:id="@+id/include_bar"
+        layout="@layout/bar_ta_main" />
 
     <include
         android:id="@+id/error_tip"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/title_bar"
+        android:layout_below="@+id/include_bar"
         layout="@layout/chat_error_tip"
         android:visibility="visible" />
 

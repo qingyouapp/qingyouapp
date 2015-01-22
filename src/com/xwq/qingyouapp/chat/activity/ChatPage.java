@@ -61,6 +61,7 @@ import com.iflytek.cloud.ErrorCode;
 import com.iflytek.cloud.InitListener;
 import com.iflytek.cloud.SpeechRecognizer;
 import com.xwq.qingyouapp.R;
+import com.xwq.qingyouapp.TaSettingActivity;
 import com.xwq.qingyouapp.chat.adapter.ChatMessageAdapter;
 import com.xwq.qingyouapp.chat.adapter.EmotiAdapter;
 import com.xwq.qingyouapp.chat.base.BaseActivity;
@@ -218,8 +219,9 @@ public class ChatPage extends BaseActivity implements OnClickListener {
 	}
 	private void initView() {
 		pullListView = (RTPullListView) findViewById(R.id.gotye_msg_listview);
-		findViewById(R.id.back).setOnClickListener(this);
-		title = ((TextView) findViewById(R.id.title));
+		findViewById(R.id.ta_main_back).setOnClickListener(this);
+		findViewById(R.id.setting).setOnClickListener(this);
+		title = ((TextView) findViewById(R.id.ta_main_title));
 		realTalkView = findViewById(R.id.real_time_talk_layout);
 		realTalkName = (TextView) realTalkView
 				.findViewById(R.id.real_talk_name);
@@ -589,10 +591,10 @@ public class ChatPage extends BaseActivity implements OnClickListener {
 		scrollToBottom();
 	}
 
-	public void info(View v) {
+	public void info() {
 		if (chatType == 0) {
 			Intent intent = getIntent();
-			intent.setClass(getApplication(), UserInfoPage.class);
+			intent.setClass(getApplication(), TaSettingActivity.class);
 			intent.putExtra("user", user);
 			startActivity(intent);
 		} else if (chatType == 1) {
@@ -827,7 +829,7 @@ public class ChatPage extends BaseActivity implements OnClickListener {
 	public void onClick(View arg0) {
 		// TODO Auto-generated method stub
 		switch (arg0.getId()) {
-		case R.id.back:
+		case R.id.ta_main_back:
 			if(onRealTimeTalkFrom>=0){
 				return;
 			}
@@ -852,6 +854,9 @@ public class ChatPage extends BaseActivity implements OnClickListener {
 		case R.id.stop_real_talk:
 			// int i =
 			api.stopTalk();
+			break;
+		case R.id.setting:
+			info();
 			break;
 		default:
 			break;

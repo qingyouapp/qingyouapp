@@ -4,39 +4,16 @@
     android:layout_height="match_parent"
     android:background="@android:color/background_light"
     android:orientation="vertical" >
-
-    <RelativeLayout
-        android:id="@+id/title_bar_layout"
-        android:layout_width="match_parent"
-        android:layout_height="45dp"
-        android:layout_alignParentTop="true"
-        android:background="@drawable/chat_title_bar_bg" >
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:text="消息"
-            android:textColor="@color/chat_white"
-            android:textSize="18sp" />
-
-        <ImageView
-            android:id="@+id/add"
-            android:layout_width="45dp"
-            android:layout_height="match_parent"
-            android:layout_alignParentRight="true"
-            android:background="@drawable/chat_common_tab_bg"
-            android:clickable="true"
-            android:scaleType="centerInside"
-            android:src="@drawable/chat_add"
-            android:visibility="gone" />
-    </RelativeLayout>
+    
+    <include
+        android:id="@+id/include2"
+        layout="@layout/bar_main" />
 
     <include
         android:id="@+id/error_tip"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/title_bar_layout"
+        android:layout_below="@+id/include2"
         layout="@layout/chat_error_tip"
         android:visibility="visible" />
 

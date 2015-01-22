@@ -73,11 +73,11 @@ public class MessageListAdapter extends BaseAdapter {
 	public int getItemViewType(int position) {
 		// TODO Auto-generated method stub
 		GotyeChatTarget t = sessions.get(position);
-		if (t.getName().equals(ChatHistoryFrag.fixName)) {
-			return 0;
-		} else {
+//		if (t.getName().equals(ChatHistoryFrag.fixName)) {
+//			return 0;
+//		} else {
 			return 1;
-		}
+//		}
 	}
 
 	@SuppressWarnings("deprecation")

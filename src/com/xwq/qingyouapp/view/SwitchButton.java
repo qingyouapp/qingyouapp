@@ -14,7 +14,7 @@ import android.view.View;
 public class SwitchButton extends View {
 
 	private Bitmap open, close;
-	private boolean isOn = true;
+	private boolean isOn = false;
 
 	public SwitchButton(Context context, AttributeSet attrs) {
 		super(context, attrs);
