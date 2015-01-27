@@ -1,38 +1,8 @@
 package com.xwq.qingyouapp.chat.main;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import android.annotation.SuppressLint;
-import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
-import android.os.Bundle;
-import android.util.Log;
-import android.util.TypedValue;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
-import android.widget.TextView;
 
-import com.gotye.api.GotyeAPI;
-import com.gotye.api.GotyeChatTarget;
-import com.gotye.api.GotyeChatTargetType;
-import com.gotye.api.GotyeGroup;
-import com.gotye.api.GotyeRoom;
-import com.gotye.api.GotyeUser;
-import com.xwq.qingyouapp.R;
-import com.xwq.qingyouapp.chat.activity.ChatPage;
-import com.xwq.qingyouapp.chat.activity.NotifyListPage;
-import com.xwq.qingyouapp.chat.adapter.MessageListAdapter;
 import com.xwq.qingyouapp.chat.base.BaseFragment;
-import com.xwq.qingyouapp.chat.view.SwipeMenu;
-import com.xwq.qingyouapp.chat.view.SwipeMenuCreator;
-import com.xwq.qingyouapp.chat.view.SwipeMenuItem;
-import com.xwq.qingyouapp.chat.view.SwipeMenuListView;
-import com.xwq.qingyouapp.chat.view.SwipeMenuListView.OnMenuItemClickListener;
 
 //此页面为回话历史页面，由客户端自己实现
 @SuppressLint("NewApi")

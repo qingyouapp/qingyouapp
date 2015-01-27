@@ -72,7 +72,7 @@ public class MessageListAdapter extends BaseAdapter {
 	@Override
 	public int getItemViewType(int position) {
 		// TODO Auto-generated method stub
-		GotyeChatTarget t = sessions.get(position);
+//		GotyeChatTarget t = sessions.get(position);
 //		if (t.getName().equals(ChatHistoryFrag.fixName)) {
 //			return 0;
 //		} else {
@@ -102,20 +102,20 @@ public class MessageListAdapter extends BaseAdapter {
 
 		final GotyeChatTarget session =  getItem(arg0);
 		Log.d("offLine", "session" + session);
-		if (getItemViewType(arg0)==0) {
-			viewHolder.title.setText(session.getName());
-			viewHolder.content.setVisibility(View.GONE);
-			viewHolder.icon.setImageResource(R.drawable.chat_contact_group);
-			viewHolder.time.setVisibility(View.GONE);
-			int count = api.getUnreadNotifyCount();
-			if (count > 0) {
-				viewHolder.count.setVisibility(View.VISIBLE);
-				viewHolder.count.setText(String.valueOf(count));
-			} else {
-				viewHolder.count.setVisibility(View.GONE);
-			}
-
-		} else {
+//		if (getItemViewType(arg0)==0) {
+//			viewHolder.title.setText(session.getName());
+//			viewHolder.content.setVisibility(View.GONE);
+//			viewHolder.icon.setImageResource(R.drawable.chat_contact_group);
+//			viewHolder.time.setVisibility(View.GONE);
+//			int count = api.getUnreadNotifyCount();
+//			if (count > 0) {
+//				viewHolder.count.setVisibility(View.VISIBLE);
+//				viewHolder.count.setText(String.valueOf(count));
+//			} else {
+//				viewHolder.count.setVisibility(View.GONE);
+//			}
+//
+//		} else {
 			String title = "", content = "";
 			viewHolder.content.setVisibility(View.VISIBLE);
 			//获取该session最后一条消息记录
@@ -185,7 +185,7 @@ public class MessageListAdapter extends BaseAdapter {
 			} else {
 				viewHolder.count.setVisibility(View.GONE);
 			}
-		}
+//		}
 		return view;
 	}
 

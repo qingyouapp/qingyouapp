@@ -2,6 +2,7 @@ package com.xwq.qingyouapp;
 
 import java.io.File;
 
+import com.xwq.qingyouapp.chat.util.URIUtil;
 import com.xwq.qingyouapp.util.ThisApp;
 
 import android.app.Activity;
@@ -39,6 +40,7 @@ public class ImageUploadActivity extends Activity {
 	public static final int IMAGE_REQUEST_CODE = 1;
 	public static final int CAMERA_REQUEST_CODE = 2;
 	public static final int RESULT_REQUEST_CODE = 3;
+	public static final int IMAGE_REQUEST_CODE_Kitkat = 7;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -94,7 +96,11 @@ public class ImageUploadActivity extends Activity {
 							Intent intentFromGallery = new Intent();
 							intentFromGallery.setType("image/*"); // 设置文件类型
 							intentFromGallery.setAction(Intent.ACTION_GET_CONTENT);
-							startActivityForResult(intentFromGallery, IMAGE_REQUEST_CODE);
+							if(android.os.Build.VERSION.SDK_INT>=android.os.Build.VERSION_CODES.KITKAT){                  
+								startActivityForResult(intentFromGallery, ImageUploadActivity.IMAGE_REQUEST_CODE_Kitkat);    
+							}else{                
+								startActivityForResult(intentFromGallery, ImageUploadActivity.IMAGE_REQUEST_CODE);   
+							} 
 							break;
 						case 1:
 							Intent intentFromCapture = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
@@ -148,6 +154,11 @@ public class ImageUploadActivity extends Activity {
 					getImageToView(data);
 				}
 				break;
+			case IMAGE_REQUEST_CODE_Kitkat:
+				String path = URIUtil.getPath(this, data.getData());
+				File file = new File(path);
+				startPhotoZoom(Uri.fromFile(file));
+				break;
 			}
 		}
 
@@ -171,6 +182,8 @@ public class ImageUploadActivity extends Activity {
 		intent.putExtra("outputX", 320);
 		intent.putExtra("outputY", 320);
 		intent.putExtra("return-data", true);
+		intent.putExtra("scale", true);
+		intent.putExtra("circleCrop", new String(""));
 		startActivityForResult(intent, RESULT_REQUEST_CODE);
 	}
 

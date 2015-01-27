@@ -111,7 +111,7 @@ public class NotifyListPage extends BaseActivity {
 		// set creator
 		listView.setMenuCreator(creator);
 		listView.setOnMenuItemClickListener(new OnMenuItemClickListener() {
-			public boolean onMenuItemClick(int position, SwipeMenu menu,
+			public void onMenuItemClick(int position, SwipeMenu menu,
 					int index) {
 				GotyeNotify notify = adapter.getItem(position);
 				switch (notify.getType()) {
@@ -166,7 +166,6 @@ public class NotifyListPage extends BaseActivity {
 						}
 					}
 				}
-				return false;
 			}
 		});
 	}

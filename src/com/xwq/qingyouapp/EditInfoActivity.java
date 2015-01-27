@@ -48,6 +48,7 @@ import com.xwq.qingyouapp.bean.Discipline;
 import com.xwq.qingyouapp.bean.Grade;
 import com.xwq.qingyouapp.bean.School;
 import com.xwq.qingyouapp.bean.UserMetadata;
+import com.xwq.qingyouapp.chat.util.URIUtil;
 import com.xwq.qingyouapp.command.CommandCallback;
 import com.xwq.qingyouapp.command.Processor;
 import com.xwq.qingyouapp.util.DateHandler;
@@ -525,6 +526,11 @@ public class EditInfoActivity extends Activity {
 			case ImageUploadActivity.IMAGE_REQUEST_CODE:
 				startPhotoZoom(data.getData());
 				break;
+			case ImageUploadActivity.IMAGE_REQUEST_CODE_Kitkat:
+				String path = URIUtil.getPath(this, data.getData());
+				File file = new File(path);
+				startPhotoZoom(Uri.fromFile(file));
+				break;
 			case ImageUploadActivity.CAMERA_REQUEST_CODE:
 				if (ImageUploadActivity.hasSdcard()) {
 					File tempFile = new File(Environment.getExternalStorageDirectory() + "/"
@@ -563,8 +569,12 @@ public class EditInfoActivity extends Activity {
 							Intent intentFromGallery = new Intent();
 							intentFromGallery.setType("image/*"); // 设置文件类型
 							intentFromGallery.setAction(Intent.ACTION_GET_CONTENT);
-							startActivityForResult(intentFromGallery,
-									ImageUploadActivity.IMAGE_REQUEST_CODE);
+							
+							if(android.os.Build.VERSION.SDK_INT>=android.os.Build.VERSION_CODES.KITKAT){                  
+								startActivityForResult(intentFromGallery, ImageUploadActivity.IMAGE_REQUEST_CODE_Kitkat);    
+							}else{                
+								startActivityForResult(intentFromGallery, ImageUploadActivity.IMAGE_REQUEST_CODE);   
+							} 
 							break;
 						case 1:
 							Intent intentFromCapture = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
@@ -740,6 +750,7 @@ public class EditInfoActivity extends Activity {
 	 */
 	public void startPhotoZoom(Uri uri) {
 		Intent intent = new Intent("com.android.camera.action.CROP");
+		
 		intent.setDataAndType(uri, "image/*");
 		// 设置裁剪
 		intent.putExtra("crop", "true");

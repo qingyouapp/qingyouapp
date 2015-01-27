@@ -15,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.gotye.api.GotyeAPI;
@@ -37,7 +38,7 @@ public class ChatHistoryFrag extends BaseFragment {
 
 	private SwipeMenuListView listView;
 	private MessageListAdapter adapter;
-
+	RelativeLayout no_message_view;
 //	public static final String fixName = "通知列表";
 	private GotyeAPI api = GotyeAPI.getInstance();
 
@@ -57,30 +58,30 @@ public class ChatHistoryFrag extends BaseFragment {
 	private void initView() {
 		TextView toolbar_title = (TextView) getView().findViewById(R.id.toolbar_title);
 		toolbar_title.setText("消息");
+		no_message_view = (RelativeLayout) getView().findViewById(R.id.no_message_view);
 		listView = (SwipeMenuListView) getView().findViewById(R.id.listview);
 		SwipeMenuCreator creator = new SwipeMenuCreator() {
 
 			@Override
 			public void create(SwipeMenu menu) {
 				// Create different menus depending on the view type
-				switch (menu.getViewType()) {
-				case 0:
-					createMenu1(menu);
-					break;
-				case 1:
+//				switch (menu.getViewType()) {
+//				case 0:
+//					createMenu1(menu);
+//					break;
+//				case 1:
 					createMenu2(menu);
-					break;
-				}
+//					break;
+//				}
 			}
 		};
 		listView.setMenuCreator(creator);
 		listView.setOnMenuItemClickListener(new OnMenuItemClickListener() {
-			public boolean onMenuItemClick(int position, SwipeMenu menu,
+			public void onMenuItemClick(int position, SwipeMenu menu,
 					int index) {
 				GotyeChatTarget target = adapter.getItem(position);
 				api.deleteSession(target, false);
 				updateList();
-				return false;
 			}
 		});
 		int state=api.getOnLineState();
@@ -92,10 +93,9 @@ public class ChatHistoryFrag extends BaseFragment {
 		updateList();
 		setListener();
 	}
-
-	private void createMenu1(SwipeMenu menu) {
-		 
-	}
+//	private void createMenu1(SwipeMenu menu) {
+//		 
+//	}
 
 	private void createMenu2(SwipeMenu menu) {
 		SwipeMenuItem item2 = new SwipeMenuItem(getActivity());
@@ -150,8 +150,16 @@ public class ChatHistoryFrag extends BaseFragment {
 
 		if (sessions == null) {
 			sessions = new ArrayList<GotyeChatTarget>();
+			no_message_view.setVisibility(View.VISIBLE);
+			listView.setVisibility(View.GONE);
 //			sessions.add(target);
-		} 
+		} else if(sessions.size()>0){
+			no_message_view.setVisibility(View.GONE);
+			listView.setVisibility(View.VISIBLE);
+		} else if(sessions.size()==0){
+			no_message_view.setVisibility(View.VISIBLE);
+			listView.setVisibility(View.GONE);
+		}
 //		else {
 //			sessions.add(0, target);
 //		}
