@@ -2,17 +2,17 @@
 <resources>
 
     <!-- server url -->
-    <string name="url_base">http://192.168.1.222:8080/qy/</string>
+    <string name="url_base">http://120.25.155.96:8080/qy/</string>
     <string name="url_register">usermetadata/regist</string>
     <string name="url_login">usermetadata/login</string>
     <string name="url_check_phone_num">usermetadata/checkphonenum</string>
     <string name="url_update">usermetadata/update</string>
     <string name="url_verify">usermetadata/verify</string>
     <string name="url_recommand">usermetadata/recommend</string>
-    <string name="url_photos_refresh">http://192.168.1.222:8080/pic/upload</string>
+    <string name="url_photos_refresh">http://120.25.155.96:8080/pic/upload</string>
     
     <!-- photo url -->
-	<string name="photo_base">http://192.168.1.222:8080/pic/Image/</string>
+	<string name="photo_base">http://120.25.155.96:8080/pic/Image/</string>
 
     <!-- local url -->
     <string name="local_base">/sdcard/qingyou/.pic/</string>
